@@ -46,8 +46,10 @@ router.post('/register', function(req, res, next) {
       else {
         var newUser = new User ({
             email: req.body.email,
-            fullName: req.body.fullName,
-            passwordHash: hash
+            name: req.body.fullName,
+            hasedPassword: hash,
+	    lastAccess: req.body.lastAccess,
+	    devices: req.body.devices
         });
         
         newUser.save(function(err, user) {
@@ -81,7 +83,7 @@ router.get("/account" , function(req, res) {
          else {
             userStatus['success'] = true;
             userStatus['email'] = user.email;
-            userStatus['fullName'] = user.fullName;
+            userStatus['name'] = user.name;
             userStatus['lastAccess'] = user.lastAccess;
             
             // Find devices based on decoded token
