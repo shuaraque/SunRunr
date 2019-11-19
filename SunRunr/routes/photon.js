@@ -4,7 +4,7 @@ var Device = require("../models/device");
 var HwData = require("../models/hwdata");
 
 /* POST: Register new device. */
-router.post('/hit', function(req, res, next) {
+router.post('/activate', function(req, res, next) {
   var responseJson = { 
     status : "",
     message : ""
@@ -17,11 +17,11 @@ router.post('/hit', function(req, res, next) {
     return res.status(201).send(JSON.stringify(responseJson));
   }
 
-  if( !req.body.hasOwnProperty("apikey") ) {
+  /*if( !req.body.hasOwnProperty("apikey") ) {
     responseJson.status = "ERROR";
     responseJson.message = "Request missing apikey parameter.";
     return res.status(201).send(JSON.stringify(responseJson));
-  }
+  }*/
   
   if( !req.body.hasOwnProperty("longitude") ) {
     responseJson.status = "ERROR";
@@ -35,6 +35,18 @@ router.post('/hit', function(req, res, next) {
     return res.status(201).send(JSON.stringify(responseJson));
   }
 
+    if( !req.body.hasOwnProperty("ultraviolet") ) {
+    responseJson.status = "ERROR";
+    responseJson.message = "Request missing ultraviolet parameter.";
+    return res.status(201).send(JSON.stringify(responseJson));
+  }
+  
+    if( !req.body.hasOwnProperty("speed") ) {
+    responseJson.status = "ERROR";
+    responseJson.message = "Request missing speed parameter.";
+    return res.status(201).send(JSON.stringify(responseJson));
+  }
+  
   // Find the device and verify the apikey
   Device.findOne({ deviceId: req.body.deviceId }, function(err, device) {
     if (device !== null) {
@@ -44,16 +56,18 @@ router.post('/hit', function(req, res, next) {
         return res.status(201).send(JSON.stringify(responseJson));
       }
       else {
-        // Create a new hw data with user email time stamp 
-        var newHwData = new HwData({
+        // Create a new activity data with user email time stamp 
+        var newActData = new Activity({
           userEmail: device.userEmail,
           deviceid: req.body.deviceId,
           longitude: req.body.longitude,
-          latitude: req.body.latitude
+          latitude: req.body.latitude,
+          ultraviolet: req.body.ultraviolet,
+          speed: req.body.speed
         });
 
         // Save device. If successful, return success. If not, return error message.                          
-        newHwData.save(function(err, newHwData) {
+        newActData.save(function(err, newActData) {
           if (err) {
             responseJson.status = "ERROR";
             responseJson.message = "Error saving data in db.";
@@ -61,7 +75,7 @@ router.post('/hit', function(req, res, next) {
           }
           else {
             responseJson.status = "OK";
-            responseJson.message = "Data saved in db with object ID " + newHwData._id + ".";
+            responseJson.message = "Data saved in db with object ID " + newActData._id + ".";
             return res.status(201).send(JSON.stringify(responseJson));
           }
         });
