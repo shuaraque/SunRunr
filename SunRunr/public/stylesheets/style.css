@@ -6,3 +6,161 @@ body {
 a {
   color: #00B7FF;
 }
+
+input{
+  border: 1px solid rgb(170, 170, 170);
+  width: 1000px;
+  height: 30px;
+  margin: 10px;
+  margin-top: 2px;
+}
+
+
+input#Device{
+  border: 1px solid rgb(170, 170, 170);
+  width: 800px;
+  height: 30px;
+  margin: 10px;
+  margin-top: 2px;
+  float: left;
+}
+ div#formErrors{
+   display: block;
+   color: red;
+ }
+input#submit{
+  border: 1px, solid, dodgerblue;
+  font-family: 'Times New Roman', Times, serif;
+  background-color:lightblue;
+  height: 50px;
+  color:white;
+  margin: 12px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-size: 14pt;
+}
+
+input#AddDevice{
+  border: 1px, solid, dodgerblue;
+  font-family: 'Times New Roman', Times, serif;
+  background-color:lightblue;
+  height: 30px;
+  color:white;
+  font-size: 14pt;
+  width: 150px;
+  float: right;
+}
+
+input#signOut{
+  border: 1px, solid, dodgerblue;
+  font-family: 'Times New Roman', Times, serif;
+  background-color:lightblue;
+  height: 30px;
+  color:white;
+  font-size: 14pt;
+  width: 150px;
+  float: left;
+}
+
+
+
+h1{
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 30pt;
+  padding: 10px;
+  padding-top: 15px;
+  border-bottom: 5px solid lightblue;
+  width: 1000px;
+}
+
+label{
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 14pt;
+  padding: 12px;
+}
+
+p.password{
+  margin-left: 12px;
+  padding-bottom: 0;
+  padding-top: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+p.ActivitySum{
+  margin-left: 12px;
+  padding-bottom: 0;
+  padding-top: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  float:left;
+}
+
+input.error{
+  border: 2px solid red;
+}
+
+p.ExtUser{
+  margin-top: 0;
+  text-align: center;
+}
+
+.form{
+  width:1000px;
+}
+
+a{
+  color:dodgerblue;
+  
+}
+
+#long{
+  float:right;
+}
+
+#lat{
+  float:right;
+}
+
+#speed{
+  float:right;
+}
+
+#UV{
+  float:right;
+}
+
+.Activity{
+  font-size: 16pt;
+  padding-left: 12px;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+#LogInButton{
+  border: 1px, solid, dodgerblue;
+  font-family: 'Times New Roman', Times, serif;
+  background-color:lightblue;
+  height: 30px;
+  color:white;
+  margin: 12px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-size: 14pt;
+  width: 500px;
+  text-align:center;
+}
+
+#RegisterButton{
+  border: 1px, solid, dodgerblue;
+  font-family: 'Times New Roman', Times, serif;
+  background-color:lightblue;
+  height: 30px;
+  color:white;
+  margin: 12px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-size: 14pt;
+  text-align:center;
+  width: 500px;
+}
