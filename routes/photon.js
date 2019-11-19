@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var Device = require("../models/device");
-//pulls from the photon data?
 var Activity = require("../models/activity");
 
 /* POST: Register new device. */
@@ -60,12 +59,11 @@ router.post('/tap', function(req, res, next) {
       }
       else {
         // Create a new activity data with user email time stamp 
-        var newActData = new actData({
+        var newActData = new Activity({
           userEmail: device.userEmail,
           deviceid: req.body.deviceId,
           longitude: req.body.longitude,
           latitude: req.body.latitude,
-          speed: req.body.speed,
           ultraviolet: req.body.ultraviolet
         });
 
