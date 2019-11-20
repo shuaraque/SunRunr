@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var photonRouter = require('./routes/activity');
 var usersRouter = require('./routes/users');
-var devicesRouter = require('./routes/devices');
+var devicesRouter = require('./routes/device');
 
 var app = express();
 
@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 
 app.use('/users', usersRouter);
-app.use('/devices', devicesRouter);
+app.use('/device', devicesRouter);
 app.use('/activity', photonRouter);
 
 // catch 404 and forward to error handler
