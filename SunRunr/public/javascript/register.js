@@ -45,5 +45,5 @@ function registerError(jqXHR, textStatus, errorThrown) {
 }
 
 $(function () {
-  $('#signup').click(sendRegisterRequest);
+  $('#submit').click(sendRegisterRequest);
 });
