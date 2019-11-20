@@ -28,7 +28,7 @@ input#Device{
    display: block;
    color: red;
  }
-button#submit{
+button#register{
   border: 1px, solid, dodgerblue;
   font-family: 'Times New Roman', Times, serif;
   background-color:lightblue;
@@ -38,6 +38,20 @@ button#submit{
   margin-top: 25px;
   margin-bottom: 25px;
   font-size: 14pt;
+  width:1000px;
+}
+
+button#signIn{
+  border: 1px, solid, dodgerblue;
+  font-family: 'Times New Roman', Times, serif;
+  background-color:lightblue;
+  height: 50px;
+  color:white;
+  margin: 12px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-size: 14pt;
+  width:1000px;
 }
 
 button#AddDevice{
@@ -51,7 +65,7 @@ button#AddDevice{
   float: right;
 }
 
-input#signOut{
+button#signOut{
   border: 1px, solid, dodgerblue;
   font-family: 'Times New Roman', Times, serif;
   background-color:lightblue;
