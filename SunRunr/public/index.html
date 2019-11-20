@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <title>SunRunr User Login</title>
-      <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-      <link href="./stylesheets/style.css" rel="stylesheet">
-      <script src="./javascript/signin.js"></script>
-   </head>
 
-   <body>
-   <div class = "form" action="">
-   <h1>SunRunr User Login</h1>
-    <label for = "email">Email</label>
+<head>
+	<meta charset="UTF-8">
+	<title>SunRunr User Login</title>
+	<link href="./stylesheets/style.css" rel="stylesheet">
+	<script src="SignIn.js" defer> </script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+</head>
+	 <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<body>
+	<div class="form" action="">
+		<h1>SunRunr User Login</h1>
+		<label for = "email">Email</label>
     <br>
     <input type = "email" name = "email" id="email">
     <br>
@@ -22,10 +27,13 @@
     <br>
 
     <div id = "formErrors"></div>
-    <button id="signin" name="signin" type="submit">Sign in</button>
+    <form method="get" action="/account.html">
+    <button type ="submit" id="signIn">Sign In </button>
+</form>
+
     
     <p class="ExtUser">Not a Registered User? <u><a href="register.html">Register Here!</a></u></p>
-    <div class="card-panel blue-text" id="ServerResponse" style="display: none"></div>
+    
     <br>
    </div>
    </body>
