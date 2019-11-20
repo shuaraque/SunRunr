@@ -5,15 +5,15 @@ var Activity = require("../models/Activity");
 
 /* POST: Register new device. */
 router.post('/activate', function(req, res, next) {
-  var responseJson = { 
+  var responseJson = {
     status : "",
     message : ""
   };
 
   // Ensure the POST data include properties id and email
-  if( !req.body.hasOwnProperty("deviceId") ) {
+  if( !req.body.hasOwnProperty("deviceID") ) {
     responseJson.status = "ERROR";
-    responseJson.message = "Request missing deviceId parameter.";
+    responseJson.message = "Request missing deviceID parameter.";
     return res.status(201).send(JSON.stringify(responseJson));
   }
 
@@ -22,13 +22,13 @@ router.post('/activate', function(req, res, next) {
     responseJson.message = "Request missing apikey parameter.";
     return res.status(201).send(JSON.stringify(responseJson));
   }*/
-  
+
   if( !req.body.hasOwnProperty("longitude") ) {
     responseJson.status = "ERROR";
     responseJson.message = "Request missing longitude parameter.";
     return res.status(201).send(JSON.stringify(responseJson));
   }
-  
+
   if( !req.body.hasOwnProperty("latitude") ) {
     responseJson.status = "ERROR";
     responseJson.message = "Request missing latitude parameter.";
@@ -40,33 +40,33 @@ router.post('/activate', function(req, res, next) {
     responseJson.message = "Request missing ultraviolet parameter.";
     return res.status(201).send(JSON.stringify(responseJson));
   }
-  
+
     if( !req.body.hasOwnProperty("speed") ) {
     responseJson.status = "ERROR";
     responseJson.message = "Request missing speed parameter.";
     return res.status(201).send(JSON.stringify(responseJson));
   }
-  
+
   // Find the device and verify the apikey
-  Device.findOne({ deviceId: req.body.deviceId }, function(err, device) {
+  Device.findOne({ deviceID: req.body.deviceID }, function(err, device) {
     if (device !== null) {
       if (device.apikey != req.body.apikey) {
         responseJson.status = "ERROR";
-        responseJson.message = "Invalid apikey for device ID " + req.body.deviceId + ".";
+        responseJson.message = "Invalid apikey for device ID " + req.body.deviceID + ".";
         return res.status(201).send(JSON.stringify(responseJson));
       }
       else {
-        // Create a new activity data with user email time stamp 
+        // Create a new activity data with user email time stamp
         var newActData = new Activity({
           userEmail: device.userEmail,
-          deviceid: req.body.deviceId,
+          deviceID: req.body.deviceID,
           longitude: req.body.longitude,
           latitude: req.body.latitude,
           ultraviolet: req.body.ultraviolet,
           speed: req.body.speed
         });
 
-        // Save device. If successful, return success. If not, return error message.                          
+        // Save device. If successful, return success. If not, return error message.
         newActData.save(function(err, newActData) {
           if (err) {
             responseJson.status = "ERROR";
@@ -80,11 +80,11 @@ router.post('/activate', function(req, res, next) {
           }
         });
       }
-    } 
+    }
     else {
       responseJson.status = "ERROR";
-      responseJson.message = "Device ID " + req.body.deviceId + " not registered.";
-      return res.status(201).send(JSON.stringify(responseJson));    
+      responseJson.message = "Device ID " + req.body.deviceID + " not registered.";
+      return res.status(201).send(JSON.stringify(responseJson));
     }
   });
 });
