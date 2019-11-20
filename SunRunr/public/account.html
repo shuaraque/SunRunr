@@ -7,7 +7,7 @@
       <script src="./javascript/account.js" defer></script>
       <script> $(function() {
    $('#signOut').click(function() {
-     // window.localStorage.removeItem('authToken');
+      window.localStorage.removeItem('authToken');
       window.location = "index.html";
    });}); </script>
    </head>
@@ -21,8 +21,10 @@
    UV: <p id= "UV"></p><br>
    Speed: <p id= "speed"></p><br>
    </div>
+       <a href="!#" id="signout">Sign out</a>
+       
 
-   <input type = "submit" name = "signOut" id="signOut" value = "Sign Out">
+<!--   <input type = "submit" name = "signOut" id="signOut" value = "Sign Out">-->
    </div>
    </body>
 </html>
