@@ -41,7 +41,7 @@ app.use('/', indexRouter);
 
 app.use('/users', usersRouter);
 app.use('/devices', devicesRouter);
-app.use('/photon', photonRouter);
+app.use('/activity', photonRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
