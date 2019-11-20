@@ -28,7 +28,7 @@ input#Device{
    display: block;
    color: red;
  }
-input#submit{
+button#submit{
   border: 1px, solid, dodgerblue;
   font-family: 'Times New Roman', Times, serif;
   background-color:lightblue;
@@ -40,7 +40,7 @@ input#submit{
   font-size: 14pt;
 }
 
-input#AddDevice{
+button#AddDevice{
   border: 1px, solid, dodgerblue;
   font-family: 'Times New Roman', Times, serif;
   background-color:lightblue;
