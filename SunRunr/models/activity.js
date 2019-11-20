@@ -10,6 +10,6 @@ var activitySchema = new db.Schema({
 });
 
 // Creates a Devices (plural) collection in the db using the device schema
-var Activity = db.model("Activity", activitySchema);
+var activity = db.model("Activity", activitySchema);
 
-module.exports = Activity;
+module.exports = activity;
