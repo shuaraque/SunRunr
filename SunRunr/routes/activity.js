@@ -49,13 +49,13 @@ router.post('/activate', function(req, res, next) {
 
   // Find the device and verify the apikey
   Device.findOne({ deviceID: req.body.deviceID }, function(err, device) {
-    if (device !== null) {
-      if (device.apikey != req.body.apikey) {
+    //if (device !== null) {
+      /*if (device.apikey != req.body.apikey) {
         responseJson.status = "ERROR";
         responseJson.message = "Invalid apikey for device ID " + req.body.deviceID + ".";
         return res.status(201).send(JSON.stringify(responseJson));
       }
-      else {
+      else {*/
         // Create a new activity data with user email time stamp
         var newActData = new activity({
           userEmail: device.userEmail,
@@ -79,13 +79,13 @@ router.post('/activate', function(req, res, next) {
             return res.status(201).send(JSON.stringify(responseJson));
           }
         });
-      }
-    }
-    else {
+      //}
+    //}
+    /*else {
       responseJson.status = "ERROR";
       responseJson.message = "Device ID " + req.body.deviceID + " not registered.";
       return res.status(201).send(JSON.stringify(responseJson));
-    }
+    }*/
   });
 });
 
