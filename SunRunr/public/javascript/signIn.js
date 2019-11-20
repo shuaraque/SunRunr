@@ -33,7 +33,7 @@ function signinError(jqXHR, textStatus, errorThrown) {
 // Handle authentication on page load
 $(function() {  
   // TODO 
-  if( window.localStorage.getItem('authToken')) {
+  if(window.localStorage.getItem('authToken')) {
     window.location.replace('account.html');
   }
   else {
