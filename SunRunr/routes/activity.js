@@ -57,7 +57,7 @@ router.post('/activate', function(req, res, next) {
       }
       else {
         // Create a new activity data with user email time stamp
-        var newActData = new Activity({
+        var newActData = new activity({
           userEmail: device.userEmail,
           deviceID: req.body.deviceID,
           longitude: req.body.longitude,
