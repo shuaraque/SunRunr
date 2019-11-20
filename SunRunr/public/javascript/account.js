@@ -1,3 +1,4 @@
+
 function sendReqForAccountInfo() {
   $.ajax({
     url: '/users/account',
