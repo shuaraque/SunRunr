@@ -3,15 +3,23 @@
    <head>
       <meta charset="UTF-8">
       <title>SunRnr User Registration</title>
+
+      <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js">
+      
+      </script>
       <link href="./stylesheets/style.css" rel="stylesheet">
+
       <script src="./javascript/register.js" defer></script>
-      <script src="./javascript/account.js" defer></script>
+
+   
    </head>
 
    <body>
    <div class = "form">
    <h1>SunRunr User Registration</h1>
-   <p class="AccountSum">Account Summary <u><a href="account.html">Click Here!</a></u></p>
+   <!-- <p class="AccountSum">Account Summary <u><a href="account.html">Click Here!</a></u></p> -->
     <label for = "fullName">Full Name</label>
     <br>
     <input type = "text" name = "fullName" id="fullName">
@@ -36,16 +44,11 @@
     <label for = "Device">Device</label>
     <br>
     <input type = "Device" name = "Device" id="Device">
-    <button type = "submit" name = "AddDevice" id="AddDevice" value = "Add Device">
-    <br>
-
-    <div id = "formErrors"></div>
-    <button type = "submit" name = "submit" id="submit" value = "Register">
+    </div>
+    <button type = "submit" id="AddDevice">Add Device</button>
+      <button type = "submit" id="register">Register</button>
     
     <p class="ExtUser">Already a Registered User? <u><a href="index.html">Log In!</a></u></p>
-    
-    
-    <br>
-   </div>
+  
    </body>
 </html>
