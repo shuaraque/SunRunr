@@ -6,39 +6,46 @@ let Activity = require("../models/activity");
 let fs = require('fs');
 let bcrypt = require("bcryptjs");
 let jwt = require("jwt-simple");
-
-/* Authenticate user */
 var secret = fs.readFileSync(__dirname + '/../jwtkey.txt').toString();
 
+// POST: Sign in
 router.post('/signin', function(req, res, next) {
+  // response for errors
+  let responseJson = {
+     success: false,
+     message: "",
+  };
+
+  // Try to find an email in the database, if none found return an error, otherwise try to decrypt
   User.findOne({email: req.body.email}, function(err, user) {
     if (err) {
-       res.status(401).json({success : false, message : "Can't connect to DB."});
-    }
-    else if(!user) {
-       res.status(401).json({success : false, message : "Email or password invalid."});
-    }
-    else {
-      bcrypt.compare(req.body.password, user.passwordHash, function(err, valid) {
+       responseJson.message = "Can't connect to database";
+       res.status(401).json(responseJson);
+    } else if(!user) {
+       responseJson.message = "Email or password is invalid";
+       res.status(401).json(responseJson);
+    } else {
+      bcrypt.compare(req.body.password, user.hashedPassword, function(err, valid) {
          if (err) {
-           res.status(401).json({success : false, message : "Error authenticating. Contact support."});
+           responseJson.message = "Error with authentication"; 
+           res.status(401).json(responseJson);
          }
          else if(valid) {
-            var authToken = jwt.encode({email: req.body.email}, secret);
-            res.status(201).json({success:true, authToken: authToken});
+            res.status(201).json({success:true, authToken: jwt.encode({email: req.body.email}, secret)});
          }
          else {
-            res.status(401).json({success : false, message : "Email or password invalid."});
+            responseJson.message = "Email or password is invalid";
+            res.status(401).json(responseJson);
          }
-
       });
     }
   });
+  next();
 });
 
-/* Register a new user */
+// POST: Register a new user 
 router.post('/register', function(req, res, next) {
-
+   // hash their password. If all goes well create a new user object
    bcrypt.hash(req.body.password, 10, function(err, hash) {
       if (err) {
          res.status(400).json({success : false, message : err.errmsg});
@@ -46,95 +53,91 @@ router.post('/register', function(req, res, next) {
       else {
         var newUser = new User ({
             email: req.body.email,
-            name: req.body.fullName,
+            name: req.body.name,
             hashedPassword: hash,
-	          // lastAccess: req.body.lastAccess,
-	          // devices: req.body.devices
         });
 
+        // try to save user to database
         newUser.save(function(err, user) {
           if (err) {
              res.status(400).json({success : false, message : err.errmsg});
           }
           else {
-             res.status(201).json({success : true, message : user.fullName + "has been created"});
+             res.status(201).json({success : true, message : user.name + " has been created"});
           }
         });
       }
    });
 });
 
+// GET: get details for account of a specific user
 router.get("/account" , function(req, res) {
    // Check for authentication token in x-auth header
    if (!req.headers["x-auth"]) {
-      return res.status(401).json({success: false, message: "No authentication token"});
+      return res.status(401).json({success: false, message: "No auth token. Line 77"});
    }
-
    var authToken = req.headers["x-auth"];
-
    try {
-      var decodedToken = jwt.decode(authToken, secret);
-      var userStatus = {};
+      var decoded = jwt.decode(authToken, secret);
+      var userInformation = {};
 
-      User.findOne({email: decodedToken.email}, function(err, user) {
+      User.findOne({email: decoded.email}, function(err, user) {
          if(err) {
-            return res.status(400).json({success: false, message: "User does not exist."});
+            return res.status(400).json({success: false, message: "user does not exist"});
          }
          else {
-            userStatus['success'] = true;
-            userStatus['email'] = user.email;
-            userStatus['name'] = user.name;
-            userStatus['lastAccess'] = user.lastAccess;
+            userInformation['success'] = true;
+            userInformation['email'] = user.email;
+            userInformation['name'] = user.name;
+            userInformation['longitude'] = user.longitude;
+            userInformation['latitude'] = user.latitude;
+            userInformation['city'] = user.city;
+            userInformation['lastAccess'] = user.lastAccess;
+            userInformation['uvThreshold'] = user.uvThreshold;
 
-            // Find devices based on decoded token
-		      Device.find({ userEmail : decodedToken.email}, function(err, devices) {
-			      if (!err) {
-			         // Construct device list
-			         let deviceList = [];
-			         for (device of devices) {
-				         deviceList.push({
-				               deviceId: device.deviceId,
-				               apikey: device.apikey,
-				         });
-                  }
-			         userStatus['devices'] = deviceList;
+		      Device.find({ userEmail : decoded.email}, function(err, devices) {
+               if(err) {
+                  return res.status(400).json({success: false, message: "could not search devices. Line 100."});
                }
-
-               return res.status(200).json(userStatus);
+			      let foundDevices = [];
+			      for (device of devices) {
+				      foundDevices.push({ deviceID: device.deviceID, apikey: device.apikey});
+               }
+			      userInformation['devices'] = foundDevices;
+               return res.status(200).json(userInformation);
 		      });
          }
       });
    }
    catch (ex) {
-      return res.status(401).json({success: false, message: "Invalid authentication token."});
+      return res.status(401).json({success: false, message: "Invalid auth token. Line 115"});
    }
 });
 
 router.get('/activities',(req,res)=>{
+   // auth token validation
    if (!req.headers["x-auth"]) {
       return res.status(401).json({success: false, message: "No authentication token"});
    }
-   if(!req.query.deviceId){
+   try {
+      jwt.decode(req.headers["x-auth"], secret);
+   } catch {
+      return res.status(401).json({ success: false, message: "Invalid auth token."});
+   }
+
+   // make sure deviceID exists
+   if(!req.query.deviceID){
       return res.status(401).json({success: false, message: "No device ID specified."});
    }
 
-   var authToken = req.headers["x-auth"];
-
-   try {
-      var decodedToken = jwt.decode(authToken, secret);
-
-      Activity.find({deviceId: req.query.deviceId}, function(err, activities) {
-         if(err) {
-            return res.status(400).json({success: false, message: "there is an issue with activity storing."});
-         }
-         else {
-            return res.status(200).json({'activities': activities})
-         }
-      });
-   }
-   catch (ex) {
-      return res.status(401).json({success: false, message: "Invalid authentication token."});
-   }
-})
+   Activity.find({deviceID: req.query.deviceID}, function(err, activities) {
+      if(err) {
+         return res.status(400).json({success: false, message: "there is an issue with activity storing."});
+      }
+      else {
+         return res.status(200).json({success: true, 'activities': activities});
+      }
+   });
+});
 
 module.exports = router;
