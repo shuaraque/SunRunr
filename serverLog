@@ -1,0 +1,7 @@
+
+> sunrunr@0.0.0 start /home/ec2-user/SunRunr/SunRunr
+> node ./bin/www
+
+[0mGET / [36m304 [0m4.504 ms - -[0m
+[0mGET /SignIn.js [33m404 [0m292.207 ms - 1729[0m
+[0mGET /stylesheets/style.css [36m304 [0m292.824 ms - -[0m
