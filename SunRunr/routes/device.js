@@ -85,6 +85,10 @@ router.post('/register', function(req, res, next) {
 
     // See if device is already registered
     Device.findOne({ deviceID: req.body.deviceID }, function(err, device) {
+        if(err) {
+          responseJson.message = err;
+          return res.status(400).json(responseJson);
+        }
         if (device !== null) {
             responseJson.message = "Device ID " + req.body.deviceID + " already registered.";
             return res.status(400).json(responseJson);
