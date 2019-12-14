@@ -1,5 +1,6 @@
 let express = require('express');
 let router = express.Router();
+let User = require("../models/users")
 let Device = require("../models/device");
 let fs = require('fs');
 let jwt = require("jwt-simple");
@@ -19,12 +20,11 @@ function getNewApikey() {
   return newApikey;
 }
 
-
 // GET request return one or "all" devices registered and last time of contact.
 router.get('/status/:devid', function(req, res, next) {
   let deviceID = req.params.devid;
   let responseJson = { devices: [] };
-  let query = ""
+  let query = {}
 
   if (deviceID == "all") {
      query = {};
@@ -41,8 +41,8 @@ router.get('/status/:devid', function(req, res, next) {
       res.status(400).json(errorMsg);
     }
     else {
-      for(let doc of allDevices) {
-        responseJson.devices.push({ "deviceID": doc.deviceID,  "lastContact" : doc.lastContact});
+      for(let device of allDevices) {
+        responseJson.devices.push({ "deviceID": device.deviceID,  "lastContact" : device.lastContact});
       }
     }
     res.status(200).json(responseJson);
@@ -58,6 +58,7 @@ router.post('/register', function(req, res, next) {
         apikey: "none",
         deviceID: "none"
     };
+
     let email = "";
 
     // Make sure the request includes  deviceID 
@@ -66,11 +67,10 @@ router.post('/register', function(req, res, next) {
         return res.status(400).json(responseJson);
     }
 
-    // if x-auth exists, get email from token. Otherwise get email from body
+    // if x-auth exists, get email from token. Otherwise try to get email from body
     if (req.headers["x-auth"]) {
         try {
-            let decoded = jwt.decode(req.headers["x-auth"], secret);
-            email = decoded.email;
+            email = jwt.decode(req.headers["x-auth"], secret).email;
         } catch (exception) {
             responseJson.message = "Invalid authorization token.";
             return res.status(400).json(responseJson);
@@ -143,7 +143,6 @@ router.post('/ping', function(req, res, next) {
         success: false,
         message: "",
     };
-    let deviceExists = false;
 
     // Ensure the request includes the deviceID parameter
     if (!req.body.hasOwnProperty("deviceID")) {
@@ -153,7 +152,7 @@ router.post('/ping', function(req, res, next) {
 
     // If authToken provided, use email in authToken 
     try {
-        let decoded = jwt.decode(req.headers["x-auth"], secret);
+        jwt.decode(req.headers["x-auth"], secret);
     } catch (ex) {
         responseJson.message = "Invalid authorization token.";
         return res.status(400).json(responseJson);
@@ -172,7 +171,5 @@ router.post('/ping', function(req, res, next) {
     responseJson.message = "Device ID " + req.body.deviceID + " pinged.";
     return res.status(200).json(responseJson);
 });
-
-
 
 module.exports = router;
