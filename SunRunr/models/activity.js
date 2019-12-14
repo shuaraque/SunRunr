@@ -1,15 +1,25 @@
 var db = require("../db");
+var autoIncrement = require("mongoose-auto-increment");
+autoIncrement.initialize(db);
 
 var activitySchema = new db.Schema({
-    deviceID: String,
-    longitude: Number,
-    latitude: Number,
-    ultraviolet: Number,
-    speed: Number,
-    submissionTime: { type: Date, default: Date.now }
+	type: String,
+	deviceID: String,
+	activity: [{ 
+		longitude: Number,
+		latitude: Number,
+		ultraviolet: Number,
+		speed: Number
+	}],
+	beginTime: Number
+	endTime: Number,
+	averageSpeed: Number,
+	uvIndex: Number,
+	temperature: Number,
+	humidity: Number,
+	submissionTime: {type: Date, default: Date.now }
 });
 
-// Creates a Devices (plural) collection in the db using the device schema
+activitySchema.plugin(autoIncrement.plugin, "Activity");
 var activity = db.model("Activity", activitySchema);
-
-module.exports = activity;
+module.exports = Activity;
