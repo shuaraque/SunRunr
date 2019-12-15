@@ -19,9 +19,9 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
     dataType: 'json'
    });
   
-  $("#email").html(data.email);
-  $("#name").html(data.name);
-  $("#lastAccess").html(data.lastAccess);
+  $("#email").html(userInformation.email);
+  $("#name").html(userInformation.name);
+  $("#lastAccess").html(userInformation.lastAccess);
   $("#main").show();
   
   // Add the devices to the list before the list item for the add device button (link)
