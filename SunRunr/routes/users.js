@@ -110,12 +110,12 @@ router.post('/register', function(req, res, next) {
         newUser.save(function(err, user) {
           if (err) {
              responseJson.message = err.errmsg;
-             res.status(400).json(responseJson);
+             return res.status(400).json(responseJson);
           }
           else {
              responseJson.success = true;
              responseJson.message = user.name + " has been created";
-             res.status(201).json(responseJson);
+             return res.status(201).json(responseJson);
           }
         });
       }
