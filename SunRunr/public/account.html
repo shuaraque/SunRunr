@@ -49,6 +49,19 @@
 				<li class="collection-item">Name: <span id="fullName"></span></li>
 				<li class="collection-item">Last Access: <span id="lastAccess"></span></li>
 			</ul>
+			<ul class="collection with-header" id="UVThreshold">
+				<li class="collection-header">
+					<h5 id="UVDisplay">UV Threshold:</h5>
+				</li>
+				<li class="collection-item" id="addDeviceForm">
+					<label for="UVThreshold">New UV Threshold:</label>
+					<input type="text" id="UVThreshold" name="UVThreshold" col="30">
+					<button id="registerThreshold" class="waves-effect waves-light btn">Confirm Change</button> 
+					<button id="cancel" class="waves-effect waves-light btn">Cancel</button> 
+				</li>
+				<li class="collection-item" id="changeThresholdControl"><a href="#!" id="changeThreshold">Change UV Threshold</a></li>
+			</ul>
+			
 			<ul class="collection with-header" id="devices">
 				<li class="collection-header">
 					<h5>Devices</h5>
