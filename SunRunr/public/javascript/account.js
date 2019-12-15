@@ -16,7 +16,7 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
   $("#fullName").html(data.name);
   $("#lastAccess").html(data.lastAccess);
   $("#main").show();
-  $("UVDisplay").html(data.uvThreshold);
+  $("UVDisplay").html("6");
   
   // Add the devices to the list before the list item for the add device button (link)
   for (var device of data.devices) {
