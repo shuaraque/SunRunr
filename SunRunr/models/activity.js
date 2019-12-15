@@ -11,7 +11,7 @@ var activitySchema = new db.Schema({
 		ultraviolet: Number,
 		speed: Number
 	}],
-	beginTime: Number
+	beginTime: Number,
 	endTime: Number,
 	averageSpeed: Number,
 	uvIndex: Number,
@@ -21,5 +21,5 @@ var activitySchema = new db.Schema({
 });
 
 activitySchema.plugin(autoIncrement.plugin, "Activity");
-var activity = db.model("Activity", activitySchema);
+var Activity = db.model("Activity", activitySchema);
 module.exports = Activity;
