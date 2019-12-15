@@ -102,10 +102,13 @@ router.post('/register', function(req, res, next) {
         // try to save user to database
         newUser.save(function(err, user) {
           if (err) {
-             res.status(400).json({success : false, message : err.errmsg});
+             responseJson.message = err.errmsg;
+             res.status(400).json(responseJson);
           }
           else {
-             res.status(201).json({success : true, message : user.name + " has been created"});
+             responseJson.success = true;
+             responseJson.message = user.name + " has been created";
+             res.status(201).json(responseJson);
           }
         });
       }
@@ -334,26 +337,25 @@ router.put('/change/password', function(req, res) {
             else {
                bcrypt.compare(req.body.oldPassword, user.passwordHash, function(err, valid) {
                   if (err) {
-                     responseJson.message = "inputted old password and actual old password don't match";
+                     responseJson.message = "Inputted old password and actual old password don't match. ";
                      res.status(401).json(responseJson);
                   }
                   else if(valid) {
                      bcrypt.hash(req.body.newPassword, null, null, function(err, hash) {
                         if (err) {
-                           res.status(401).json({success : false, message : "Error authenticating. Please contact support."});
+                           responseJson.message = "Hash error";
+                           res.status(401).json(responseJson);
                         }
                         user.passwordHash = hash;
-   
-                        user.save(function(err, user){
+                        user.save(function(err, user) {
                            if (err) {
-                              responseJson.success = false;
                               responseJson.message = "Error: Communicating with database";
                               return res.status(201).json(responseJson);
                            }
-                           else{
+                           else {
                               responseJson.success = true;
-                              responseJson.message = "Password Updated Successfully";
-                              return res.status(201).send(JSON.stringify(responseJson));
+                              responseJson.message = "Password updated";
+                              return res.status(201).json(responseJson);
                            }
                         });
                      });
