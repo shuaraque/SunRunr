@@ -118,17 +118,21 @@ function hideUVForm() {
 }
 
 function changeUV() {
+  var UVtemp = document.getElementById("UVThresholdInput");
   $("#addUVControl").show();  // Hide the add device link
   $("#addUVForm").slideUp();  // Show the add device form
   $("#error").hide();
+  
+  var string2send {
+    uvThreshold: UVtemp.value
+  };
   
   $.ajax({
   url: 'users/change/uvThreshold',
   type: 'POST',
   headers: { 'x-auth': window.localStorage.getItem("authToken") },   
   contentType: 'application/json',
-  data: JSON.stringify({uvThreshold:$('#UVThresholdInput').val()}),
-  dataType: 'json'
+  data: JSON.stringify(string2send)
   })
   .done(UVSuccess)
   .fail(UVError);
