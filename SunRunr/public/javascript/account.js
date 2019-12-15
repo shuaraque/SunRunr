@@ -19,8 +19,6 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
     dataType: 'json'
    })
   
-  data = JSON.parse(data);
-  
   $("#email").html(data.email);
   $("#name").html(data.name);
   $("#lastAccess").html(data.lastAccess);
