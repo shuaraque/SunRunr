@@ -35,7 +35,7 @@ router.post('/signin', function(req, res, next) {
    success: false,
    message: "",
    };
-   
+
    if(!req.body.email || !req.body.password) {
       responseJson.message = "You need an email and password"
       return res.status(401).json(responseJson);
@@ -189,19 +189,179 @@ router.get('/activities',(req,res)=>{
    });
 });
 
-// PUT: change the name, UV threshold, or the password of a user
+// PUT: change the email of the user
+// pre: an auth token and an email
+// post: changes the email of the user, sends a json with the newToken, message, and success as json. Otherwise sends failure and message
+//       as a json
+router.put("/change/email", function(req, res){
+   let responseJson = {};
+   if (!req.headers["x-auth"]) {
+      return res.status(401).json({success: false, message: "No authentication token"});
+   }
+   if(!req.body.email || !validEmail(req.body.email)){
+      return res.status(400).json({success: false, message: "Invalid Email"});
+   }
+
+   var authToken = req.headers["x-auth"];
+   try {
+      var decoded = jwt.decode(authToken, secret);
+
+      // find the user associated with email
+      User.findOne({email: decoded.email}, function(err, user) {
+         if(err || !user) {
+            return res.status(200).json({success: false, message: "User does not exist."});
+         }
+         else {
+            // at this point you have the email
+            user.email = req.body.email;
+            user.save(function(err, user){
+               if (err) {
+                  responseJson.success = false;
+                  responseJson.message = "email already registered to another user which is not " + user;
+                  return res.status(201).json(responseJson);
+               } else {
+                  // Find devices associated with user
+		         Device.find({email : decoded.email}, function(err, devices) {
+			      if (!err) {
+			         for (device of devices) {
+                     device.email = req.body.email;
+                     device.save(function(err, device){
+                        if (err || !device) {
+                           responseJson.success = false;
+                           responseJson.message = "Error updating device data in db.  " + err;
+                           return res.status(201).json(responseJson);
+                        }
+                     });
+			         }
+               } else {
+                  responseJson.success = false;
+                  responseJson.message = "Error finding device data in db.  " + err;
+                  return res.status(201).json(responseJson);
+               }              
+            });
+            responseJson.success = true;
+            responseJson.message = "email updated for user and all associated devices";
+            responseJson.newToken = jwt.encode({email: req.body.email}, secret);
+            return res.status(201).json(responseJson);
+               }
+            });
+         }
+      });
+   }
+   catch (ex) {
+      return res.status(401).json({success: false, message: "Invalid authentication token."});
+   }
+   
+});
+
+// PUT: change the the password of the user
+// pre: an auth token(that contains an email) and a user name in the body
+// post: changes the name for user 
+router.put('/change/name', function(req, res) {
+   if (!req.headers["x-auth"]) {
+      return res.status(401).json({success: false, message: "No authentication token"});
+   }
+   if(!req.body.name){
+      return res.status(400).json({success: false, message: "No name provided."});
+   }
+   var authToken = req.headers["x-auth"];
+
+   try {
+      var decoded = jwt.decode(authToken, secret);
+      var responseJson = {
+         success: false,
+         message = ""
+      };
+      User.findOne({email: decoded.email}, function(err, user) {
+         if(err || !user) {
+            responseJson.message = "user does not exist";
+            return res.status(200).json(responseJson);
+         }
+         else {
+            user.name = req.body.name;
+            user.save(function(err, user){
+               if (err) {
+                  responseJson.message = "Error: Communicating with database for user " + user;
+                  return res.status(201).json(responseJson);
+               }
+               else {
+                  responseJson.success = true;
+                  responseJson.message = "Name Updated Successfully";
+                  return res.status(201).json(responseJson);
+               }
+            });
+         }
+      });
+   } catch (ex) {
+      responseJson.message = "Invalid auth token";
+      return res.status(401).json(responseJson);
+   }
+});
+
+// PUT 
 // pre:
 // post:
-router.put('/change/email', function(req, res) {
-
-});
-
 router.put('/change/password', function(req, res) {
+      let responseJson = {
+         success: false,
+         message: ""
+      }
 
-});
-
-router.put('/change/name', function(req, res) {
-
+      if (!req.headers["x-auth"]) {
+         responseJson.message = "No auth token";
+         return res.status(401).json(responseJson);
+      }
+      if(!req.body.oldPassword||!req.body.newPassword){
+         return res.status(400).json({success: false, message: "Invalid Request"});
+      }
+      if(!checkPasswordStrength(req.body.newPassword)){
+         return res.status(400).json({success: false, message: "Password must be at least 8 characters long and contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character(!@#$%^&)."});
+      }
+      var authToken = req.headers["x-auth"];
+      try {
+         var decodedToken = jwt.decode(authToken, secret);
+         var responseJson = {};
+         
+         User.findOne({email: decodedToken.email}, function(err, user) {
+            if(err || !user) {
+               return res.status(200).json({success: false, message: "User does not exist."});
+            }
+            else {
+               bcrypt.compare(req.body.oldPassword, user.passwordHash, function(err, valid) {
+                  if (err) {
+                     res.status(401).json({success : false, message : "Error authenticating. Please contact support."});
+                  }
+                  else if(valid) {
+                     bcrypt.hash(req.body.newPassword, null, null, function(err, hash) {
+                        if (err) {
+                           res.status(401).json({success : false, message : "Error authenticating. Please contact support."});
+                        }
+                        user.passwordHash = hash;
+   
+                        user.save(function(err, user){
+                           if (err) {
+                              responseJson.success = false;
+                              responseJson.message = "Error: Communicating with database";
+                              return res.status(201).json(responseJson);
+                           }
+                           else{
+                              responseJson.success = true;
+                              responseJson.message = "Password Updated Successfully";
+                              return res.status(201).send(JSON.stringify(responseJson));
+                           }
+                        });
+                     });
+                  }
+                  else {
+                     res.status(400).json({success : false, message : "The old password provided was invalid."});         
+                  }
+               });
+            }
+         });
+      }
+      catch (ex) {
+         return res.status(401).json({success: false, message: "Invalid authentication token."});
+      }
 });
 
 router.put('/change/uvThreshold', function(req, res) {

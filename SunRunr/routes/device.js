@@ -5,7 +5,7 @@ let Device = require("../models/device");
 let fs = require('fs');
 let jwt = require("jwt-simple");
 
-/* Authenticate user */
+
 var secret = fs.readFileSync(__dirname + '/../jwtkey.txt').toString();
 
 // Function to generate a random apikey consisting of 32 characters
@@ -21,6 +21,8 @@ function getNewApikey() {
 }
 
 // GET request return one or "all" devices registered and last time of contact.
+// pre: a device ID
+// post: returns a json object with 'devices' being an array of device objects that match the :devid parameter
 router.get('/status/:devid', function(req, res, next) {
   let deviceID = req.params.devid;
   let responseJson = { devices: [] };
@@ -50,7 +52,9 @@ router.get('/status/:devid', function(req, res, next) {
   next();
 });
 
-// POST: regsiter user
+// POST: regsiter device
+// pre: a deviceID and an email, optionally an authToken
+// post: registers a device to a user and the devices database, assuming device does not already exist
 router.post('/register', function(req, res, next) {
     let responseJson = {
         registered: false,
@@ -61,7 +65,7 @@ router.post('/register', function(req, res, next) {
 
     let email = "";
 
-    // Make sure the request includes  deviceID 
+    // Make sure the request includes deviceID 
     if (!req.body.hasOwnProperty("deviceID")) {
         responseJson.message = "Missing deviceID.";
         return res.status(400).json(responseJson);
@@ -77,14 +81,14 @@ router.post('/register', function(req, res, next) {
         }
     } else {
         if (!req.body.hasOwnProperty("email")) {
-            responseJson.message = "Invalid authorization token or missing email address.";
+            responseJson.message = "Invalid authorization token and missing email address.";
             return res.status(400).json(responseJson);
         }
         email = req.body.email;
     }
 
     // See if device is already registered
-    Device.findOne({ deviceID: req.body.deviceID }, function(err, device) {
+    Device.findOne({deviceID: req.body.deviceID}, function(err, device) {
         if(err) {
           responseJson.message = err;
           return res.status(400).json(responseJson);
@@ -124,24 +128,36 @@ router.post('/register', function(req, res, next) {
             });
         }
     });
+    next();
 });
 
-// Delete a device from the database
+// DELETE: delete a device from the devices collection
+// pre: a deviceID
+// post: tries to delete deviceID from devices collection and removes device from email associated with device
 router.delete('/remove/:deviceID', (req,res)=>{
   try {
       jwt.decode(req.headers["x-auth"], secret);
   } catch (ex) {
       console.log("bad authorization");
-      responseJson.message = "Invalid authorization token. This is line 165";
+      responseJson.message = "Invalid authorization token.";
       return res.status(400).json(responseJson);
   }
   Device.findOneAndRemove({deviceID: req.params.deviceID},(err, device)=>{
+      if(err) {
+        return res.status(400).json({success: false, message: "Unsuccessful findOneAndRemove"});
+      }
       User.findOneAndUpdate({email:device.email},{$pull:{userDevices: req.params.deviceID}},(err, user)=>{
-        res.status(202).json({"message": "successful deletion", "deviceID": req.params.deviceID});
+        if(err  || !user) {
+          return res.status(400).json({success: false, message: "Unsuccessful findOneAndUpdate"});
+        }
+        return res.status(202).json({message: "successful deletion", "deviceID": req.params.deviceID});
       });
   });
 });
 
+// POST: not needed I think
+// pre: deviceID, email, and optionally authToken
+// post: makes an ajax request to api.particle.io to ping device
 router.post('/ping', function(req, res, next) {
     let responseJson = {
         success: false,
@@ -173,7 +189,8 @@ router.post('/ping', function(req, res, next) {
 
     responseJson.success = true;
     responseJson.message = "Device ID " + req.body.deviceID + " pinged.";
-    return res.status(200).json(responseJson);
+    res.status(200).json(responseJson);
+    next();
 });
 
 module.exports = router;
