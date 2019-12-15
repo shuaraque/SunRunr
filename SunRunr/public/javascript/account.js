@@ -1,4 +1,6 @@
 function sendReqForAccountInfo() {
+  $("#addDeviceForm").slideUp();
+  $("#addUVForm").slideUp();
   $.ajax({
     url: '/users/account',
     type: 'GET',
@@ -97,6 +99,20 @@ function showAddDeviceForm() {
 function hideAddDeviceForm() {
   $("#addDeviceControl").show();  // Hide the add device link
   $("#addDeviceForm").slideUp();  // Show the add device form
+  $("#error").hide();
+}
+
+// Show add device form and hide the add device button (really a link)
+function showUVForm() {
+  $("#UVThreshold").val("");        // Clear the input for the device ID
+  $("#addUVControl").hide();   // Hide the add device link
+  $("#addUVForm").slideDown();  // Show the add device form
+}
+
+// Hides the add device form and shows the add device button (link)
+function hideAddDeviceForm() {
+  $("#addUVControl").show();  // Hide the add device link
+  $("#addUVForm").slideUp();  // Show the add device form
   $("#error").hide();
 }
 
