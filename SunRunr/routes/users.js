@@ -72,25 +72,32 @@ router.post('/signin', function(req, res, next) {
 // pre: a valid email, a strong password, name (first and last)
 // post: hashes password, creates a new user, and saves it to database. Returns a json message upon completion
 router.post('/register', function(req, res, next) {
-
+   let responseJson = {
+      success: false,
+      message: "",
+   };
    // Check that fields exist
    if(!req.body.name || !req.body.email || !req.body.password) {
-      return res.status(400).json({success: false, message: "You must have a name, email, and password"});
+      responseJson.message = "You must have a name, email, and password";
+      return res.status(400).json(responseJson);
    }
 
    // check for valid email and strong password
    if(!strongPassword(req.body.password)) {
-      return res.status(400).json({success: false, message: "Password is not strong enough"});
+      responseJson.message = "Password is not strong enough";
+      return res.status(400).json(responseJson);
    }
 
    if(!validEmail(req.body.email)) {
-      return res.status(400).json({success: false, message: "Email must be valid"});
+      responseJson.message = "Email must be valid";
+      return res.status(400).json(responseJson);
    }
 
    // hash their password. If all goes well create a new user object
    bcrypt.hash(req.body.password, 10, function(err, hash) {
       if (err) {
-        return res.status(400).json({success: false, message: err.errmsg});
+        responseJson.message = err.errmsg;
+        return res.status(400).json(responseJson);
       }
       else {
         var newUser = new User ({
@@ -347,14 +354,14 @@ router.put('/change/password', function(req, res) {
                            res.status(401).json(responseJson);
                         }
                         user.passwordHash = hash;
-                        user.save(function(err, user) {
+                        user.save(function(err, userf) {
                            if (err) {
                               responseJson.message = "Error: Communicating with database";
                               return res.status(201).json(responseJson);
                            }
                            else {
                               responseJson.success = true;
-                              responseJson.message = "Password updated";
+                              responseJson.message = "Password updated for " + userf.name;
                               return res.status(201).json(responseJson);
                            }
                         });
