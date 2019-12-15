@@ -16,6 +16,7 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
   $("#fullName").html(data.name);
   $("#lastAccess").html(data.lastAccess);
   $("#main").show();
+  $("UVDisplay").html(data.uvThreshold);
   
   // Add the devices to the list before the list item for the add device button (link)
   for (var device of data.devices) {
@@ -110,10 +111,14 @@ function showUVForm() {
 }
 
 // Hides the add device form and shows the add device button (link)
-function hideAddDeviceForm() {
+function hideUVForm() {
   $("#addUVControl").show();  // Hide the add device link
   $("#addUVForm").slideUp();  // Show the add device form
   $("#error").hide();
+}
+
+function changeUV() {
+ 
 }
 
 // Handle authentication on page load
@@ -130,5 +135,8 @@ $(function() {
   // Register event listeners
   $("#addDevice").click(showAddDeviceForm);
   $("#registerDevice").click(registerDevice);  
-  $("#cancel").click(hideAddDeviceForm);  
+  $("#cancelDevice").click(hideAddDeviceForm);  
+  $("#changeThresholdControl").click(showUVForm);
+  $("#registerThreshold").click(changeUV);  
+  $("#cancelUV").click(hideUVForm); 
 });
