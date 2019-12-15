@@ -65,7 +65,7 @@ router.post('/signin', function(req, res, next) {
       });
     }
   });
-  next();
+  //next();
 });
 
 // POST: Register a new user 
@@ -120,7 +120,7 @@ router.post('/register', function(req, res, next) {
         });
       }
    });
-   next();
+   //next();
 });
 
 // GET: get details for the account of a specific user
@@ -351,7 +351,7 @@ router.put('/change/password', function(req, res) {
                      bcrypt.hash(req.body.newPassword, null, null, function(err, hash) {
                         if (err) {
                            responseJson.message = "Hash error";
-                           res.status(401).json(responseJson);
+                           return res.status(401).json(responseJson);
                         }
                         user.passwordHash = hash;
                         user.save(function(err, userf) {

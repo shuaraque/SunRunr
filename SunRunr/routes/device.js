@@ -49,7 +49,7 @@ router.get('/status/:devid', function(req, res, next) {
     }
     res.status(200).json(responseJson);
   });
-  next();
+  //next();
 });
 
 // POST: regsiter device
@@ -128,7 +128,7 @@ router.post('/register', function(req, res, next) {
             });
         }
     });
-    next();
+    //next();
 });
 
 // DELETE: delete a device from the devices collection
@@ -190,7 +190,7 @@ router.post('/ping', function(req, res, next) {
     responseJson.success = true;
     responseJson.message = "Device ID " + req.body.deviceID + " pinged.";
     res.status(200).json(responseJson);
-    next();
+    //next();
 });
 
 module.exports = router;
