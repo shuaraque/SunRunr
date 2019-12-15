@@ -121,14 +121,13 @@ function changeUV() {
   $("#addUVControl").show();  // Hide the add device link
   $("#addUVForm").slideUp();  // Show the add device form
   $("#error").hide();
-  let uvThreshold = $('#UVThreshold').val();
   
   $.ajax({
   url: 'users/change/uvThreshold',
   type: 'POST',
   headers: { 'x-auth': window.localStorage.getItem("authToken") },   
   contentType: 'application/json',
-  data: JSON.stringify({uvThreshold:uvThreshold}),
+  data: JSON.stringify({uvThreshold:$('#UVThreshold').val()}),
   dataType: 'json'
   })
   .done(UVSuccess)
