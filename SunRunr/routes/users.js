@@ -304,7 +304,7 @@ router.put('/change/name', function(req, res) {
 router.put('/change/password', function(req, res) {
       let responseJson = {
          success: false,
-         message: ""
+         message: "",
       }
 
       if (!req.headers["x-auth"]) {
