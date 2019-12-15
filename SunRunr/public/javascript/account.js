@@ -11,7 +11,7 @@ function sendReqForAccountInfo() {
 
 function accountInfoSuccess(data, textSatus, jqXHR) {
   $("#email").html(data.email);
-  $("#name").html(data.name);
+  $("#fullName").html(data.name);
   $("#lastAccess").html(data.lastAccess);
   $("#main").show();
   
