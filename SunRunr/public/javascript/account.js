@@ -127,7 +127,7 @@ function changeUV() {
   type: 'POST',
   headers: { 'x-auth': window.localStorage.getItem("authToken") },   
   contentType: 'application/json',
-  data: JSON.stringify({uvThreshold : $("#UVThresholdInput").value()});
+  data: JSON.stringify({uvThreshold : $("#UVThresholdInput").value()})
   })
   .done(UVSuccess)
   .fail(UVError);
