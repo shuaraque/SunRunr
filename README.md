@@ -1,6 +1,9 @@
 # SunRunr ECE 413 2019
 This is the README for the SunRunr project for ECE 413 2019
 
+### ipAddress:
+	54.215.159.27:3000
+
 ## Account Creation and Management:
 - [x] A user must be able to create an account, using an email address as the username 
 	and a ​strong​ password, and register at least one device with their account.
@@ -48,7 +51,7 @@ This is the README for the SunRunr project for ECE 413 2019
 - [x] The web application should allow the user to define a UV threshold. This should be in the account profile page.
 
 - [ ] The web application should include a weather forecast including UV index for at least
-	the next five days, using a third party API
+	the next five days, using a third party API.
 
 - [ ] The web application should have a navigation menu.
 
@@ -64,4 +67,4 @@ This is the README for the SunRunr project for ECE 413 2019
 
 - [x] You must use Node.js, Express, MongoDB, and JavaScript.
 
-- [x] You must use RESTful APIs, commented well, and use token-based authentication
+- [x] You must use RESTful APIs, commented well, and use token-based authentication.

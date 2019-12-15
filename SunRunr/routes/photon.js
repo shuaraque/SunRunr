@@ -41,7 +41,10 @@ function calculateUV(activityArray){
     return averageUV;
 }
 
-router.post('/getThreshold', (req, res)=> {
+// POST
+// pre: activity, deviceID, and optionally activityID
+// post: 
+router.post('/hit', (req, res)=> {
     User.findOne();
 });
 module.exports = router;
