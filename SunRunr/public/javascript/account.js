@@ -10,8 +10,17 @@ function sendReqForAccountInfo() {
 }
 
 function accountInfoSuccess(data, textSatus, jqXHR) {
+  $.ajax({
+    url: '/account',
+    type: 'GET',
+    headers: { 'x-auth': window.localStorage.getItem("authToken") },  
+    contentType: 'application/json',
+    data: userInformation,
+    dataType: 'json'
+   })
+  
   $("#email").html(data.email);
-  $("#fullName").html(data.fullName);
+  $("#name").html(data.name);
   $("#lastAccess").html(data.lastAccess);
   $("#main").show();
   
