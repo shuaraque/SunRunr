@@ -1,7 +1,7 @@
 function sendRegisterRequest() {
 let email = $('#email').val();
 let password = $('#password').val();
-let fullName = $('#fullName').val();
+let name = $('#fullName').val();
 let passwordConfirm = $('#passwordConfirm').val();
 let validLogin = true;
 
@@ -21,7 +21,7 @@ let validLogin = true;
   let passwordNumReCheck = passwordNumRe.exec(password);
   let passwordSpecCharReCheck = passwordSpecCharRe.exec(password);
 
-if(fullName.length <= 0){
+if(name.length <= 0){
     $('#ServerResponse').append("<div class='red-text text-darken-2'>Missing full name.</div>");
     $('#ServerResponse').show();
     validLogin = false;
@@ -70,7 +70,7 @@ $.ajax({
   url: '/users/register',
   type: 'POST',
   contentType: 'application/json',
-  data: JSON.stringify({email:email, fullName:fullName, password:password}),
+  data: JSON.stringify({email:email, name:name, password:password}),
   dataType: 'json'
   })
   .done(registerSuccess)
