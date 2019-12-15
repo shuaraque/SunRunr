@@ -120,7 +120,7 @@ router.post('/register', function(req, res, next) {
         });
       }
    });
-   next();
+   //next();
 });
 
 // GET: get details for the account of a specific user
