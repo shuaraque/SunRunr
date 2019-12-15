@@ -5,7 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
-var photonRouter = require('./routes/activity');
+var photonRouter = require('./routes/photon');
+var activityRouter = require('./routes/activity');
 var usersRouter = require('./routes/users');
 var devicesRouter = require('./routes/device');
 
@@ -41,7 +42,8 @@ app.use('/', indexRouter);
 
 app.use('/users', usersRouter);
 app.use('/device', devicesRouter);
-app.use('/activity', photonRouter);
+app.use('/activity',activityRouter);
+app.use('/photon', photonRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

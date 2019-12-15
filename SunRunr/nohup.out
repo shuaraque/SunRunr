@@ -442,3 +442,11 @@
 [0mGET /javascripts/signin.js [33m404 [0m8.868 ms - 1729[0m
 [0mGET /stylesheets/style.css [36m304 [0m0.273 ms - -[0m
 [0mGET /javascripts/signin.js [33m404 [0m4.901 ms - 1729[0m
+[0mPOST /activity/activate [32m201 [0m3.555 ms - 85[0m
+[0mPOST /activity/activate [32m201 [0m2.885 ms - 85[0m
+[0mPOST /activity/activate [32m201 [0m2.843 ms - 85[0m
+[0mPOST /activity/activate [32m201 [0m2.954 ms - 85[0m
+[0mGET /index.html [36m304 [0m0.285 ms - -[0m
+[0mGET /javascripts/signin.js [33m404 [0m4.856 ms - 1729[0m
+[0mGET /stylesheets/style.css [36m304 [0m0.299 ms - -[0m
+[0mGET /javascripts/signin.js [33m404 [0m5.643 ms - 1729[0m

@@ -11,7 +11,7 @@ var activitySchema = new db.Schema({
 		ultraviolet: Number,
 		speed: Number
 	}],
-	beginTime: Number
+	beginTime: Number,
 	endTime: Number,
 	averageSpeed: Number,
 	uvIndex: Number,
