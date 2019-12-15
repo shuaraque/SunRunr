@@ -379,7 +379,7 @@ router.put('/change/password', function(req, res) {
       }
 });
 
-router.put('/change/uvThreshold', function(req, res) {
+router.post('/change/uvThreshold', function(req, res) {
    let responseJson = {
       success: false,
       message: "",

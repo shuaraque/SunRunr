@@ -124,7 +124,7 @@ function changeUV() {
   let uvThreshold = $('#UVThreshold').val();
   
   $.ajax({
-  url: '/change/uvThreshold',
+  url: 'users/change/uvThreshold',
   type: 'POST',
   contentType: 'application/json',
   data: JSON.stringify({uvThreshold:uvThreshold}),
