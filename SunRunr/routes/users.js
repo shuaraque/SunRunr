@@ -110,7 +110,7 @@ router.post('/register', function(req, res, next) {
         newUser.save(function(err, user) {
           if (err) {
              responseJson.message = err.errmsg;
-             res.status(400).json(responseJson);
+             return res.status(400).json(responseJson);
           }
           else {
              responseJson.success = true;
@@ -366,16 +366,17 @@ router.put('/change/password', function(req, res) {
                            }
                         });
                      });
-                  }
-                  else {
-                     res.status(400).json({success : false, message : "The old password provided was invalid."});         
+                  } else {
+                     responseJson.message = "The old password is invalid";
+                     return res.status(400).json(responseJson);         
                   }
                });
             }
          });
       }
       catch (ex) {
-         return res.status(401).json({success: false, message: "Invalid authentication token."});
+         responseJson.message = "Invalid authToken";
+         return res.status(401).json(responseJson);
       }
 });
 
