@@ -136,6 +136,7 @@ function changeUV() {
 
 function UVSuccess(data, textStatus, jqXHR) {
   if (data.success) {
+   $("#UVDisplay").html(data.uvThreshold);
   }
   else {
     $('#error').html("<div class='red-text text-darken-2'>Error: " + data.message + "</div>");
