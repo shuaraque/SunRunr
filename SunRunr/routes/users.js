@@ -299,7 +299,7 @@ router.put('/change/name', function(req, res) {
 });
 
 // PUT 
-// pre:
+// pre: an authToken, an old password, and a new password
 // post:
 router.put('/change/password', function(req, res) {
       let responseJson = {
@@ -307,29 +307,35 @@ router.put('/change/password', function(req, res) {
          message: "",
       }
 
+      // checking if required inputs exist
       if (!req.headers["x-auth"]) {
          responseJson.message = "No auth token";
          return res.status(401).json(responseJson);
       }
       if(!req.body.oldPassword||!req.body.newPassword){
-         return res.status(400).json({success: false, message: "Invalid Request"});
+         responseJson.message = "need both old and new password, buddy";
+         return res.status(400).json(responseJson);
       }
-      if(!checkPasswordStrength(req.body.newPassword)){
-         return res.status(400).json({success: false, message: "Password must be at least 8 characters long and contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character(!@#$%^&)."});
+      if(!strongPassword(req.body.newPassword)){
+         responseJson = "Need to have 8 characters with at least 1 upper, 1 lower, and 1 special character";
+         return res.status(400).json(responseJson);
       }
+
+
       var authToken = req.headers["x-auth"];
       try {
          var decodedToken = jwt.decode(authToken, secret);
-         var responseJson = {};
          
          User.findOne({email: decodedToken.email}, function(err, user) {
             if(err || !user) {
-               return res.status(200).json({success: false, message: "User does not exist."});
+               responseJson.message = "User doesn't exist";
+               return res.status(400).json(responseJson);
             }
             else {
                bcrypt.compare(req.body.oldPassword, user.passwordHash, function(err, valid) {
                   if (err) {
-                     res.status(401).json({success : false, message : "Error authenticating. Please contact support."});
+                     responseJson.message = "inputted old password and actual old password don't match";
+                     res.status(401).json(responseJson);
                   }
                   else if(valid) {
                      bcrypt.hash(req.body.newPassword, null, null, function(err, hash) {
