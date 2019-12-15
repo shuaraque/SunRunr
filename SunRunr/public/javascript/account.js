@@ -118,6 +118,40 @@ function hideUVForm() {
 }
 
 function changeUV() {
+  let uvThreshold = $('#UVThreshold').val();
+  
+  $.ajax({
+  url: '/users/change/uvThreshold',
+  type: 'POST',
+  contentType: 'application/json',
+  data: JSON.stringify({uvThreshold:uvThreshold}),
+  dataType: 'json'
+  })
+  .done(UVSuccess)
+  .fail(UVError);
+}
+
+function UVSuccess(data, textStatus, jqXHR) {
+  if (data.success) {
+  }
+  else {
+    $('#error').html("<div class='red-text text-darken-2'>Error: " + data.message + "</div>");
+    $('#error').show();
+  }
+}
+
+function UVError(jqXHR, textStatus, errorThrown) {
+  if (jqXHR.statusCode == 404) {
+    $('#error').html("<div class='red-text text-darken-2'>Server could not be reached.</div>");
+    $('#error').show();
+  }
+  else {
+    $('#error').html("<div class='red-text text-darken-2'>Error: " + jqXHR.responseJSON.message + "</div>");
+    $('#error').show();
+  }
+}
+
+
   $("#addUVControl").show();  // Hide the add device link
   $("#addUVForm").slideUp();  // Show the add device form
   $("#error").hide();
