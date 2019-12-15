@@ -126,6 +126,7 @@ function changeUV() {
   $.ajax({
   url: 'users/change/uvThreshold',
   type: 'POST',
+  headers: { 'x-auth': window.localStorage.getItem("authToken") },   
   contentType: 'application/json',
   data: JSON.stringify({uvThreshold:uvThreshold}),
   dataType: 'json'
