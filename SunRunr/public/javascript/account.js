@@ -129,7 +129,6 @@ function changeUV() {
   })
   .done(UVSuccess)
   .fail(UVError);
-}
 
 function UVSuccess(data, textStatus, jqXHR) {
   if (data.success) {
@@ -155,7 +154,7 @@ function UVError(jqXHR, textStatus, errorThrown) {
   $("#addUVControl").show();  // Hide the add device link
   $("#addUVForm").slideUp();  // Show the add device form
   $("#error").hide();
-}
+}}
 
 // Handle authentication on page load
 $(function() {
