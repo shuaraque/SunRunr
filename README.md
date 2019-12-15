@@ -1,5 +1,5 @@
-# This is the README for SunRunr for ECE 413 2019
-# Done by: Bader Jeragh, Sabrina Huaraque, Colter Ogden
+# SunRunr ECE 413 2019
+This is the README for the SunRunr project for ECE 413 2019
 
 ## Photon Requirements:
-[checkbox:checked] User must be able to press a button to start and stop activities
+# [checkbox:checked] User must be able to press a button to start and stop activities
