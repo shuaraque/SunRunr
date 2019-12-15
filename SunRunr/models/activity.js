@@ -21,5 +21,5 @@ var activitySchema = new db.Schema({
 });
 
 activitySchema.plugin(autoIncrement.plugin, "Activity");
-var activity = db.model("Activity", activitySchema);
+var Activity = db.model("Activity", activitySchema);
 module.exports = Activity;
