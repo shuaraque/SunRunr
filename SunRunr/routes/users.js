@@ -270,7 +270,7 @@ router.put('/change/name', function(req, res) {
       var decoded = jwt.decode(authToken, secret);
       var responseJson = {
          success: false,
-         message = "";
+         message: "";
       };
       User.findOne({email: decoded.email}, function(err, user) {
          if(err || !user) {
