@@ -110,7 +110,7 @@ router.post('/register', function(req, res, next) {
         newUser.save(function(err, user) {
           if (err) {
              responseJson.message = err.errmsg;
-             return res.status(400).json(responseJson);
+             res.status(400).json(responseJson);
           }
           else {
              responseJson.success = true;
