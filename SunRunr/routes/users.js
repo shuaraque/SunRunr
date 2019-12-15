@@ -131,7 +131,7 @@ router.post('/register', function(req, res, next) {
 router.get("/account" , function(req, res) {
    // Check for authentication token in x-auth header
    if (!req.headers["x-auth"]) {
-      return res.status(401).json({success: false, message: "No auth token. Line 77"});
+      return res.status(401).json({success: false, message: "No auth token."});
    }
    var authToken = req.headers["x-auth"];
    try {
@@ -310,13 +310,12 @@ router.put('/change/name', function(req, res) {
 
 // PUT 
 // pre: an authToken, an old password, and a new password
-// post:
+// post: hashes new password and sets user's hash to the new one
 router.put('/change/password', function(req, res) {
       let responseJson = {
          success: false,
          message: "",
       }
-
       // checking if required inputs exist
       if (!req.headers["x-auth"]) {
          responseJson.message = "No auth token";
@@ -334,29 +333,29 @@ router.put('/change/password', function(req, res) {
 
       var authToken = req.headers["x-auth"];
       try {
-         var decodedToken = jwt.decode(authToken, secret);
+         var decoded = jwt.decode(authToken, secret);
          
-         User.findOne({email: decodedToken.email}, function(err, user) {
+         User.findOne({email: decoded.email}, function(err, user) {
             if(err || !user) {
-               responseJson.message = "User doesn't exist";
+               responseJson.message = "user doesn't exist";
                return res.status(400).json(responseJson);
             }
             else {
                bcrypt.compare(req.body.oldPassword, user.passwordHash, function(err, valid) {
                   if (err) {
-                     responseJson.message = "Inputted old password and actual old password don't match. ";
+                     responseJson.message = "bcrypt.compare is not working";
                      res.status(401).json(responseJson);
                   }
                   else if(valid) {
                      bcrypt.hash(req.body.newPassword, null, null, function(err, hash) {
                         if (err) {
-                           responseJson.message = "Hash error";
+                           responseJson.message = "bcrypt.hash error";
                            return res.status(401).json(responseJson);
                         }
                         user.passwordHash = hash;
                         user.save(function(err, userf) {
                            if (err) {
-                              responseJson.message = "Error: Communicating with database";
+                              responseJson.message = "Error saving to database";
                               return res.status(201).json(responseJson);
                            }
                            else {
@@ -381,7 +380,43 @@ router.put('/change/password', function(req, res) {
 });
 
 router.put('/change/uvThreshold', function(req, res) {
-
+   let responseJson = {
+      success: false,
+      message: "",
+   }
+    if (!req.headers["x-auth"]) {
+      responseJson.message = "authToken";
+      return res.status(401).json(responseJson);
+   }
+   if(!req.body.threshold) {
+      responseJson.message = "No threshold provided";
+      return res.status(400).json(responseJson);
+   }
+   var authToken = req.headers["x-auth"];
+   try {
+      var decoded = jwt.decode(authToken, secret);   
+      User.findOne({email: decoded.email}, function(err, user) {
+         if(err || !user) {
+            responseJson.message = "user does not exist";
+            return res.status(400).json(responseJson);
+         }
+         else {
+            user.threshold = req.body.threshold;
+            user.save(function(err, user){
+               if (err) {
+                  responseJson.message = "Error communicating with database";
+                  return res.status(401).json(responseJson);
+               } else {
+                  responseJson.success = true;
+                  responseJson.message = "Threshold updated Successfully";
+                  return res.status(201).send(JSON.stringify(responseJson));
+               }
+            });
+         }
+      });
+   }
+   catch (ex) {
+      return res.status(401).json({success: false, message: "Invalid authentication token."});
+   }
 });
-
 module.exports = router;
