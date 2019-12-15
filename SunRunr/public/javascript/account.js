@@ -11,17 +11,18 @@ function sendReqForAccountInfo() {
 
 function accountInfoSuccess(data, textSatus, jqXHR) {
   $.ajax({
-    url: '/account',
     type: 'GET',
-    headers: { 'x-auth': window.localStorage.getItem("authToken") },  
-    contentType: 'application/json',
-    data: userInformation,
-    dataType: 'json'
-   });
+    url: ‘users/account',
+    headers: { 'x-auth': window.localStorage.getItem("authToken") },
+         data: userInformation,
+         dataType: 'json’,
+         complete: function (data){
+    products = data;
+  }
   
-  $("#email").html(userInformation.email);
-  $("#name").html(userInformation.name);
-  $("#lastAccess").html(userInformation.lastAccess);
+  $("#email").html(products.email);
+  $("#name").html(products.name);
+  $("#lastAccess").html(products.lastAccess);
   $("#main").show();
   
   // Add the devices to the list before the list item for the add device button (link)
