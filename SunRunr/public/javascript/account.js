@@ -17,7 +17,7 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
     contentType: 'application/json',
     data: userInformation,
     dataType: 'json'
-   })
+   });
   
   $("#email").html(data.email);
   $("#name").html(data.name);
