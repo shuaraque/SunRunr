@@ -211,7 +211,7 @@ function showNameForm() {
 }
 
 // Hides the add device form and shows the add device button (link)
-function hideUVForm() {
+function hideNameForm() {
   $("#addNameControl").show();  // Hide the add device link
   $("#addNameForm").slideUp();  // Show the add device form
   $("#error").hide();
