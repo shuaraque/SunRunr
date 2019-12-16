@@ -29,7 +29,7 @@ function strongPassword(password) {
 // POST: Sign in
 // pre: email, password
 // post: email and password match database, returns a success and authToken, otherwise a json {false, message}
-router.post('/signin', function(req, res, next) {
+router.post('/signin', function(req, res) { // removed next
    // response for errors
   let responseJson = {
    success: false,
@@ -71,7 +71,7 @@ router.post('/signin', function(req, res, next) {
 // POST: Register a new user 
 // pre: a valid email, a strong password, name (first and last)
 // post: hashes password, creates a new user, and saves it to database. Returns a json message upon completion
-router.post('/register', function(req, res, next) {
+router.post('/register', function(req, res) { // removed next
    let responseJson = {
       success: false,
       message: "",
@@ -173,28 +173,39 @@ router.get("/account" , function(req, res) {
 // GET: get activities associated with deviceID
 // pre: auth token and deviceID
 // post: returns activites associated with deviceID
-router.get('/activities',(req,res)=>{
+router.get('/activities',function(req,res){
+   let responseJson = {
+      success: false,
+      message: "",
+   };
    // auth token validation
    if (!req.headers["x-auth"]) {
-      return res.status(401).json({success: false, message: "No authentication token"});
+      responseJson.message = "No authToken";
+      return res.status(401).json(responseJson);
    }
    try {
       jwt.decode(req.headers["x-auth"], secret);
    } catch {
-      return res.status(401).json({ success: false, message: "Invalid auth token."});
+      responseJson.message = "Invalid authToken";
+      return res.status(401).json(responseJson);
    }
 
    // make sure deviceID exists
    if(!req.query.deviceID){
+      responseJson.message = "No device ID specified";
       return res.status(401).json({success: false, message: "No device ID specified."});
    }
 
    Activity.find({deviceID: req.query.deviceID}, function(err, activities) {
       if(err) {
-         return res.status(400).json({success: false, message: "there is an issue with activity storing."});
+         responseJson.message = "There is an issue with activity finding.";
+         return res.status(400).json(responseJson);
       }
       else {
-         return res.status(200).json({success: true, 'activities': activities});
+         // userInformation['uvThreshold'] = user.uvThreshold;
+         responseJson['activities'] = activities;
+         responseJson.success = true;
+         return res.status(200).json(responseJson);
       }
    });
 });
@@ -379,7 +390,10 @@ router.put('/change/password', function(req, res) {
       }
 });
 
-router.post('/change/uvThreshold', function(req, res) {
+// PUT
+// pre: an authToken, and a threshold
+// post: changes the threshold 
+router.put('/change/uvThreshold', function(req, res) {
    let responseJson = {
       success: false,
       message: "",
@@ -401,9 +415,9 @@ router.post('/change/uvThreshold', function(req, res) {
             return res.status(400).json(responseJson);
          }
          else {
-            user.threshold = req.body.threshold;
+            user.uvThreshold = req.body.threshold;
             user.save(function(err, user){
-               if (err) {
+               if (err || !user) {
                   responseJson.message = "Error communicating with database";
                   return res.status(401).json(responseJson);
                } else {
@@ -419,4 +433,48 @@ router.post('/change/uvThreshold', function(req, res) {
       return res.status(401).json({success: false, message: "Invalid authentication token."});
    }
 });
+
+// PUT
+// pre: an authToken, an activityID, and an activity type that has to be either: walking, running, biking
+// post: changes the activity type to whatever was inputted. 
+router.put('/change/activityType', function(req, res) {
+   let responseJson = {
+      success: false,
+      message: "",
+   }
+
+   // Do some checking with the token, type, and device ID
+   if(!req.headers["x-auth"]) {
+         responseJson.message = "You need an authToken";
+         return res.status(400).json(responseJson);
+   }
+
+   if(!req.body.hasProperty("type")) {
+         responseJson.message = "You need an activity type";
+         return res.status(400).json(responseJson);
+   }
+
+   if(req.body.type !== "walking" || req.body.type !== "running" || req.body.type !== "biking") {
+         responseJson.message = "The new type must be walking, running, or biking. Yours is: " + req.body.type;
+         return res.status(400).json(responseJson);
+   }
+
+   if(!req.body.hasProperty("deviceID")) {
+      responseJson.message = "You need a deviceID";
+      return res.status(400).json(responseJson);
+   }
+
+   try {
+      jwt.decode(req.headers["x-auth"], secret);
+   } catch (ex){
+         responseJson.message = "Invalid auth token";
+         return res.status(400).json(responseJson);
+   }
+
+   Activity.findOneAndUpdate();
+
+
+});
+
+
 module.exports = router;

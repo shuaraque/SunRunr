@@ -23,7 +23,7 @@ function getNewApikey() {
 // GET request return one or "all" devices registered and last time of contact.
 // pre: a device ID
 // post: returns a json object with 'devices' being an array of device objects that match the :devid parameter
-router.get('/status/:devid', function(req, res, next) {
+router.get('/status/:devid', function(req, res) {
   let deviceID = req.params.devid;
   let responseJson = { devices: [] };
   let query = {}
@@ -49,13 +49,12 @@ router.get('/status/:devid', function(req, res, next) {
     }
     res.status(200).json(responseJson);
   });
-  //next();
 });
 
 // POST: regsiter device
 // pre: a deviceID and an email, optionally an authToken
 // post: registers a device to a user and the devices database, assuming device does not already exist
-router.post('/register', function(req, res, next) {
+router.post('/register', function(req, res) {
     let responseJson = {
         registered: false,
         message: "",
@@ -111,7 +110,7 @@ router.post('/register', function(req, res, next) {
                     responseJson.message = err;
                     return res.status(400).json(responseJson);
                 } else {
-                    User.findOneAndUpdate({email: email},{$push:{userDevices: req.body.deviceID}},(err,user)=>{
+                    User.findOneAndUpdate({email: email},{$push:{devices: req.body.deviceID}},function(err,user){
                         if(err) {
                             responseJson.message = err;
                             return res.status(400).json(responseJson);
@@ -128,13 +127,12 @@ router.post('/register', function(req, res, next) {
             });
         }
     });
-    //next();
 });
 
 // DELETE: delete a device from the devices collection
 // pre: a deviceID
 // post: tries to delete deviceID from devices collection and removes device from email associated with device
-router.delete('/remove/:deviceID', (req,res)=>{
+router.delete('/remove/:deviceID', function(req,res){
   try {
       jwt.decode(req.headers["x-auth"], secret);
   } catch (ex) {
@@ -146,7 +144,7 @@ router.delete('/remove/:deviceID', (req,res)=>{
       if(err) {
         return res.status(400).json({success: false, message: "Unsuccessful findOneAndRemove"});
       }
-      User.findOneAndUpdate({email:device.email},{$pull:{userDevices: req.params.deviceID}},(err, user)=>{
+      User.findOneAndUpdate({email:device.email},{$pull:{devices: req.params.deviceID}},function(err, user){
         if(err  || !user) {
           return res.status(400).json({success: false, message: "Unsuccessful findOneAndUpdate"});
         }
@@ -158,7 +156,7 @@ router.delete('/remove/:deviceID', (req,res)=>{
 // POST: not needed I think
 // pre: deviceID, email, and optionally authToken
 // post: makes an ajax request to api.particle.io to ping device
-router.post('/ping', function(req, res, next) {
+router.post('/ping', function(req, res) {
     let responseJson = {
         success: false,
         message: "",
@@ -190,7 +188,6 @@ router.post('/ping', function(req, res, next) {
     responseJson.success = true;
     responseJson.message = "Device ID " + req.body.deviceID + " pinged.";
     res.status(200).json(responseJson);
-    //next();
 });
 
 module.exports = router;
