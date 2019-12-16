@@ -17,22 +17,23 @@ This is the README for the SunRunr project for ECE 413 2019
 ## SunRunr IoT Device:
 - [x] User must be able to press a button to start and stop activities.
 
-- [ ] The IoT device should use the onboard LEDs to indicate the activity status.
+- [x] The IoT device should use the onboard LEDs to indicate the activity status.
 
 - [ ] During an activity, the IoT device should periodically record the GPS location, speed, and
-	UV exposure, at least at a rate of ​once every 15 seconds.​
-- [ ] If the UV exposure during an activity exceeds a user-defined threshold, an alert should be provided on the IoT device.
+	UV exposure, at least at a rate of ​once every 15 seconds.​ (needs testing, but should be)
+	
+- [x] If the UV exposure during an activity exceeds a user-defined threshold, an alert should be provided on the IoT device.
 
-- [ ] After an activity is complete, the IoT device should transmit the activity data to the server.
+- [ ] After an activity is complete, the IoT device should transmit the activity data to the server. (needs testing, but should be)
 
-- [ ] If the WiFi connection is not available, the IoT device should locally store the data for up
+- [x] If the WiFi connection is not available, the IoT device should locally store the data for up
 	to 24 hours and submit the data when later connected.
 
-- [ ] The IoT device should have an auto-pause feature: During an activity if the user’s speed
+- [x] The IoT device should have an auto-pause feature: During an activity if the user’s speed
 	is 0 for more than 30 seconds, the device should pause the activity data recording until
 	the user starts moving again.
 
-- [x] The server should require an APIKEY from the IoT device for posting activity data.
+- [ ] The server should require an APIKEY from the IoT device for posting activity data.
 
 ## Web Application:
 
