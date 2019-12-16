@@ -118,10 +118,6 @@ function hideUVForm() {
 }
 
 function changeUV() {
-  $("#addUVControl").show();  // Hide the add device link
-  $("#addUVForm").slideUp();  // Show the add device form
-  $("#error").hide();
-  
   $.ajax({
   url: 'users/change/uvThreshold',
   type: 'POST',
@@ -135,7 +131,10 @@ function changeUV() {
 
 function UVSuccess(data, textStatus, jqXHR) {
   if (data.success) {
-   $("#UVDisplay").html(data.uvThreshold);
+  $("#addUVControl").show();  // Hide the add device link
+  $("#addUVForm").slideUp();  // Show the add device form
+  $("#error").hide();
+  $("#UVDisplay").html(data.uvThreshold);
   }
   else {
     $('#error').html("<div class='red-text text-darken-2'>Error: " + data.message + "</div>");
