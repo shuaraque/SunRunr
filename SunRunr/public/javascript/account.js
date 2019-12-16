@@ -50,7 +50,7 @@ function registerDevice() {
     type: 'POST',
     headers: { 'x-auth': window.localStorage.getItem("authToken") },  
     contentType: 'application/json',
-    data: JSON.stringify({ deviceId: $("#deviceId").val() }), 
+    data: JSON.stringify({ deviceID: $("#deviceId").val() }), 
     dataType: 'json'
    })
      .done(function (data, textStatus, jqXHR) {
