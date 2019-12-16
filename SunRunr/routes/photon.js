@@ -28,7 +28,7 @@ function calculateAverageSpeed(activityArray) {
     } else if (speed > 9){
         type = "biking";
     }
-    return {"averageSpeed": averageSpeed, "type": type};
+    return {"avg": averageSpeed, "activityType": type};
 }
 
 // pre: an activityArray that contains activities (this is the activity fild of the activity schema in models)
@@ -194,10 +194,131 @@ function continueTransmission(responseJson, req, res) {
     });
 }
 
-// pre: a responseJson, a request res, and response res
-// post: 
+// pre: a responseJson, a request res which also contains beingTime and endTime, and response res
+// post: Finds the device with the given deviceID in the body, makes sure beginTime and endTime (as doubles) are in the body
+//      if the apikeys match, finds the activity associated with deviceID, and adds the small activity(array) to the 
+//      activity with the given begin and end times. It then sets the averageSpeed, type, and uvIndex of the activity
+//      It then finds the User with the deviceID to set the responseJson's uvThreshold to the user's uvThreshold
+// returns a responseJson with activityID, uvThreshold, and a success message. Error message otherwise. 
 function endTransmission(responseJson, req, res) {
+    console.log("Ending Transmission");
 
+    // Checking for beginTime and endTime
+    if(!req.body.hasProperty("beginTime") || !req.body.hasProperty("endTime")) {
+        responseJson.message = "You need a beginTime and an endTime in the body to access endTransmission";
+        return res.status(400).json(responseJson);
+    }
+
+    Device.findOne({deviceID: req.body.deviceID}, function(err, device) {
+        if(err) {
+            responseJson.message = "Error with Device.findOne";
+            return res.status(400).json(responseJson);
+        }
+        if(device !== null) {
+            if(device.apikey != req.body.apikey) {
+                responseJson.message = "api keys do not match. device.api key is " + device.apikey 
+                + ", and body.apikey is: " + req.body.apikey;
+                return res.status(400).json(responseJson);
+            } else {
+                Activity.findOneAndUpdate({_id: req.body.activityID}, {$push:{ activity: req.body.activity },
+                     $set:{ beginTime: req.body.beginTime, endTime: req.body.endTime}}, function(err, activity) {
+                        if(err) {
+                            responseJson.message = "Error with Activity.findOneAndUpdate";
+                            return res.status(400).json(responseJson);
+                        } else {
+                            let totalActivity = activity.activity.concat(req.body.activity);
+                            let averageUV = calculateUV(totalActivity);
+                            let averageSpeed = calculateAverageSpeed(totalActivity);
+                            activity.update({$set:{type:averageSpeed.activityType,averageSpeed:averageSpeed.avg,uvIndex:averageUV}}, function(){
+                                User.findOne({devices: req.body.deviceID}, function(err, user){
+                                    if(err) {
+                                        responseJson.message = "Error with User.findOne";
+                                        return res.status(400).json(responseJson);
+                                    } else {
+                                        responseJson.success = true;
+                                        responseJson.message = "Activity with id " + activity._id + " has ended";
+                                        responseJson.uvThreshold = user.uvThreshold;
+                                        responseJson.activityID = activity._id;
+                                        return res.status(201).json(responseJson);
+                                    }
+                                });
+
+                            });
+                        }
+                });
+            }
+        } else {
+            responseJson.message = "Device ID " + req.body.deviceID + " does not exist in database";
+            return res.status(400).json(responseJson);
+        }
+    });
+}
+
+// pre: a responseJson, a request res which also contains beingTime and endTime, and response res
+// post: 
+function shortActivity(responseJson, req, res) {
+    console.log("Doing shortActivity");
+    Device.findOne({deviceID: deviceID}, function(err, device){
+        if(err){
+            responseJson.message = "Error with Device.findOne";
+            return res.status(400).json(responseJson);
+        } else {
+            if(device !== null) {
+                if(device.apikey != req.body.apikey) {
+                    responseJson.message = "api keys do not match. Device.api key is " + device.apikey +
+                     " given apikey: " + req.body.apikey;
+                    return res.status(400).json(responseJson);
+                } else {
+                    let url = "http://api.openweathermap.org/data/2.5/weather?lat=" + req.body.activity[0].latitude + "&lon=" 
+                    + req.body.activity[0].longitude + "&appid=" + weatherApikey;
+                    request(url, function(err, response, body){
+                        if(err) {
+                            console.log(err);
+                            responseJson.message = "Error with request in shortActivity: " + err;
+                            return res.status(400).json(responseJson);
+                        } else {
+                            let weather = JSON.parse(body);
+                            activityType = calculateAverageSpeed(req.body.activity);
+                            uvIndex = calculateUV(req.body.activity);
+                            var activity = new Activity({
+                                type: activityType.activityType,
+                                deviceID: req.body.deviceID,
+                                activity: req.body.activity,
+                                beginTime: req.body.beginTime,
+                                endTime: req.body.endTime,
+                                averageSpeed: activityType.avg,
+                                uvIndex: uvIndex,
+                                temperature: weather.main.temp,
+                                humidity: weather.main.humidity,
+                            });
+
+                            activity.save(function(err, activity){
+                                if(err) {
+                                    responseJson.message = "Error with activity.save in shortActivity: " + err;
+                                    return res.status(400).json(responseJson);
+                                } else {
+                                    User.findOne({devices: req.body.deviceID}, function(err, user){
+                                        if(err) {
+                                            responseJson.message = "Error with User.findOne in shortActivity";
+                                            return res.status(400).json(responseJson);
+                                        } else {
+                                            responseJson.uvThreshold = user.uvThreshold;
+                                            responseJson.success = true;
+                                            responseJson.message = "Data saveed with activity ID: " + activity._id;
+                                            return res.status(201).json(responseJson);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            } else {
+                responseJson.message = "Device with id " + req.body.deviceID + " does not exist in the database";
+                return res.status(400).json(responseJson);
+            }
+        }
+    });
 }
 
 module.exports = router;
