@@ -1,5 +1,5 @@
 #dropdown1{
-  width:300px;
+  width:1000px;
 }
 
 
@@ -81,10 +81,6 @@ button#signOut{
   float: left;
 }
 
-h5{
-  padding: 10px;
-}
-
 h1{
   font-family: 'Times New Roman', Times, serif;
   font-size: 30pt;
@@ -156,6 +152,10 @@ a{
   padding-left: 12px;
   margin-top:10px;
   margin-bottom:10px;
+}
+
+#name{
+  padding-left = 10px;
 }
 
 #LogInButton{
