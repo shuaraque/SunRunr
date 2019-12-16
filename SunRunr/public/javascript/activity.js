@@ -3,7 +3,7 @@ function sendReqForDeviceInfo() {
     url: '/device/status/:devid',
     type: 'GET',
     headers: { 'x-auth': window.localStorage.getItem("authToken") },
-    data: JSON.stringify({ deviceID: "all"}),
+    data: JSON.stringify({ deviceID: $("#deviceInput2").val()}),
     dataType: 'json'
   })
     .done(activitiesInfoSuccess)
