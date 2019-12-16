@@ -126,7 +126,7 @@ function changeUV() {
   data: JSON.stringify({threshold : $("#UVThresholdInput").val()})
   })
 .done(function (data, textStatus, jqXHR) {
-  console.log($("#UVDisplay").html(data.uvThreshold));
+  $("#UVDisplay").html(data.threshold);
   $("#addUVControl").show();  // Hide the add device link
   $("#addUVForm").slideUp();  // Show the add device form
   $("#error").hide();
