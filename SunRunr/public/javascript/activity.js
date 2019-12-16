@@ -1,8 +1,9 @@
-function sendReqForActivityInfo() {
+function sendReqForDeviceInfo() {
   $.ajax({
-    url: '/users/activities',
+    url: '/status/:devid',
     type: 'GET',
     headers: { 'x-auth': window.localStorage.getItem("authToken") },
+    data: JSON.stringify({ deviceID: "all"}),
     dataType: 'json'
   })
     .done(activitiesInfoSuccess)
@@ -11,21 +12,12 @@ function sendReqForActivityInfo() {
 
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
 console.log("Enters success");
-  
 }
 
 function activitiesInfoError(jqXHR, textStatus, errorThrown) {
-  // If authentication error, delete the authToken 
-  // redirect user to sign-in page (which is index.html)
-  if( jqXHR.status === 401 ) {
     console.log("Enters failure");
-    window.localStorage.removeItem("authToken");
-   // window.location.replace("index.html");
-  } 
-  else {
     $("#error").html("Error: " + status.message);
     $("#error").show();
-  } 
 }
 
 // Handle authentication on page load
@@ -36,7 +28,7 @@ $(function() {
     window.location.replace("index.html");
   }
   else {
-    sendReqForActivityInfo();
+    sendReqForDeviceInfo();
   }
   
   // Register event listeners
