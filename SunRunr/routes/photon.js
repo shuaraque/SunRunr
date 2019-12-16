@@ -43,7 +43,7 @@ function calculateUV(activityArray){
 }
 
 // POST
-// pre: activity, deviceID, APIkey and optionally: keepTransmitting and/or activityID
+// pre: activity (the small array in the activity schema), deviceID, APIkey and optionally: keepTransmitting and/or activityID
 // post: 
 router.post('/hit', function(req, res) {
     let responseJson = {
@@ -64,13 +64,13 @@ router.post('/hit', function(req, res) {
         return res.status(400).json(responseJson);
     }
 
-    if(!req.body.hasProperty("APIkey")) {
-        responseJson.message = "No APIkey in body";
+    if(!req.body.hasProperty("apikey")) {
+        responseJson.message = "No apikey in body";
         return res.status(400).json(responseJson);
     }
     req.body.activity.pop(); 
 
-    // If it works, comment this out and replace if statements
+    // If it works, comment this out and replace if statements with the variables
     // let keepTransmitting = req.body.keepTransmitting;
     // let hasID = req.body.activityID;
 
@@ -88,7 +88,11 @@ router.post('/hit', function(req, res) {
     }
 }); 
 
-// pre: a responseJson, a request, and a response
+// pre: a responseJson, a request req, and a response res
+// post: finds the device with the given deviceID, verifies matching apikeys, 
+//      makes a request to openweathermap to get temperature and humidity, then saves the new activity, finds the uvThreshold by finding
+//      user with the given deviceID
+//      finally, returns a responseJson with activityID, uvThreshold, and a success message. Error message otherwise. 
 function beginTransmission(responseJson, req, res) {
     console.log("Beginning transmission");
     Device.findOne({ device: req.body.deviceID }, function(err, device) {
@@ -112,13 +116,88 @@ function beginTransmission(responseJson, req, res) {
                         let activity = new Activity({
                             deviceID: req.body.deviceID,
                             activity: req.body.activity,
-
+                            temperature: weather.main.temp,
+                            humidity: weather.main.humidity, 
+                        });
+                        activity.save(function(err, activity) {
+                           if(err) {
+                               responseJson.message = "Error with saving activity";
+                               return res.status(400).json(responseJson);
+                           } else {
+                                User.findOne({devices: req.body.deviceID}, function(err, user) {
+                                    if(err) {
+                                        responseJson.message = "Error with User findOne";
+                                        return res.status(400).json(responseJson);
+                                    } else {
+                                        responseJson.success = true;
+                                        responseJson.message = "The activity with id " + activity._id + " begins!";
+                                        responseJson.uvThreshold = user.uvThreshold;
+                                        responseJson.activityID = activity._id;
+                                        res.status(201).json(responseJson);
+                                    }
+                                });
+                           }
                         });
                     }
                 });
             }
+        } else {
+            responseJson.message = "No Device registed";
+            return res.status(400).json(responseJson);
         }
     });
+}
+
+// pre: a responseJson, a request res, and response res
+// post: finds the device with given deviceID and verifies apikey, finds the Activity with the deviceID 
+//       and adds the body's activity to the activity(the small array), then finds the user with the deviceID and sets responseJson's
+//       uvThreshold to the user's uvThreshold
+//      returns a responseJson with activityID, uvThreshold, and a success message. Error message otherwise.  
+function continueTransmission(responseJson, req, res) { 
+    console.log("Continuing transmission");
+    Device.findOne({deviceID: req.body.deviceID}, function(err, device) {
+        if(err) {
+            responseJson.message = "There was an error with finding the device";
+            return res.status(400).json(responseJson);
+        } 
+        if(device !== null) {
+            if(device.apikey != req.body.apikey) {
+                responseJson.message = "Ay there, the apikey keys do not match. Device api: " + device.apikey + 
+                ", your given apikey: " + req.body.apikey;
+                return res.status(400).json(responseJson);
+            } else {
+                Activity.findOneAndUpdate({_id: req.body.activityID}, {$push: { activity: req.body.activity }}, function(err, activity) {
+                    if(err) {
+                        responseJson.message = "Error findingOneAndUpdate on activity in continueTransmission";
+                        return res.status(400).json(responseJson);
+                    } else {
+                        User.findOne({devices: req.body.deviceID}, function(err, user){
+                            if(err) {
+                                responseJson.message = "Error with User.findOne in continueTransmission";
+                                return res.status(400).json(responseJson);
+                            } else {
+                                responseJson.uvThreshold = user.uvThreshold;
+                                responseJson.activityID = activity._id;
+                                responseJson.success = true;
+                                responseJson.message = "The activity is in progress. User, Activity ID: " 
+                                    + user._id + ", " + activity._id;
+                                return res.status(201).json(responseJson);
+                            }
+                        });
+                    }
+                });
+            }
+        } else {
+            responseJson.message = "No device was found";
+            return res.status(400).json(responseJson);
+        }
+    });
+}
+
+// pre: a responseJson, a request res, and response res
+// post: 
+function endTransmission(responseJson, req, res) {
+
 }
 
 module.exports = router;
