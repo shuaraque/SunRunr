@@ -126,14 +126,12 @@ function changeUV() {
   data: JSON.stringify({threshold : $("#UVThresholdInput").val()})
   })
 .done(function (data, textStatus, jqXHR) {
-  console.log("Goes into done function");
+  console.log($("#UVDisplay").html(data.uvThreshold));
   $("#addUVControl").show();  // Hide the add device link
   $("#addUVForm").slideUp();  // Show the add device form
   $("#error").hide();
-  $("#UVDisplay").html(data.uvThreshold);
-     })
+  })
  .fail(function(jqXHR, textStatus, errorThrown) {
-   console.log("Goes into fail function");
    let response = JSON.parse(jqXHR.responseText);
    $("#error").html("Error: " + response.message);
    $("#error").show();
