@@ -44,7 +44,7 @@ This is the README for the SunRunr project for ECE 413 2019
 	- [ ] An a​ ctivity detail view​ for a selected activity that will display the activity 
 			date, duration, UV exposure, temperature, humidity, activity type, calories burned,
 			and uses line charts to display the speed and UV exposure throughout the activity.
-	- [x] In the ​activity detail view,​ the web application should allow a user to change the 
+	- [ ] In the ​activity detail view,​ the web application should allow a user to change the 
 		activity type. Activity types should minimally support walking, running, and biking.
 
 - [ ] The calculation of calories burned should be based on the activity type for each activity.
@@ -54,7 +54,7 @@ This is the README for the SunRunr project for ECE 413 2019
 - [ ] The web application should include a weather forecast including UV index for at least
 	the next five days, using a third party API.
 
-- [ ] The web application should have a navigation menu.
+- [X] The web application should have a navigation menu.
 
 - [ ] The web application should use responsive design.
 
