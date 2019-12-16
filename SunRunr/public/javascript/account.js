@@ -46,7 +46,7 @@ function accountInfoError(jqXHR, textStatus, errorThrown) {
 // Registers the specified device with the server.
 function registerDevice() {
   $.ajax({
-    url: '/devices/register',
+    url: '/device/register',
     type: 'POST',
     headers: { 'x-auth': window.localStorage.getItem("authToken") },  
     contentType: 'application/json',
