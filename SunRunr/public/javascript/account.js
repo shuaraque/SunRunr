@@ -154,6 +154,156 @@ else {
 }
 }
 
+function showEmailForm() {
+  $("#emailInput").val("");        // Clear the input for the device ID
+  $("#addEmailControl").hide();   // Hide the add device link
+  $("#addEmailForm").slideDown();  // Show the add device form
+}
+
+// Hides the add device form and shows the add device button (link)
+function hideUVForm() {
+  $("#addEmailControl").show();  // Hide the add device link
+  $("#addEmailForm").slideUp();  // Show the add device form
+  $("#error").hide();
+}
+
+function changeEmail() {
+  $.ajax({
+  url: '/users/change/email',
+  type: 'PUT',
+  headers: { 'x-auth': window.localStorage.getItem("authToken") },   
+  contentType: 'application/json',
+  data: JSON.stringify({email : $("#emailInput").val()}),
+  dataType: 'json'
+  })
+  .done(EmailSuccess)
+  .fail(EmailError);
+} 
+  
+function EmailSuccess(data, textStatus, jqXHR) {
+if (data.success) {  
+  $("#EmailDisplay").html($("#emailInput").val());
+  $("#addEmailControl").show();  // Hide the add device link
+  $("#addEmailForm").slideUp();  // Show the add device form
+  $("#error").hide();
+}
+else {
+  $('#error').html("<div class='red-text text-darken-2'>Error: " + data.message + "</div>");
+  $('#error').show();
+}
+}
+
+function EmailError(jqXHR, textStatus, errorThrown) {
+if (jqXHR.statusCode == 404) {
+  $('#error').html("<div class='red-text text-darken-2'>Server could not be reached.</div>");
+  $('#error').show();
+}
+else {
+  $('#error').html("<div class='red-text text-darken-2'>Error: " + jqXHR.responseJSON.message + "</div>");
+  $('#error').show();
+}
+}
+
+function showNameForm() {
+  $("#nameInput").val("");        // Clear the input for the device ID
+  $("#addNameControl").hide();   // Hide the add device link
+  $("#addNameForm").slideDown();  // Show the add device form
+}
+
+// Hides the add device form and shows the add device button (link)
+function hideUVForm() {
+  $("#addNameControl").show();  // Hide the add device link
+  $("#addNameForm").slideUp();  // Show the add device form
+  $("#error").hide();
+}
+
+function changeName() {
+  $.ajax({
+  url: '/users/change/name',
+  type: 'PUT',
+  headers: { 'x-auth': window.localStorage.getItem("authToken") },   
+  contentType: 'application/json',
+  data: JSON.stringify({name : $("#nameInput").val()}),
+  dataType: 'json'
+  })
+  .done(NameSuccess)
+  .fail(NameError);
+} 
+  
+function NameSuccess(data, textStatus, jqXHR) {
+if (data.success) {  
+  $("#NameDisplay").html($("#nameInput").val());
+  $("#addNameControl").show();  // Hide the add device link
+  $("#addNameForm").slideUp();  // Show the add device form
+  $("#error").hide();
+}
+else {
+  $('#error').html("<div class='red-text text-darken-2'>Error: " + data.message + "</div>");
+  $('#error').show();
+}
+}
+
+function NameError(jqXHR, textStatus, errorThrown) {
+if (jqXHR.statusCode == 404) {
+  $('#error').html("<div class='red-text text-darken-2'>Server could not be reached.</div>");
+  $('#error').show();
+}
+else {
+  $('#error').html("<div class='red-text text-darken-2'>Error: " + jqXHR.responseJSON.message + "</div>");
+  $('#error').show();
+}
+}
+
+function showPasswordForm() {
+  $("#oldPasswordInput").val("");        // Clear the input for the device ID
+  $("#newPasswordInput").val("");        // Clear the input for the device ID
+  $("#addPasswordControl").hide();   // Hide the add device link
+  $("#addPasswordForm").slideDown();  // Show the add device form
+}
+
+// Hides the add device form and shows the add device button (link)
+function hidePasswordForm() {
+  $("#addPasswordControl").show();  // Hide the add device link
+  $("#addPasswordForm").slideUp();  // Show the add device form
+  $("#error").hide();
+}
+
+function changePassword() {
+  $.ajax({
+  url: '/users/change/password',
+  type: 'PUT',
+  headers: { 'x-auth': window.localStorage.getItem("authToken") },   
+  contentType: 'application/json',
+  data: JSON.stringify({oldPassword : $("#oldPasswordInput").val(),newPassword : $("#newPasswordInput").val()}),
+  dataType: 'json'
+  })
+  .done(PasswordSuccess)
+  .fail(PasswordError);
+} 
+  
+function PasswordSuccess(data, textStatus, jqXHR) {
+if (data.success) {  
+  $("#addPasswordControl").show();  // Hide the add device link
+  $("#addPasswordForm").slideUp();  // Show the add device form
+  $("#error").hide();
+}
+else {
+  $('#error').html("<div class='red-text text-darken-2'>Error: " + data.message + "</div>");
+  $('#error').show();
+}
+}
+
+function PasswordError(jqXHR, textStatus, errorThrown) {
+if (jqXHR.statusCode == 404) {
+  $('#error').html("<div class='red-text text-darken-2'>Server could not be reached.</div>");
+  $('#error').show();
+}
+else {
+  $('#error').html("<div class='red-text text-darken-2'>Error: " + jqXHR.responseJSON.message + "</div>");
+  $('#error').show();
+}
+}
+
 // Handle authentication on page load
 $(function() {
   // If there's no authToekn stored, redirect user to 
@@ -171,5 +321,14 @@ $(function() {
   $("#cancelDevice").click(hideAddDeviceForm);  
   $("#changeThresholdControl").click(showUVForm);
   $("#registerThreshold").click(changeUV);  
-  $("#cancelUV").click(hideUVForm); 
+  $("#cancelUV").click(hideUVForm);
+  $("#changeEmailControl").click(showEmailForm);
+  $("#registerEmail").click(changeEmail);  
+  $("#cancelEmail").click(hideEmailForm); 
+  $("#changeNameControl").click(showNameForm);
+  $("#registerName").click(changeName);  
+  $("#cancelName").click(hideNameForm);
+  $("#changePasswordControl").click(showPasswordForm);
+  $("#registerPassword").click(changePassword);  
+  $("#cancelPassword").click(hidePasswordForm); 
 });
