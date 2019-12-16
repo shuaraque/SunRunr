@@ -118,13 +118,13 @@ function hideUVForm() {
 }
 
 function changeUV() {
-  console.log($("#UVThresholdInput").value());
+  console.log($("#UVThresholdInput").val());
   $.ajax({
   url: 'users/change/uvThreshold',
   type: 'POST',
   headers: { 'x-auth': window.localStorage.getItem("authToken") },   
   contentType: 'application/json',
-  data: JSON.stringify({threshold : $("#UVThresholdInput").value()})
+  data: JSON.stringify({threshold : $("#UVThresholdInput").val()})
   })
 .done(function (data, textStatus, jqXHR) {
   $("#addUVControl").show();  // Hide the add device link
