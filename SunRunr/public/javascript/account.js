@@ -120,7 +120,7 @@ function hideUVForm() {
 function changeUV() {
   $.ajax({
   url: '/users/change/uvThreshold',
-  type: 'POST',
+  type: 'PUT',
   headers: { 'x-auth': window.localStorage.getItem("authToken") },   
   contentType: 'application/json',
   data: JSON.stringify({threshold : $("#UVThresholdInput").val()}),
