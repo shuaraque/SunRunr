@@ -123,7 +123,7 @@ function changeUV() {
   type: 'POST',
   headers: { 'x-auth': window.localStorage.getItem("authToken") },   
   contentType: 'application/json',
-  data: JSON.stringify({threshold : $("#UVThresholdInput").val()})
+  data: JSON.stringify({threshold : $("#UVThresholdInput").val()}),
   dataType: 'json'
   })
   .done(UVSuccess)
