@@ -118,6 +118,7 @@ function hideUVForm() {
 }
 
 function changeUV() {
+  $("#addUVForm").slideUp();
   $.ajax({
   url: 'users/change/uvThreshold',
   type: 'POST',
