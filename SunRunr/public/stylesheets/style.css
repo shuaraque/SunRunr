@@ -1,5 +1,5 @@
-#dropdown1{
-  width:1000px;
+#dropdown1 .li{
+  width:400px;
 }
 
 
@@ -154,7 +154,7 @@ a{
   margin-bottom:10px;
 }
 
-#name{
+span#name{
   padding-left = 10px;
 }
 
