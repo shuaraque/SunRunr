@@ -322,4 +322,18 @@ function shortActivity(responseJson, req, res) {
     });
 }
 
+// pre: a deviceID
+// post: if a user has this deviceID, returns the user's uvThreshold
+router.post('/getThreshold', function(req, res){
+    User.findOne({devices: req.body.deviceID}, function(err, user){
+        if(err) {
+            return res.status(400).json({success: false, message: "Error with User.findOne"});
+        } else {
+            if(user !== null) {
+                return res.status(201).send(user.uvThreshold);
+            }
+        }
+    });
+});
+
 module.exports = router;
