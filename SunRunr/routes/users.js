@@ -464,6 +464,11 @@ router.put('/change/activityType', function(req, res) {
       return res.status(400).json(responseJson);
    }
 
+   if(!req.body.hasProperty("activityID")) {
+         responseJson.message = "You need to input an activityID";
+         return res.status(400).json(responseJson);
+   }
+
    try {
       jwt.decode(req.headers["x-auth"], secret);
    } catch (ex){
@@ -471,7 +476,16 @@ router.put('/change/activityType', function(req, res) {
          return res.status(400).json(responseJson);
    }
 
-   Activity.findOneAndUpdate();
+   Activity.findOneAndUpdate({_id: req.body.activityID, deviceID: req.body.deviceID},{$push:{type: req.body.type}}, function(err, activity){
+      if(err) {
+         responseJson.message = "Error trying to findOneAndUpdate";
+         return res.status(400).json(responseJson);
+      } else {
+         responseJson.success = true;
+         responseJson.message = "Activity with id " + activity.id + " has been updated to have the type: " + activity.type;
+         return res.status(201).json(responseJson);
+      }
+   });
 
 
 });
