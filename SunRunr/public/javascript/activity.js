@@ -11,7 +11,7 @@ function sendReqForDeviceInfo() {
 }
 
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
-console.log("Enters success");
+console.log(data.deviceID[0]);
 }
 
 function activitiesInfoError(jqXHR, textStatus, errorThrown) {
