@@ -125,32 +125,17 @@ function changeUV() {
   contentType: 'application/json',
   data: JSON.stringify({threshold : $("#UVThresholdInput").value()})
   })
-  .done(UVSuccess)
-  .fail(UVError);
-}
-
-function UVSuccess(data, textStatus, jqXHR) {
-  if (data.success) {
+.done(function (data, textStatus, jqXHR) {
   $("#addUVControl").show();  // Hide the add device link
   $("#addUVForm").slideUp();  // Show the add device form
   $("#error").hide();
   $("#UVDisplay").html(data.uvThreshold);
-  }
-  else {
-    $('#error').html("<div class='red-text text-darken-2'>Error: " + data.message + "</div>");
-    $('#error').show();
-  }
-}
-
-function UVError(jqXHR, textStatus, errorThrown) {
-  if (jqXHR.statusCode == 404) {
-    $('#error').html("<div class='red-text text-darken-2'>Server could not be reached.</div>");
-    $('#error').show();
-  }
-  else {
-    $('#error').html("<div class='red-text text-darken-2'>Error: " + jqXHR.responseJSON.message + "</div>");
-    $('#error').show();
-  }
+     })
+ .fail(function(jqXHR, textStatus, errorThrown) {
+   let response = JSON.parse(jqXHR.responseText);
+   $("#error").html("Error: " + response.message);
+   $("#error").show();
+ }); 
 }
 
 // Handle authentication on page load
