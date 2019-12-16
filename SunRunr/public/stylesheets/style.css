@@ -1,3 +1,8 @@
+#dropdown1{
+  width:300px;
+}
+
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -76,7 +81,9 @@ button#signOut{
   float: left;
 }
 
-
+h5{
+  padding: 10px;
+}
 
 h1{
   font-family: 'Times New Roman', Times, serif;
