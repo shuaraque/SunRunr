@@ -128,7 +128,7 @@ router.post('/register', function(req, res) { // removed next
 // post: returns userInformation.
 //    UserInformation includes all fields for the userObject bar the password and deviceIDs, but with a list of devices objects 
 //    associated with user
-router.get("/account" , function(req, res) {
+router.get("/account", function(req, res) {
    // Check for authentication token in x-auth header
    if (!req.headers["x-auth"]) {
       return res.status(401).json({success: false, message: "No auth token."});
@@ -140,6 +140,8 @@ router.get("/account" , function(req, res) {
 
       User.findOne({email: decoded.email}, function(err, user) {
          if(err) {
+            return res.status(400).json({success: false, message: "error finding user"});
+         } else if(user == null) {
             return res.status(400).json({success: false, message: "user does not exist"});
          }
          else {
