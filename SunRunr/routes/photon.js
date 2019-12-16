@@ -7,7 +7,7 @@ let fs = require('fs');
 let bcrypt = require("bcryptjs");
 let jwt = require("jwt-simple");
 var secret = fs.readFileSync(__dirname + '/../jwtkey.txt').toString();
-var weatherApikey = fs.readFileSync(__dirname+'/../../weatherAPI.txt');
+//var weatherApikey = fs.readFileSync(__dirname+'/../../weatherAPI.txt');
 
 
 // pre: an array called activityArray that contains activities (this is the activity fild of the activity schema in models)
@@ -112,7 +112,7 @@ function beginTransmission(responseJson, req, res) {
                         let activity = new Activity({
                             deviceID: req.body.deviceID,
                             activity: req.body.activity,
-                            
+
                         });
                     }
                 });
