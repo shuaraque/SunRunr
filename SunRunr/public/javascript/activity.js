@@ -3,7 +3,6 @@ function sendReqForDeviceInfo() {
     url: '/device/status/:devid',
     type: 'GET',
     headers: { 'x-auth': window.localStorage.getItem("authToken") },
-    data: JSON.stringify({ deviceID: $("#deviceInput2").val()}),
     dataType: 'json'
   })
     .done(activitiesInfoSuccess)
@@ -11,7 +10,7 @@ function sendReqForDeviceInfo() {
 }
 
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
-console.log(data.deviceID[0]);
+console.log("success);
 }
 
 function activitiesInfoError(jqXHR, textStatus, errorThrown) {
