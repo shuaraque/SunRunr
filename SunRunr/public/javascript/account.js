@@ -131,16 +131,13 @@ function changeUV() {
 } 
   
 function UVSuccess(data, textStatus, jqXHR) {
-  console.log("going into success");
 if (data.success) {  
-  console.log("going into IF success");
-  $("#UVDisplay").html(data.uvThreshold);
+  $("#UVDisplay").html($("#UVThresholdInput").val());
   $("#addUVControl").show();  // Hide the add device link
   $("#addUVForm").slideUp();  // Show the add device form
   $("#error").hide();
 }
 else {
-  console.log("going into ELSE success");
   $('#error').html("<div class='red-text text-darken-2'>Error: " + data.message + "</div>");
   $('#error').show();
 }
