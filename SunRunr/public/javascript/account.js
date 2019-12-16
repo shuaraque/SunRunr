@@ -153,7 +153,6 @@ else {
   $('#error').show();
 }
 }
-}
 
 // Handle authentication on page load
 $(function() {
