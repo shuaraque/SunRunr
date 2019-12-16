@@ -44,7 +44,8 @@ function calculateUV(activityArray){
 
 // POST
 // pre: activity (the small array in the activity schema), deviceID, APIkey and optionally: keepTransmitting and/or activityID
-// post: 
+// post: returns a responseJson with uvThreshold, activityId, a message, and success = true, 
+//       otherwise error with success = false and error message
 router.post('/hit', function(req, res) {
     let responseJson = {
         success: false,
@@ -255,7 +256,7 @@ function endTransmission(responseJson, req, res) {
 }
 
 // pre: a responseJson, a request res which also contains beingTime and endTime, and response res
-// post: 
+// post: no time to explain
 function shortActivity(responseJson, req, res) {
     console.log("Doing shortActivity");
     Device.findOne({deviceID: deviceID}, function(err, device){
