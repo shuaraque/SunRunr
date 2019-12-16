@@ -51,7 +51,33 @@
 					<button id="registerEmail" class="waves-effect waves-light btn">Confirm Change</button> 
 					<button id="cancelEmail" class="waves-effect waves-light btn">Cancel</button> 
 				</li>
-				<li class="collection-item" id="changeEmailControl"><a href="#!" id="changeThreshold">Change Email</a></li>
+				<li class="collection-item" id="changeEmailControl"><a href="#!" id="changeEmail">Change Email</a></li>
+			</ul>
+			<ul class="collection with-header" id="nameChange">
+				<li class="collection-header">
+					<h5>Full Name: <span id="nameDisplay"></span></h5>
+				</li>
+				<li class="collection-item" id="addNameForm">
+					<label for="name">New Email:</label>
+					<input type="text" id="nameInput" name="name" col="30">
+					<button id="registerName" class="waves-effect waves-light btn">Confirm Change</button> 
+					<button id="cancelName" class="waves-effect waves-light btn">Cancel</button> 
+				</li>
+				<li class="collection-item" id="changeNameControl"><a href="#!" id="changeName">Change Name</a></li>
+			</ul>
+			<ul class="collection with-header" id="passwordChange">
+				<li class="collection-header">
+					<h5>Email: <span id="passwordDisplay"></span></h5>
+				</li>
+				<li class="collection-item" id="addPasswordForm">
+					<label for="oldPassword">Old Password:</label>
+					<input type="text" id="oldPasswordInput" name="oldPassword" col="30">
+					<label for="newPassword">New Password:</label>
+					<input type="text" id="newPasswordInput" name="newPassword" col="30">
+					<button id="registerPassword" class="waves-effect waves-light btn">Confirm Change</button> 
+					<button id="cancelPassword" class="waves-effect waves-light btn">Cancel</button> 
+				</li>
+				<li class="collection-item" id="changeEmailControl"><a href="#!" id="changeEmail">Change Password</a></li>
 			</ul>
 			<div class='red-text text-darken-2' id="error"></div>
 		</div>
