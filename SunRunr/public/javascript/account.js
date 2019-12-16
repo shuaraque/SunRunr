@@ -161,7 +161,7 @@ function showEmailForm() {
 }
 
 // Hides the add device form and shows the add device button (link)
-function hideUVForm() {
+function hideEmailForm() {
   $("#addEmailControl").show();  // Hide the add device link
   $("#addEmailForm").slideUp();  // Show the add device form
   $("#error").hide();
