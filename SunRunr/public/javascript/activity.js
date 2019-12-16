@@ -1,6 +1,6 @@
 function sendReqForDeviceInfo() {
   $.ajax({
-    url: '/status/:devid',
+    url: '/device/status/:devid',
     type: 'GET',
     headers: { 'x-auth': window.localStorage.getItem("authToken") },
     data: JSON.stringify({ deviceID: "all"}),
