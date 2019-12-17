@@ -32,13 +32,12 @@ function sendReqForActivityInfo(){
 }
 
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
-  console.log("Activity Success");
+  window.location.replace("activitiesSummaryLoaded.html");
 }
 
 function activitiesInfoError(jqXHR, textStatus, errorThrown) {
-    console.log("Activity Failure");
-    //$("#error").html("Error: " + status.message);
-    //$("#error").show();
+    $("#error").html("Error: " + status.message);
+    $("#error").show();
 }
 
 // Handle authentication on page load
