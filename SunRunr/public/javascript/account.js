@@ -63,7 +63,7 @@ function registerDevice() {
        });
     
       
-       $("#error").html(device.deviceId);
+       $("#error").html(data.deviceId);
        hideAddDeviceForm();
      })
      .fail(function(jqXHR, textStatus, errorThrown) {
