@@ -11,7 +11,7 @@ function sendReqForDeviceInfo() {
 
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
    for (var device of data.devices) {
-    $("#knownDevices").html("<li class="collection-item" id="changeThresholdControl"><a href="#!" id="changeThreshold">Change UV Threshold</a></li>");
+    $("#knownDevices").html("<li class='collection-item' id='changeThresholdControl'><a href='#!' id='changeThreshold'>Change UV Threshold</a></li>");
   }
 }
 
