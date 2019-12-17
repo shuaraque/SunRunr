@@ -1,7 +1,7 @@
 # SunRunr ECE 413 2019
 This is the README for the SunRunr project for ECE 413 2019
 
-### ipAddress:
+### IP Address:
 	54.215.159.27:3000
 
 ## Account Creation and Management:
