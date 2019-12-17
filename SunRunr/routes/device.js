@@ -45,7 +45,7 @@ router.get('/status/:devid', function(req, res) {
     else {
       for(let device of allDevices) {
         console.log(device.deviceID + "\n");
-        responseJson.devices.push({ "deviceID": device.deviceID,  "lastContact" : device.lastContact});
+        responseJson.devices.push({ "deviceID": device.deviceID, "apikey" : device.apikey  "lastContact" : device.lastContact});
       }
     }
     res.status(200).json(responseJson);
