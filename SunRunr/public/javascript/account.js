@@ -17,7 +17,6 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
   $("#main").show();
   $("#UVDisplay").html(data.uvThreshold);
   }
-}
 
 function accountInfoError(jqXHR, textStatus, errorThrown) {
   // If authentication error, delete the authToken 
