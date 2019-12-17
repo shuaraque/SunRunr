@@ -10,12 +10,9 @@ function sendReqForDeviceInfo() {
 }
 
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
-    string htmlString = "";
    for (var device of data.devices) {
-   htmlString += "<li class='collection-item' id='" + device.deviceID + "'><a href='#!' id='" + device.deviceID + "'>"  + device.deviceID + "</a></li>";
+   $("#knownDevices").append("<li class='collection-item' id='" + device.deviceID + "'><a href='#!' id='" + device.deviceID + "'>"  + device.deviceID + "</a></li>'";
    }
-  
-  console.log(htmlString);
 }
 
 function activitiesInfoError(jqXHR, textStatus, errorThrown) {
