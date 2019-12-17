@@ -16,20 +16,45 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
   $("#lastAccess").html(data.lastAccess);
   $("#main").show();
   $("#UVDisplay").html(data.uvThreshold);
-  
-  // Add the devices to the list before the list item for the add device button (link)
-  for (var device of data.devices) {
-    $("#addDeviceForm").before("<li class='collection-item'>ID: " +
-      device.deviceID + ", APIKEY: " + device.apikey + 
-      " <button id='ping-" + device.deviceID + "' class='waves-effect waves-light btn'>Ping</button> " +
-      " </li>");
-    $("#ping-"+device.deviceID).click(function(event) {
-      pingDevice(event, device.deviceID);
-    });
   }
 }
 
 function accountInfoError(jqXHR, textStatus, errorThrown) {
+  // If authentication error, delete the authToken 
+  // redirect user to sign-in page (which is index.html)
+  if( jqXHR.status === 401 ) {
+    window.localStorage.removeItem("authToken");
+    window.location.replace("index.html");
+  } 
+  else {
+    $("#error").html("Error: " + status.message);
+    $("#error").show();
+  } 
+}
+
+function sendReqForDeviceInfo() {
+  $.ajax({
+    url: '/status/"all"',
+    type: 'GET',
+    headers: { 'x-auth': window.localStorage.getItem("authToken") },
+    dataType: 'json'
+  })
+    .done(deviceInfoSuccess)
+    .fail(deviceInfoError);
+}
+  function deviceInfoSuccess(data, textSatus, jqXHR) {
+    console.log("Device Info Success");
+ // for (var device of data.devices) {
+   // $("#addDeviceForm").before("<li class='collection-item'>ID: " +
+     // device.deviceID + ", APIKEY: " + device.apikey + 
+     // " <button id='ping-" + device.deviceID + "' class='waves-effect waves-light btn'>Ping</button> " +
+     // " </li>");
+   // $("#ping-"+device.deviceID).click(function(event) {
+     // pingDevice(event, device.deviceID);
+    // });
+  }
+
+function deviceInfoError(jqXHR, textStatus, errorThrown) {
   // If authentication error, delete the authToken 
   // redirect user to sign-in page (which is index.html)
   if( jqXHR.status === 401 ) {
@@ -315,6 +340,7 @@ $(function() {
   }
   else {
     sendReqForAccountInfo();
+    sendReqForDeviceInfo();
   }
   
   // Register event listeners
