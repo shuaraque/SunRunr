@@ -55,6 +55,7 @@ router.get('/status/:devid', function(req, res) {
 // pre: a deviceID and an email, optionally an authToken
 // post: registers a device to a user and the devices database, assuming device does not already exist
 router.post('/register', function(req, res) {
+  console.log("testing");
     let responseJson = {
         registered: false,
         message: "",
