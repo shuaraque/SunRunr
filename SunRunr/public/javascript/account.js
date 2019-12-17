@@ -33,7 +33,7 @@ function accountInfoError(jqXHR, textStatus, errorThrown) {
 
 function sendReqForDeviceInfo() {
   $.ajax({
-    url: '/device/status/"all"',
+    url: '/device/status/all',
     type: 'GET',
     headers: { 'x-auth': window.localStorage.getItem("authToken") },
     dataType: 'json'
