@@ -20,11 +20,11 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
   // Add the devices to the list before the list item for the add device button (link)
   for (var device of data.devices) {
     $("#addDeviceForm").before("<li class='collection-item'>ID: " +
-      data.deviceId + ", APIKEY: " + data.apikey + 
-      " <button id='ping-" + data.deviceId + "' class='waves-effect waves-light btn'>Ping</button> " +
+      device.deviceID + ", APIKEY: " + data.apikey + 
+      " <button id='ping-" + device.deviceID + "' class='waves-effect waves-light btn'>Ping</button> " +
       " </li>");
-    $("#ping-"+data.deviceId).click(function(event) {
-      pingDevice(event, data.deviceId);
+    $("#ping-"+device.deviceID).click(function(event) {
+      pingDevice(event, device.deviceID);
     });
   }
 }
