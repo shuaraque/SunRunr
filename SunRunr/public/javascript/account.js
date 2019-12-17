@@ -62,8 +62,8 @@ function registerDevice() {
          pingDevice(event, device.deviceId);
        });
     
-       let test = JSON.parse(data);
-       $("#error").html(test);
+      
+       $("#error").html(device.deviceId);
        hideAddDeviceForm();
      })
      .fail(function(jqXHR, textStatus, errorThrown) {
