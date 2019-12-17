@@ -11,7 +11,7 @@ function sendReqForDeviceInfo() {
 
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
    for (var device of data.devices) {
-   $("#knownDevices").append("<li class='collection-item' id='" + device.deviceID + "'><a href='#!' id='" + device.deviceID + "'>"  + device.deviceID + "</a></li>'";
+   $("#knownDevices").append("<li class='collection-item' id='" + device.deviceID + "'><a href='#!' id='" + device.deviceID + "'>"  + device.deviceID + "</a></li>'");
    }
 }
 
