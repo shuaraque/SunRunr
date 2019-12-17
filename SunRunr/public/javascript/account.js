@@ -42,15 +42,16 @@ function sendReqForDeviceInfo() {
     .fail(deviceInfoError);
 }
   function deviceInfoSuccess(data, textSatus, jqXHR) {
-    for (i = 0; i < 3; i++) {
-      console.log(i + "\n");
-      $("#addDeviceForm").before("<li class='collection-item'>ID: " + data[i].deviceID + ", APIKEY: " + data[i].apikey + 
-      " <button id='ping-" + data[i].deviceID + "' class='waves-effect waves-light btn'>Ping</button> " + " </li>");
-   
-      $("#ping-"+data[i].deviceID).click(function(event) {
-      pingDevice(event, data[i].deviceID);
-      });
-    }
+    console.log(data);
+  for (var device of data.devices) {
+    $("#addDeviceForm").before("<li class='collection-item'>ID: " +
+      device.deviceID + ", APIKEY: " + device.apikey + 
+      " <button id='ping-" + device.deviceID + "' class='waves-effect waves-light btn'>Ping</button> " +
+      " </li>");
+    $("#ping-"+device.deviceID).click(function(event) {
+      pingDevice(event, device.deviceID);
+    });
+  }
   }
 
 function deviceInfoError(jqXHR, textStatus, errorThrown) {
