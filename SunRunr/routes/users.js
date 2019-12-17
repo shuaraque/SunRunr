@@ -150,7 +150,6 @@ router.get("/account", function(req, res) {
             userInformation['name'] = user.name;
             userInformation['longitude'] = user.longitude;
             userInformation['latitude'] = user.latitude;
-            userInformation['city'] = user.city;
             userInformation['lastAccess'] = user.lastAccess;
             userInformation['uvThreshold'] = user.uvThreshold;
 
