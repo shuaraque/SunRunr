@@ -10,11 +10,12 @@ function sendReqForDeviceInfo() {
 }
 
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
-console.log(data[0]);
+   for (var device of data.devices) {
+    $("#knownDevices").html("<li class="collection-item" id="changeThresholdControl"><a href="#!" id="changeThreshold">Change UV Threshold</a></li>");
+  }
 }
 
 function activitiesInfoError(jqXHR, textStatus, errorThrown) {
-    console.log("Enters failure");
     $("#error").html("Error: " + status.message);
     $("#error").show();
 }
