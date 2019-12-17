@@ -42,8 +42,8 @@ function sendReqForDeviceInfo() {
     .fail(deviceInfoError);
 }
   function deviceInfoSuccess(data, textSatus, jqXHR) {
-    console.log("Device Info Success");
     for (i = 0; i < data.length; i++) {
+      console.log(i + "\n");
       $("#addDeviceForm").before("<li class='collection-item'>ID: " + data[i].deviceID + ", APIKEY: " + data[i].apikey + 
       " <button id='ping-" + data[i].deviceID + "' class='waves-effect waves-light btn'>Ping</button> " + " </li>");
    
