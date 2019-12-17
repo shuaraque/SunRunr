@@ -1,5 +1,4 @@
 function sendReqForAccountInfo() {
-  $("#addDeviceForm").slideUp();
   $("#addUVForm").slideUp();
   $.ajax({
     url: '/users/account',
@@ -62,6 +61,9 @@ function registerDevice() {
        $("#ping-"+$("#deviceId").val()).click(function(event) {
          pingDevice(event, device.deviceId);
        });
+    
+       let test = JSON.parse(data);
+       $("#error").html(test);
        hideAddDeviceForm();
      })
      .fail(function(jqXHR, textStatus, errorThrown) {
