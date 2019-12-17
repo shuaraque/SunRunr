@@ -4,7 +4,6 @@ var deviceSchema = new db.Schema({
 	email: String,
 	deviceID: String,
 	lastContact: { type: Date, default: Date.now },
-	activities : [ String ],
 });
 
 var Device = db.model("Device", deviceSchema);
