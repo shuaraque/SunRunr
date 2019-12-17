@@ -33,7 +33,7 @@ This is the README for the SunRunr project for ECE 413 2019
 	is 0 for more than 30 seconds, the device should pause the activity data recording until
 	the user starts moving again.
 
-- [ ] The server should require an APIKEY from the IoT device for posting activity data.
+- [x] The server should require an APIKEY from the IoT device for posting activity data.
 
 ## Web Application:
 
@@ -62,9 +62,9 @@ This is the README for the SunRunr project for ECE 413 2019
 - [x] When an activity is sent to the server by the IoT device, the server should assign a
 	default activity type based on the speed data.
 
-- [ ] When an activity is sent to the server by the IoT device, the server should use a
+- [x] When an activity is sent to the server by the IoT device, the server should use a
 	third-party weather service to determine the temperature and humidity at the activity's
-	location, which should be stored in the database for the activity.
+	location, which should be stored in the database for the activity. --tentative
 
 - [x] You must use Node.js, Express, MongoDB, and JavaScript.
 
