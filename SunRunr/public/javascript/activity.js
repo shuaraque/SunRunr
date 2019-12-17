@@ -10,7 +10,7 @@ function sendReqForDeviceInfo() {
 }
 
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
-console.log(data.devices[0].deviceID);
+console.log(data[0].deviceID);
 }
 
 function activitiesInfoError(jqXHR, textStatus, errorThrown) {
