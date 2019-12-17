@@ -43,6 +43,7 @@ router.get('/status/:devid', function(req, res) {
       res.status(400).json(errorMsg);
     }
     else {
+      console.log("Sucessful pull");
       for(let device of allDevices) {
         responseJson.devices.push({ "deviceID": device.deviceID,  "lastContact" : device.lastContact});
       }
