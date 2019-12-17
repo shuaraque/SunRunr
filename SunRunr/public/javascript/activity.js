@@ -5,19 +5,42 @@ function sendReqForDeviceInfo() {
     headers: { 'x-auth': window.localStorage.getItem("authToken") },
     dataType: 'json'
   })
-    .done(activitiesInfoSuccess)
-    .fail(activitiesInfoError);
+    .done(devicesInfoSuccess)
+    .fail(devicesInfoError);
 }
 
-function activitiesInfoSuccess(data, textSatus, jqXHR) {
+function devicesInfoSuccess(data, textSatus, jqXHR) {
    for (var device of data.devices) {
    $("#knownDevices").append("<li class='collection-item'>" + device.deviceID + "</li>'");
    }
 }
 
-function activitiesInfoError(jqXHR, textStatus, errorThrown) {
+function devicesInfoError(jqXHR, textStatus, errorThrown) {
     $("#error").html("Error: " + status.message);
     $("#error").show();
+}
+
+function sendReqForActivityInfo(){
+    $.ajax({
+    url: '/device/status/' + $("#deviceInput2").val(),
+    type: 'GET',
+    headers: { 'x-auth': window.localStorage.getItem("authToken") },
+    dataType: 'json'
+  })
+    .done(activitiesInfoSuccess)
+    .fail(activitiesInfoError);
+}
+
+function activitiesInfoSuccess(data, textSatus, jqXHR) {
+  console.log("Activity Success");
+}
+
+function activitiesInfoError(jqXHR, textStatus, errorThrown) {
+    console.log("Activity Failure");
+    //$("#error").html("Error: " + status.message);
+    //$("#error").show();
+}
+
 }
 
 // Handle authentication on page load
@@ -31,5 +54,5 @@ $(function() {
     sendReqForDeviceInfo();
   }
   
-  // Register event listeners
+  $("#registerdeviceInput").click(sendReqForActivityInfo);
 });
