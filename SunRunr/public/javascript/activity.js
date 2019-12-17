@@ -32,7 +32,8 @@ function sendReqForActivityInfo(){
 }
 
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
-  window.location.replace("activitiesSummaryLoaded.html");
+  $("#deviceInputPage").hide();
+  $("#activitySummaryPage").append("<li class='collection-item' id='activityOutput'> Lets see how this works </li>");
 }
 
 function activitiesInfoError(jqXHR, textStatus, errorThrown) {
