@@ -19,58 +19,7 @@ function devicesInfoError(jqXHR, textStatus, errorThrown) {
     $("#error").html("Error: " + status.message);
     $("#error").show();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function sendReqForSummaryInfo(){  //done SUMMARY
-    $.ajax({
-    url: '/users/activities',
-    type: 'GET',
-    headers: { 'x-auth': window.localStorage.getItem("authToken") },
-    data : { deviceID : $("#deviceInput2").val()},
-    dataType: 'json'
-  })
-    .done(SummarySuccess)
-    .fail(SummaryError);
-}
-
-function SummarySuccess(data, textSatus, jqXHR) {
-  $("#deviceInputPage").hide();
-  let totalTime = 0;
-  let totalCalories = 0;
-  let totalUVExposure = 0;
-  
-  for (var activity of data.activities) {
-  let time = (activity.endTime - activity.beginTime)/(60000);
-  let calories = 0;
-    
-  if(activity.type == "walking"){
-    calories = 250 * (time/60);
-  }
-    
-  if(activity.type == "running"){
-    calories = 700 * (time/60);
-  }
-    
-  if(activity.type == "biking"){
-    calories = 572 * (time/60);
-  }
-  
-  totalCalories = calories + totalCalories;
-  totalTime = time + totalTime;
-  totalUVExposure = activity.UVSum + totalUVExposure;
-    
-
-}
-  $("#activitySummaryPage").append("<li class='collection-item' id='UVOutput'>Total Activity Duration: " +  totalTime + " minutes</li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='UVOutput'>Total UV Exposure: " + totalUVExposure + "</li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='UVOutput'>Total Calories Burned: " + totalCalories + "</li>");
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function SummaryError(jqXHR, textStatus, errorThrown) {
-    $("#error").html("Error: " + status.message);
-    $("#error").show();
-}
 
 function sendReqForActivitySummaryInfo(){ //Done
     $.ajax({
