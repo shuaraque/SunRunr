@@ -38,16 +38,16 @@ This is the README for the SunRunr project for ECE 413 2019
 ## Web Application:
 
 - [ ] The web application should support the following views
-	- [ ] A summary view showing the user’s total activity duration, total calories burned, and total UV exposure in the past 7 days.
-	- [ ] An a​ ctivities summary view ​that lists all fitness activities with data summarizing each activity,
+	- [X] A summary view showing the user’s total activity duration, total calories burned, and total UV exposure in the past 7 days.
+	- [X] An a​ ctivities summary view ​that lists all fitness activities with data summarizing each activity,
 		 including the date of activity, duration of activity, calories burned, UV exposure, temperature, and humidity.
-	- [ ] An a​ ctivity detail view​ for a selected activity that will display the activity 
+	- [X] An a​ ctivity detail view​ for a selected activity that will display the activity 
 			date, duration, UV exposure, temperature, humidity, activity type, calories burned,
 			and uses line charts to display the speed and UV exposure throughout the activity.
-	- [ ] In the ​activity detail view,​ the web application should allow a user to change the 
+	- [X] In the ​activity detail view,​ the web application should allow a user to change the 
 		activity type. Activity types should minimally support walking, running, and biking.
 
-- [ ] The calculation of calories burned should be based on the activity type for each activity.
+- [X] The calculation of calories burned should be based on the activity type for each activity.
 
 - [x] The web application should allow the user to define a UV threshold. This should be in the account profile page.
 
