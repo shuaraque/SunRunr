@@ -3,9 +3,9 @@ function sendReqForDeviceInfo() {
   $("#activitySelectionPage").html("");
   $("#activityDetailPage").html("");
   
-  $("#activitySummaryPage").hide();
-  $("#activitySelectionPage").hide();
-  $("#activityDetailPage").hide();
+  //$("#activitySummaryPage").hide();
+  //$("#activitySelectionPage").hide();
+  //$("#activityDetailPage").hide();
   
   $.ajax({
     url: '/device/status/all',
@@ -21,6 +21,47 @@ function devicesInfoSuccess(data, textSatus, jqXHR) {
    for (var device of data.devices) {
    $("#knownDevices").append("<li class='collection-item'>" + device.deviceID + "</li>'");
    }
+  
+  let time = 20;
+  let divTime = 0;
+  let timeStamp = 0;
+  let value = 0;
+  let speedString = "";
+   
+  let min = 10 - (10 * 0.2);
+  let max = 10 + (10 * 0.2);
+  var speedData = new Array ( );
+  
+  divTime = time/20;
+  for(let i = 0; i<21; i++){
+     value = Math.floor(Math.random() * (max - min) + min);
+     speedData[i] = "[" + timeStamp + " , " + value + "],";
+     timeStamp = timeStamp + divTime;
+   }
+
+    $("#activityDetailPage").append("<html><head><script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
+    $("#activityDetailPage").append("<script type='text/javascript'>");
+    $("#activityDetailPage").append("google.charts.load('current', {'packages':['corechart']}); google.charts.setOnLoadCallback(drawChart);");
+    $("#activityDetailPage").append("<span id='googleCharts'></span>");
+    $("#activityDetailPage").append("function drawChart() { var data = google.visualization.arrayToDataTable([");
+    $("#activityDetailPage").append("['Time', 'Speed'],");
+    
+   for(let j = 0; j<21; j++){
+     $("#activityDetailPage").append(speedData[j]);
+   }
+   
+   
+    $("#activityDetailPage").append("]);");
+    $("#activityDetailPage").append("var options = {");
+    $("#activityDetailPage").append("title: 'Activity Speed',");
+    $("#activityDetailPage").append("curveType: 'function',");
+    $("#activityDetailPage").append("legend: { position: 'bottom' }");
+    $("#activityDetailPage").append("};");
+    $("#activityDetailPage").append("var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));");
+    $("#activityDetailPage").append("chart.draw(data, options);}");
+    $("#activityDetailPage").append("</script></head><body>");
+    $("#activityDetailPage").append("<div id='curve_chart' style='width: 900px; height: 500px'></div>");
+    $("#activityDetailPage").append("</body>");
 }
 
 function devicesInfoError(jqXHR, textStatus, errorThrown) {
