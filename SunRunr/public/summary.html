@@ -14,7 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 	 <link href="./stylesheets/style.css" rel="stylesheet">
-	 <script src="./javascript/activity.js"></script>
+	 <script src="./javascript/summary.js"></script>
 	 <script src="./javascript/signOut.js"></script>
 
 	 <!-- Let browser know website is optimized for mobile -->
@@ -46,6 +46,19 @@
 				<li class="collection-header">
 					<h5>Summary</h5>
 				</li>
+				<span id="deviceInputPage">
+				<li class="collection-item" id="deviceInput">
+					<label for="deviceInput">Please Enter Device ID (Device ID's are Listed Below)</label>
+					<input type="text" id="deviceInput2" name="deviceInput" col="30">
+					<button id="registerdeviceInput" class="waves-effect waves-light btn">Show Activity for Device</button> 
+					<button id="canceldeviceInput" class="waves-effect waves-light btn">Cancel</button> 
+				</li>
+				<span id = "knownDevices">
+				</span>
+					<div class='red-text text-darken-2' id="error"></div> 
+				</span>
+				
+				<span id="activitySummaryPage"></span>
 			</ul>
 		</div>
 	</div>
