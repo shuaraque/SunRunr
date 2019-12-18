@@ -154,7 +154,7 @@ router.get("/account", function(req, res) {
             userInformation['lastAccess'] = user.lastAccess;
             userInformation['uvThreshold'] = user.uvThreshold;
 
-		      Device.find({ userEmail : decoded.email}, function(err, allDevices) {
+		      Device.find({email : decoded.email}, function(err, allDevices) {
                if(err) {
                   return res.status(400).json({success: false, message: "could not search devices."});
                }
