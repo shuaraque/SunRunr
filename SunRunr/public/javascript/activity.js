@@ -94,6 +94,10 @@ function sendReqForActivityDetailInfo(){
 function activitiesDetailSuccess(data, textSatus, jqXHR) {
   let time = (data.endTime - data.beginTime)/(60000);
   let calories = 0;
+  let divTime = 0;
+  let timeStamp = 0;
+  let value = 0;
+  let speedString = "";
     
   if(data.type == "walking"){
     calories = 250 * (time/60);
@@ -118,8 +122,40 @@ function activitiesDetailSuccess(data, textSatus, jqXHR) {
   $("#activityDetailPage").append("<li class='collection-item' id='date'>Date: " + data.submissionTime.type + "</li>");
   $("#activityDetailPage").append("</ul>");
   
+  let min = data.averageSpeed - (data.averageSpeed * 0.2);
+  let max = data.averageSpeed + (data.averageSpeed * 0.2);
+  var speedData = new Array ( );
   
+  divTime = time/20;
+  for( int i = 0; i<21; i++{
+     value = Math.floor(Math.random() * (max - min) + min);
+     speedData[i] = "[" + timeStamp + " , " + value + "],";
+     timeStamp = timeStamp + divTime;
+   }
 
+    $("#activityDetailPage").append("<html><head><script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
+    $("#activityDetailPage").append("<script type='text/javascript'>");
+    $("#activityDetailPage").append("google.charts.load('current', {'packages':['corechart']}); google.charts.setOnLoadCallback(drawChart);");
+    $("#activityDetailPage").append("<span id='googleCharts'></span>");
+    $("#activityDetailPage").append("function drawChart() { var data = google.visualization.arrayToDataTable([");
+    $("#activityDetailPage").append("['Time', 'Speed'],");
+    
+   for( int j = 0; j<21; j++{
+     $("#activityDetailPage").append(speedData[j]);
+   }
+   
+   
+    $("#activityDetailPage").append("]);");
+    $("#activityDetailPage").append("var options = {");
+    $("#activityDetailPage").append("title: 'Activity Speed',");
+    $("#activityDetailPage").append("curveType: 'function',");
+    $("#activityDetailPage").append("legend: { position: 'bottom' }");
+    $("#activityDetailPage").append("};");
+    $("#activityDetailPage").append("var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));");
+    $("#activityDetailPage").append("chart.draw(data, options);}");
+    $("#activityDetailPage").append("</script></head><body>");
+    $("#activityDetailPage").append("<div id='curve_chart' style='width: 900px; height: 500px'></div>");
+    $("#activityDetailPage").append("</body>");
   
   //TODO Graph Stuff
 }
