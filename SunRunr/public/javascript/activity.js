@@ -68,7 +68,9 @@ function activitiesInfoSuccess(data, textSatus, jqXHR) {
   $("#activitySummaryPage").append("<li class='collection-item' id='humidity'>Humidity: " + activity.humidity + "</li>");
   $("#activitySummaryPage").append("<li class='collection-item' id='date'>Date: " + activity.submissionTime.type + "</li>");
   $("#activitySelectionPage").append("<p><input type='radio' name='ActivitySelected' value='" + activity.activityID + " id='" + activity.activityID + "'><label for='"+ activity.activityID + "'>" + activity.activityID + "</label></p>");
-}}
+}
+  $("#activitySelectionPage").append("<button id='activitySelect' class='waves-effect waves-light btn'>Submit</button>");
+}
 
 function activitiesInfoError(jqXHR, textStatus, errorThrown) {
     $("#error").html("Error: " + status.message);
@@ -139,4 +141,5 @@ $(function() {
   }
   
   $("#registerdeviceInput").click(sendReqForActivitySummaryInfo);
+  $("#activitySelect").click(sendReqForActivityDetailInfo);
 });
