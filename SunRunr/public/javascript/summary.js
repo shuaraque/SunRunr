@@ -34,7 +34,7 @@ function sendReqForSummaryInfo(){  //done SUMMARY
 }
 
 // pre: nothing
-// post: loads weather for next 5 days
+// post: loads weather for the next 5 days in the summary.html page
 function weather() {
   $("weather").show();
   $.ajax({
@@ -73,6 +73,23 @@ function weather() {
     error: function(error){ console.log("Error: " + error)} 
   });
 }
+
+// pre: nothing
+// post: loads uv for the next 5 days in the summary.html page
+function uv() {
+  $.ajax({
+    url: "https://api.openweathermap.org/data/2.5/uvi/forecast?appid=1ac5b46230b1f3ae861be919195faa05&lat=32.2216667&lon=-110.9258333&units=metric&cnt=4",
+    type: "GET",
+    dataType: "json",
+    success: function(result) {
+      for(i in result) {
+        $("day-" + i).find(".f-uv").html("Ultraviolet radiation: " + result[i].value);
+      }
+    },
+    error: function(error) { console.log("error: " + error); },
+  });
+}
+
 function SummarySuccess(data, textSatus, jqXHR) {
   $("#deviceInputPage").hide();
   let totalTime = 0;
