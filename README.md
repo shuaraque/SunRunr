@@ -19,12 +19,12 @@ This is the README for the SunRunr project for ECE 413 2019
 
 - [x] The IoT device should use the onboard LEDs to indicate the activity status.
 
-- [ ] During an activity, the IoT device should periodically record the GPS location, speed, and
-	UV exposure, at least at a rate of ​once every 15 seconds.​ (needs testing, but should be)
+- [x] During an activity, the IoT device should periodically record the GPS location, speed, and
+	UV exposure, at least at a rate of ​once every 15 seconds.
 	
 - [x] If the UV exposure during an activity exceeds a user-defined threshold, an alert should be provided on the IoT device.
 
-- [ ] After an activity is complete, the IoT device should transmit the activity data to the server. (needs testing, but should be)
+- [x] After an activity is complete, the IoT device should transmit the activity data to the server.
 
 - [x] If the WiFi connection is not available, the IoT device should locally store the data for up
 	to 24 hours and submit the data when later connected.
