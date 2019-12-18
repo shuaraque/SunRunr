@@ -1,4 +1,12 @@
 function sendReqForDeviceInfo() {
+  $("#activitySummaryPage").html("");
+  $("#activitySelectionPage").html("");
+  $("#activityDetailPage").html("");
+  
+  $("#activitySummaryPage").hide();
+  $("#activitySelectionPage").hide();
+  $("#activityDetailPage").hide();
+  
   $.ajax({
     url: '/device/status/all',
     type: 'GET',
@@ -35,6 +43,7 @@ function sendReqForActivitySummaryInfo(){ //Done
 
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
   $("#deviceInputPage").hide();
+  
   for (var activity of data.activities) {
   let time = (activity.endTime - activity.beginTime)/(60000);
   let calories = 0;
@@ -58,6 +67,7 @@ function activitiesInfoSuccess(data, textSatus, jqXHR) {
   $("#activitySummaryPage").append("<li class='collection-item' id='temperature'>Temperature: " + activity.temperature + "</li>");
   $("#activitySummaryPage").append("<li class='collection-item' id='humidity'>Humidity: " + activity.humidity + "</li>");
   $("#activitySummaryPage").append("<li class='collection-item' id='date'>Date: " + activity.submissionTime.type + "</li>");
+  $("#activitySelectionPage").append("<p><input type='radio' name='ActivitySelected' value='" + activity.activityID + " id='" + activity.activityID + "'><label for='"+ activity.activityID + "'>" + activity.activityID + "</label></p>");
 }}
 
 function activitiesInfoError(jqXHR, textStatus, errorThrown) {
@@ -69,7 +79,7 @@ function activitiesInfoError(jqXHR, textStatus, errorThrown) {
 
 function sendReqForActivityDetailInfo(){
     $.ajax({
-    url: '/users/activity/' + ("#ActivitySelected").val(), //TODO Write routes function to get a specific activity detailed
+    url: '/users/activity/' + $('input[name ="ActivitySelected"]').val(), //TODO Write routes function to get a specific activity detailed
     type: 'GET',
     headers: { 'x-auth': window.localStorage.getItem("authToken") },
     data : { deviceID : $("#deviceInput2").val()},
@@ -93,18 +103,21 @@ function activitiesDetailSuccess(data, textSatus, jqXHR) {
     
   if(activity.type == "biking"){
     calories = 572 * (time/60);
-  }
+  } 
   
-    
-  $("#activitySummaryPage").append("<ul class='collection with-header'><li class='collection-header'><h5>" + activity.activityID + "</h5></li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='duration'>Duration of Activity: " + time + " minutes</li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='UVOutput'>UV Exposure: " + activity.UVSum + "</li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='calories'>Calories Burned: " + calories + "</li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='temperature'>Temperature: " + activity.temperature + "</li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='humidity'>Humidity: " + activity.humidity + "</li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='activityType'>Activity Type: " + activity.type + "</li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='date'>Date: " + activity.submissionTime.type + "</li>");
-  $("#activitySummaryPage").append("</ul>");
+  $("#title").html("<h5>Activity Detail</h5>");
+  $("#activityDetailPage").append("<ul class='collection with-header'><li class='collection-header'><h5>" + activity.activityID + "</h5></li>");
+  $("#activityDetailPage").append("<li class='collection-item' id='duration'>Duration of Activity: " + time + " minutes</li>");
+  $("#activityDetailPage").append("<li class='collection-item' id='UVOutput'>UV Exposure: " + activity.UVSum + "</li>");
+  $("#activityDetailPage").append("<li class='collection-item' id='calories'>Calories Burned: " + calories + "</li>");
+  $("#activityDetailPage").append("<li class='collection-item' id='temperature'>Temperature: " + activity.temperature + "</li>");
+  $("#activityDetailPage").append("<li class='collection-item' id='humidity'>Humidity: " + activity.humidity + "</li>");
+  $("#activityDetailPage").append("<li class='collection-item' id='activityType'>Activity Type: " + activity.type + "</li>");
+  $("#activityDetailPage").append("<li class='collection-item' id='date'>Date: " + activity.submissionTime.type + "</li>");
+  $("#activityDetailPage").append("</ul>");
+  
+  
+
   
   //TODO Graph Stuff
 }
