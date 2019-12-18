@@ -22,9 +22,10 @@ function devicesInfoError(jqXHR, textStatus, errorThrown) {
 
 function sendReqForActivityInfo(){
     $.ajax({
-    url: '/device/status/' + $("#deviceInput2").val(),
+    url: '/users/activities',
     type: 'GET',
     headers: { 'x-auth': window.localStorage.getItem("authToken") },
+    data : { deviceID : $("#deviceInput2").val()},
     dataType: 'json'
   })
     .done(activitiesInfoSuccess)
