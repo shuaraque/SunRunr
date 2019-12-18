@@ -3,6 +3,7 @@ let router = express.Router();
 let User = require("../models/users");
 let Device = require("../models/device");
 let Activity = require("../models/activity");
+var Graph = require("../models/graph");
 let fs = require('fs');
 let bcrypt = require("bcryptjs");
 let jwt = require("jwt-simple");
