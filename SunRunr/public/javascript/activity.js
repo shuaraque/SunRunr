@@ -38,8 +38,9 @@ function devicesInfoSuccess(data, textSatus, jqXHR) {
      speedData[i] = "[" + timeStamp + " , " + value + "],";
      timeStamp = timeStamp + divTime;
    }
-
-    $("#activityDetailPage").append("<html><head><script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
+    $("#activityDetailPage").append("<html>");
+    $("#activityDetailPage").append("<head>");
+    $("#activityDetailPage").append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
     $("#activityDetailPage").append("<script type='text/javascript'>");
     $("#activityDetailPage").append("google.charts.load('current', {'packages':['corechart']}); google.charts.setOnLoadCallback(drawChart);");
     $("#activityDetailPage").append("<span id='googleCharts'></span>");
