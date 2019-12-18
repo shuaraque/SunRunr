@@ -3,9 +3,9 @@ function sendReqForDeviceInfo() {
   $("#activitySelectionPage").html("");
   $("#activityDetailPage").html("");
   
-  $("#activitySummaryPage").hide();
-  $("#activitySelectionPage").hide();
-  $("#activityDetailPage").hide();
+  //$("#activitySummaryPage").hide();
+  //$("#activitySelectionPage").hide();
+  //$("#activityDetailPage").hide();
   
   $.ajax({
     url: '/device/status/all',
