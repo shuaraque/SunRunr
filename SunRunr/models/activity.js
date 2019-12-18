@@ -4,17 +4,12 @@ autoIncrement.initialize(db);
 
 var activitySchema = new db.Schema({
 	type: String,
+	activityID : String,
 	deviceID: String,
-	activity: [{ 
-		longitude: Number,
-		latitude: Number,
-		ultraviolet: Number,
-		speed: Number
-	}],
+	UVSum: Number,
 	beginTime: Number,
 	endTime: Number,
 	averageSpeed: Number,
-	uvIndex: Number,
 	temperature: Number,
 	humidity: Number,
 	submissionTime: {type: Date, default: Date.now }
