@@ -127,7 +127,7 @@ function activitiesDetailSuccess(data, textSatus, jqXHR) {
   var speedData = new Array ( );
   
   divTime = time/20;
-  for( int i = 0; i<21; i++{
+  for(let i = 0; i<21; i++{
      value = Math.floor(Math.random() * (max - min) + min);
      speedData[i] = "[" + timeStamp + " , " + value + "],";
      timeStamp = timeStamp + divTime;
@@ -140,7 +140,7 @@ function activitiesDetailSuccess(data, textSatus, jqXHR) {
     $("#activityDetailPage").append("function drawChart() { var data = google.visualization.arrayToDataTable([");
     $("#activityDetailPage").append("['Time', 'Speed'],");
     
-   for( int j = 0; j<21; j++{
+   for(let j = 0; j<21; j++{
      $("#activityDetailPage").append(speedData[j]);
    }
    
