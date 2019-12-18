@@ -140,7 +140,7 @@ function activitiesDetailSuccess(data, textSatus, jqXHR) {
     $("#activityDetailPage").append("function drawChart() { var data = google.visualization.arrayToDataTable([");
     $("#activityDetailPage").append("['Time', 'Speed'],");
     
-   for(let j = 0; j<21; j++{
+   for(let j = 0; j<21; j++){
      $("#activityDetailPage").append(speedData[j]);
    }
    
