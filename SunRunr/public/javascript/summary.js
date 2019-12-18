@@ -1,3 +1,4 @@
+let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 function sendReqForDeviceInfo() {
   $.ajax({
     url: '/device/status/all',
@@ -32,6 +33,46 @@ function sendReqForSummaryInfo(){  //done SUMMARY
     .fail(SummaryError);
 }
 
+// pre: nothing
+// post: loads weather for next 5 days
+function weather() {
+  $("weather").show();
+  $.ajax({
+    url: "https://api.openweathermap.org/data/2.5/forecast?appid=1ac5b46230b1f3ae861be919195faa05&lat=32.2216667&lon=-110.9258333&units=metric",
+    type: "GET",
+    dataType: "json",
+    success: function(result) {
+      var allForcasts = [];
+      var forcast, tempDate;
+      var date = new Date(result.list[0].dt_txt);
+      var temperature = 0, count = 0;
+      for(i of result.list) { 
+        forcast = new Object();
+        tempDate = new Date(i.dt_txt);
+        if(tempDate.getDate == date.getDate) {
+          temperature += i.main.temp;
+          count++;
+        } else {
+            forcast.month = date.getMonth;
+            forcast.day = date.getDate;
+            forcast.year = date.getFullYear;
+            forcast.temp = temperature / count;
+            allForcasts.push(forcast);
+            date = tempDate;
+            temperature = i.main.temp;
+            count = 1;
+        }
+      }
+
+      for(i in allForcasts) {
+        $("day-" + i).find(".f-date").html(months[allForcasts[i].month] + " " + allForcasts[i].day);
+        $("day-" + i).find(".f-temp").html(allForcasts[i].temp.toFixed(1) + "&#8451;");
+      }
+
+    },
+    error: function(error){ console.log("Error: " + error)} 
+  });
+}
 function SummarySuccess(data, textSatus, jqXHR) {
   $("#deviceInputPage").hide();
   let totalTime = 0;

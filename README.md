@@ -56,7 +56,7 @@ This is the README for the SunRunr project for ECE 413 2019
 
 - [X] The web application should have a navigation menu.
 
-- [ ] The web application should use responsive design.
+- [x] The web application should use responsive design.
 
 ## Server:
 - [x] When an activity is sent to the server by the IoT device, the server should assign a
