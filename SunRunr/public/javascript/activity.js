@@ -35,7 +35,25 @@ function sendReqForActivityInfo(){
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
   $("#deviceInputPage").hide();
   for (var activity of data.activities) {
-  $("#activitySummaryPage").append("<li class='collection-item' id='activityOutput'>Total UV Exposure: " + activity.UVSum + "</li>");
+  let time = (activity.endTime - activity.beginTime)/(60000);
+  let calories = 0;
+    
+  if(activity.type == "walking"){
+    calories = 250 * (time/60);
+  }
+    
+  if(activity.type == "running"){
+    calories = 700 * (time/60);
+  }
+    
+  if(activity.type == "biking"){
+    calories = 572 * (time/60);
+  }
+  
+    
+  $("#activitySummaryPage").append("<li class='collection-item' id='UVOutput'>Total Activity Duration: " + time + " minutes</li>");
+  $("#activitySummaryPage").append("<li class='collection-item' id='UVOutput'>Total UV Exposure: " + activity.UVSum + "</li>");
+  $("#activitySummaryPage").append("<li class='collection-item' id='UVOutput'>Total Calories Burned: " + calories + "</li>");
 }}
 
 function activitiesInfoError(jqXHR, textStatus, errorThrown) {
