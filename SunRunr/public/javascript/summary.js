@@ -70,7 +70,7 @@ function weather() {
       }
 
     },
-    error: function(error){ console.log("Error: " + error)} 
+    error: function(error){ $("#main").html("error")} 
   });
 }
 
