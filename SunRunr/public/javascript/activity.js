@@ -90,30 +90,30 @@ function sendReqForActivityDetailInfo(){
 }
 
 function activitiesDetailSuccess(data, textSatus, jqXHR) {
-  let time = (activity.endTime - activity.beginTime)/(60000);
+  let time = (data.endTime - data.beginTime)/(60000);
   let calories = 0;
     
-  if(activity.type == "walking"){
+  if(data.type == "walking"){
     calories = 250 * (time/60);
   }
     
-  if(activity.type == "running"){
+  if(data.type == "running"){
     calories = 700 * (time/60);
   }
     
-  if(activity.type == "biking"){
+  if(data.type == "biking"){
     calories = 572 * (time/60);
   } 
   
   $("#title").html("<h5>Activity Detail</h5>");
-  $("#activityDetailPage").append("<ul class='collection with-header'><li class='collection-header'><h5>" + activity.activityID + "</h5></li>");
+  $("#activityDetailPage").append("<ul class='collection with-header'><li class='collection-header'><h5>" + data.activityID + "</h5></li>");
   $("#activityDetailPage").append("<li class='collection-item' id='duration'>Duration of Activity: " + time + " minutes</li>");
-  $("#activityDetailPage").append("<li class='collection-item' id='UVOutput'>UV Exposure: " + activity.UVSum + "</li>");
+  $("#activityDetailPage").append("<li class='collection-item' id='UVOutput'>UV Exposure: " + data.UVSum + "</li>");
   $("#activityDetailPage").append("<li class='collection-item' id='calories'>Calories Burned: " + calories + "</li>");
-  $("#activityDetailPage").append("<li class='collection-item' id='temperature'>Temperature: " + activity.temperature + "</li>");
-  $("#activityDetailPage").append("<li class='collection-item' id='humidity'>Humidity: " + activity.humidity + "</li>");
-  $("#activityDetailPage").append("<li class='collection-item' id='activityType'>Activity Type: " + activity.type + "</li>");
-  $("#activityDetailPage").append("<li class='collection-item' id='date'>Date: " + activity.submissionTime.type + "</li>");
+  $("#activityDetailPage").append("<li class='collection-item' id='temperature'>Temperature: " + data.temperature + "</li>");
+  $("#activityDetailPage").append("<li class='collection-item' id='humidity'>Humidity: " + data.humidity + "</li>");
+  $("#activityDetailPage").append("<li class='collection-item' id='activityType'>Activity Type: " + data.type + "</li>");
+  $("#activityDetailPage").append("<li class='collection-item' id='date'>Date: " + data.submissionTime.type + "</li>");
   $("#activityDetailPage").append("</ul>");
   
   
