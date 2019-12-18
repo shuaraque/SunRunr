@@ -212,6 +212,44 @@ router.get('/activities',function(req,res){
    });
 });
 
+// GET: get activities associated with activityID
+// pre: auth token and activityID
+// post: returns activites associated with activityID
+router.get('/activities/:actID',function(req,res){
+   let activityID = req.params.actID;
+   let activity = {
+      success: false,
+      message: "",
+   };
+   // auth token validation
+   if (!req.headers["x-auth"]) {
+      responseJson.message = "No authToken";
+      return res.status(401).json(responseJson);
+   }
+   try {
+      jwt.decode(req.headers["x-auth"], secret);
+   } catch {
+      responseJson.message = "Invalid authToken";
+      return res.status(401).json(responseJson);
+   }
+
+   // make sure activityID exists
+   if(!req.query.activityID){
+      responseJson.message = "No activity ID specified";
+      return res.status(401).json({success: false, message: "No activity ID specified."});
+   }
+
+   Activity.find({activityID: req.query.activityID}, function(err , activity) {
+         if(err) {
+            return res.status(400).json({success: false, message: "error finding user"});
+         } 
+         else {
+	 activity.success = true;
+         return res.status(200).json(activity);
+      	}
+   });
+});
+
 // PUT: change the email of the user
 // pre: an auth token and an email
 // post: changes the email of the user, sends a json with the newToken, message, and success as json. Otherwise sends failure and message
