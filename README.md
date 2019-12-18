@@ -37,7 +37,7 @@ This is the README for the SunRunr project for ECE 413 2019
 
 ## Web Application:
 
-- [ ] The web application should support the following views
+- [X] The web application should support the following views
 	- [X] A summary view showing the user’s total activity duration, total calories burned, and total UV exposure in the past 7 days.
 	- [X] An a​ ctivities summary view ​that lists all fitness activities with data summarizing each activity,
 		 including the date of activity, duration of activity, calories burned, UV exposure, temperature, and humidity.
