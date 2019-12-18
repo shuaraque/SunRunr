@@ -1,223 +1,73 @@
-function sendReqForDeviceInfo() {
-  $("#activitySummaryPage").html("");
-  $("#activitySelectionPage").html("");
-  $("#activityDetailPage").html("");
-  
-  //$("#activitySummaryPage").hide();
-  //$("#activitySelectionPage").hide();
-  //$("#activityDetailPage").hide();
-  
-  $.ajax({
-    url: '/device/status/all',
-    type: 'GET',
-    headers: { 'x-auth': window.localStorage.getItem("authToken") },
-    dataType: 'json'
-  })
-    .done(devicesInfoSuccess)
-    .fail(devicesInfoError);
-}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+	 <title>Sun Runr - Acivities Summary</title>
 
-function devicesInfoSuccess(data, textSatus, jqXHR) {
-   for (var device of data.devices) {
-   $("#knownDevices").append("<li class='collection-item'>" + device.deviceID + "</li>'");
-   }
-  
-  let time = 20;
-  let divTime = 0;
-  let timeStamp = 0;
-  let value = 0;
-  let speedString = "";
-   
-  let min = 10 - (10 * 0.2);
-  let max = 10 + (10 * 0.2);
-  var speedData = new Array ( );
-  
-  divTime = time/20;
-  for(let i = 0; i<21; i++){
-     value = Math.floor(Math.random() * (max - min) + min);
-     speedData[i] = "[" + timeStamp + " , " + value + "],";
-     timeStamp = timeStamp + divTime;
-   }
-    $("#activityDetailPage").append("<html>");
-    $("#activityDetailPage").append("<head>");
-    $("#activityDetailPage").append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
-    $("#activityDetailPage").append("<script type='text/javascript'>");
-    $("#activityDetailPage").append("google.charts.load('current', {'packages':['corechart']}); google.charts.setOnLoadCallback(drawChart);");
-    $("#activityDetailPage").append("<span id='googleCharts'></span>");
-    $("#activityDetailPage").append("function drawChart() { var data = google.visualization.arrayToDataTable([");
-    $("#activityDetailPage").append("['Time', 'Speed'],");
-    
-   for(let j = 0; j<21; j++){
-     $("#activityDetailPage").append(speedData[j]);
-   }
-   
-   
-    $("#activityDetailPage").append("]);");
-    $("#activityDetailPage").append("var options = {");
-    $("#activityDetailPage").append("title: 'Activity Speed',");
-    $("#activityDetailPage").append("curveType: 'function',");
-    $("#activityDetailPage").append("legend: { position: 'bottom' }");
-    $("#activityDetailPage").append("};");
-    $("#activityDetailPage").append("var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));");
-    $("#activityDetailPage").append("chart.draw(data, options);}");
-    $("#activityDetailPage").append("</script></head><body>");
-    $("#activityDetailPage").append("<div id='curve_chart' style='width: 900px; height: 500px'></div>");
-    $("#activityDetailPage").append("</body>");
-}
+	 <!-- Import jQuery -->
+	 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	 <!-- Import Google Icon Font -->
+	 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	 <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-function devicesInfoError(jqXHR, textStatus, errorThrown) {
-    $("#error").html("Error: " + status.message);
-    $("#error").show();
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	 <link href="./stylesheets/style.css" rel="stylesheet">
+	 <script src="./javascript/signOut.js"></script>
+	 <script src="./javascript/activity.js"></script>
 
-function sendReqForActivitySummaryInfo(){ //Done
-    $.ajax({
-    url: '/users/activities',
-    type: 'GET',
-    headers: { 'x-auth': window.localStorage.getItem("authToken") },
-    data : { deviceID : $("#deviceInput2").val()},
-    dataType: 'json'
-  })
-    .done(activitiesInfoSuccess)
-    .fail(activitiesInfoError);
-}
+	 <!-- Let browser know website is optimized for mobile -->
+	 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
 
-function activitiesInfoSuccess(data, textSatus, jqXHR) {
-  $("#deviceInputPage").hide();
-  
-  for (var activity of data.activities) {
-  let time = (activity.endTime - activity.beginTime)/(60000);
-  let calories = 0;
-    
-  if(activity.type == "walking"){
-    calories = 250 * (time/60);
-  }
-    
-  if(activity.type == "running"){
-    calories = 700 * (time/60);
-  }
-    
-  if(activity.type == "biking"){
-    calories = 572 * (time/60);
-  }
-  
-  $("#activitySummaryPage").append("<li class='collection-item' id='ID'><h5>" + activity.activityID + "</h5></li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='duration'>Duration of Activity: " + time + " minutes</li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='UVOutput'>UV Exposure: " + activity.UVSum + "</li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='calories'>Calories Burned: " + calories + "</li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='temperature'>Temperature: " + activity.temperature + "</li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='humidity'>Humidity: " + activity.humidity + "</li>");
-  $("#activitySummaryPage").append("<li class='collection-item' id='date'>Date: " + activity.submissionTime.type + "</li>");
-  $("#activitySelectionPage").append("<p><input type='radio' name='ActivitySelected' value='" + activity.activityID + " id='" + activity.activityID + "'><label for='"+ activity.activityID + "'>" + activity.activityID + "</label></p>");
-}
-  $("#activitySelectionPage").append("<button id='activitySelect' class='waves-effect waves-light btn'>Submit</button>");
-}
+<body>
+	<!-- Dropdown Structure -->
+   <ul id='dropdown1' class='dropdown-content'>
+		<li><a href="account.html">Home</a></li>
+		<li><a href="activitiesSummary.html">Activities Summary</a></li>
+	   	<li><a href="summary.html">Summary</a></li>
+		<li class="divider"></li>
+		<li><a href="#!" id="signout">Sign out</a></li>
+	</ul>
+	<nav>
+		<div class="nav-wrapper blue-grey darken-2">
+			<a href="account.html" class="brand-logo left"><span id="name">Sun Runr</span></a>
+			<ul class="right ">
+				<!-- Dropdown Trigger -->
+	         <li><a class='dropdown-trigger btn' href='#' data-target='dropdown1'><i class="material-icons">more_vert</i></a></li>
+			</ul>
+		</div>
+	</nav>
 
-function activitiesInfoError(jqXHR, textStatus, errorThrown) {
-    $("#error").html("Error: " + status.message);
-    $("#error").show();
-}
+	<div class="row" id="main">        
+		<div class="col s12 m12">
+			<ul class="collection with-header">
+				<li class="collection-header">
+					<span id = "title"><h5>Activities Summary</h5></span>
+				</li>
+				<span id="deviceInputPage">
+				<li class="collection-item" id="deviceInput">
+					<label for="deviceInput">Please Enter Device ID (Device ID's are Listed Below)</label>
+					<input type="text" id="deviceInput2" name="deviceInput" col="30">
+					<button id="registerdeviceInput" class="waves-effect waves-light btn">Show Activity for Device</button> 
+					<button id="canceldeviceInput" class="waves-effect waves-light btn">Cancel</button> 
+				</li>
+				<span id = "knownDevices">
+				</span>
+					<div class='red-text text-darken-2' id="error"></div> 
+				</span>
+				
+				<span id="activitySummaryPage"></span>
+				<span id = "activitySelectionPage"></span>
+				<span id="activityDetailPage"></span>
+		</div>
+	</div>
+  </body>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  <!-- Initialize dropdown menu in materialize -->
+  <script>
+    $('.dropdown-trigger').dropdown();
+  </script>
 
-function sendReqForActivityDetailInfo(){
-    $.ajax({
-    url: '/users/activity/' + $('input[name ="ActivitySelected"]').val(), //TODO Write routes function to get a specific activity detailed
-    type: 'GET',
-    headers: { 'x-auth': window.localStorage.getItem("authToken") },
-    data : { deviceID : $("#deviceInput2").val()},
-    dataType: 'json'
-  })
-    .done(activitiesDetailSuccess)
-    .fail(activitiesDetailError);
-}
-
-function activitiesDetailSuccess(data, textSatus, jqXHR) {
-  let time = (data.endTime - data.beginTime)/(60000);
-  let calories = 0;
-  let divTime = 0;
-  let timeStamp = 0;
-  let value = 0;
-  let speedString = "";
-    
-  if(data.type == "walking"){
-    calories = 250 * (time/60);
-  }
-    
-  if(data.type == "running"){
-    calories = 700 * (time/60);
-  }
-    
-  if(data.type == "biking"){
-    calories = 572 * (time/60);
-  } 
-  
-  $("#title").html("<h5>Activity Detail</h5>");
-  $("#activityDetailPage").append("<ul class='collection with-header'><li class='collection-header'><h5>" + data.activityID + "</h5></li>");
-  $("#activityDetailPage").append("<li class='collection-item' id='duration'>Duration of Activity: " + time + " minutes</li>");
-  $("#activityDetailPage").append("<li class='collection-item' id='UVOutput'>UV Exposure: " + data.UVSum + "</li>");
-  $("#activityDetailPage").append("<li class='collection-item' id='calories'>Calories Burned: " + calories + "</li>");
-  $("#activityDetailPage").append("<li class='collection-item' id='temperature'>Temperature: " + data.temperature + "</li>");
-  $("#activityDetailPage").append("<li class='collection-item' id='humidity'>Humidity: " + data.humidity + "</li>");
-  $("#activityDetailPage").append("<li class='collection-item' id='activityType'>Activity Type: " + data.type + "</li>");
-  $("#activityDetailPage").append("<li class='collection-item' id='date'>Date: " + data.submissionTime.type + "</li>");
-  $("#activityDetailPage").append("</ul>");
-  
-  let min = data.averageSpeed - (data.averageSpeed * 0.2);
-  let max = data.averageSpeed + (data.averageSpeed * 0.2);
-  var speedData = new Array ( );
-  
-  divTime = time/20;
-  for(let i = 0; i<21; i++){
-     value = Math.floor(Math.random() * (max - min) + min);
-     speedData[i] = "[" + timeStamp + " , " + value + "],";
-     timeStamp = timeStamp + divTime;
-   }
-
-    $("#activityDetailPage").append("<html><head><script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
-    $("#activityDetailPage").append("<script type='text/javascript'>");
-    $("#activityDetailPage").append("google.charts.load('current', {'packages':['corechart']}); google.charts.setOnLoadCallback(drawChart);");
-    $("#activityDetailPage").append("<span id='googleCharts'></span>");
-    $("#activityDetailPage").append("function drawChart() { var data = google.visualization.arrayToDataTable([");
-    $("#activityDetailPage").append("['Time', 'Speed'],");
-    
-   for(let j = 0; j<21; j++){
-     $("#activityDetailPage").append(speedData[j]);
-   }
-   
-   
-    $("#activityDetailPage").append("]);");
-    $("#activityDetailPage").append("var options = {");
-    $("#activityDetailPage").append("title: 'Activity Speed',");
-    $("#activityDetailPage").append("curveType: 'function',");
-    $("#activityDetailPage").append("legend: { position: 'bottom' }");
-    $("#activityDetailPage").append("};");
-    $("#activityDetailPage").append("var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));");
-    $("#activityDetailPage").append("chart.draw(data, options);}");
-    $("#activityDetailPage").append("</script></head><body>");
-    $("#activityDetailPage").append("<div id='curve_chart' style='width: 900px; height: 500px'></div>");
-    $("#activityDetailPage").append("</body>");
-  
-  //TODO Graph Stuff
-}
-
-function activitiesDetailError(jqXHR, textStatus, errorThrown) {
-    $("#error").html("Error: " + status.message);
-    $("#error").show();
-}
-
-// Handle authentication on page load
-$(function() {
-  // If there's no authToekn stored, redirect user to 
-  // the sign-in page (which is index.html)
-  if (!window.localStorage.getItem("authToken")) {
-    window.location.replace("index.html");
-  }
-  else {
-    sendReqForDeviceInfo();
-  }
-  
-  $("#registerdeviceInput").click(sendReqForActivitySummaryInfo);
-  $("#activitySelect").click(sendReqForActivityDetailInfo);
-});
+</html>
