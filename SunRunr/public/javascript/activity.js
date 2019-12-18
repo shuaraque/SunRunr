@@ -176,5 +176,5 @@ $(function() {
     sendReqForDeviceInfo();
   }
   
-  $("#registerdeviceInput").click(sendReqForSummaryInfo);
+  $("#registerdeviceInput").click(sendReqForActivitySummaryInfo);
 });
