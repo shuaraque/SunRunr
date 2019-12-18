@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Device = require("../models/device");
 var Activity = require("../models/activity");
-var Grapg = require("../models/graph");
+var Graph = require("../models/graph");
 
 /* POST: Register new device. */
 router.post('/activate', function(req, res, next) {
