@@ -35,7 +35,7 @@ function sendReqForActivityInfo(){
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
   $("#deviceInputPage").hide();
   for (var activity of data.activities) {
-  $("#activitySummaryPage").append("<li class='collection-item' id='activityOutput'>Total UV Exposure: " + activity.UVSum "</li>");
+  $("#activitySummaryPage").append("<li class='collection-item' id='activityOutput'>Total UV Exposure: " + activity.UVSum + "</li>");
 }
 
 function activitiesInfoError(jqXHR, textStatus, errorThrown) {
