@@ -36,9 +36,9 @@ function sendReqForSummaryInfo(){  //done SUMMARY
 // pre: nothing
 // post: loads weather for the next 5 days in the summary.html page
 function weather() {
-  $("weather").show();
+  $("weather-forcast").show();
   $.ajax({
-    url: "https://api.openweathermap.org/data/2.5/forecast?appid=1ac5b46230b1f3ae861be919195faa05&lat=32.2216667&lon=-110.9258333&units=metric",
+    url: "https://api.openweathermap.org/data/2.5/forecast?lat=32.2216667&lon=-110.9258333&units=metric&appid=1ac5b46230b1f3ae861be919195faa05",
     type: "GET",
     dataType: "json",
     success: function(result) {
@@ -49,13 +49,13 @@ function weather() {
       for(i of result.list) { 
         forcast = new Object();
         tempDate = new Date(i.dt_txt);
-        if(tempDate.getDate == date.getDate) {
+        if(tempDate.getDate() == date.getDate()) {
           temperature += i.main.temp;
           count++;
         } else {
-            forcast.month = date.getMonth;
-            forcast.day = date.getDate;
-            forcast.year = date.getFullYear;
+            forcast.month = date.getMonth();
+            forcast.day = date.getDate();
+            forcast.year = date.getFullYear();
             forcast.temp = temperature / count;
             allForcasts.push(forcast);
             date = tempDate;
@@ -83,7 +83,7 @@ function uv() {
     dataType: "json",
     success: function(result) {
       for(i in result) {
-        $("day-" + i).find(".f-uv").html("Ultraviolet radiation: " + result[i].value);
+        $("day-" + parseInt(i)).find(".f-uv").html("Ultraviolet radiation: " + result[i].value);
       }
     },
     error: function(error) { console.log("error: " + error); },
