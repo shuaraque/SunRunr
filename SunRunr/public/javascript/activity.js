@@ -127,7 +127,7 @@ function activitiesDetailSuccess(data, textSatus, jqXHR) {
   var speedData = new Array ( );
   
   divTime = time/20;
-  for(let i = 0; i<21; i++{
+  for(let i = 0; i<21; i++){
      value = Math.floor(Math.random() * (max - min) + min);
      speedData[i] = "[" + timeStamp + " , " + value + "],";
      timeStamp = timeStamp + divTime;
