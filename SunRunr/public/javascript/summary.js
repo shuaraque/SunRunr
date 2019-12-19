@@ -42,10 +42,11 @@ function weather() {
     dataType: "json",
     success: function(result) {
       console.log("success in weather");
-      var allForcasts = [];
-      var forcast, tempDate;
-      var date = new Date(result.list[0].dt_txt);
-      var temperature = 0, count = 0;
+      let allForcasts = [];
+      let forcast, tempDate;
+      let date = new Date(result.list[0].dt_txt);
+      let temperature = 0;
+      let count = 0;
       for(i of result.list) { 
         forcast = new Object();
         tempDate = new Date(i.dt_txt);
