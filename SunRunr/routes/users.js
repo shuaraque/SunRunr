@@ -137,6 +137,7 @@ router.get("/account", function(req, res) {
    var authToken = req.headers["x-auth"];
    try {
       var decoded = jwt.decode(authToken, secret);
+      console.log("Decoded email is " + decoded.email);
       var userInformation = {};
 
       User.findOne({email: decoded.email}, function(err, user) {
