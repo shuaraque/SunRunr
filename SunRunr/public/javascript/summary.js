@@ -47,9 +47,11 @@ function weather() {
       let date = new Date(result.list[0].dt_txt);
       let temperature = 0;
       let count = 0;
+
       for(i of result.list) { 
         forcast = new Object();
         tempDate = new Date(i.dt_txt);
+
         if(tempDate.getDate() == date.getDate()) {
           temperature += i.main.temp;
           count++;
@@ -57,7 +59,7 @@ function weather() {
             forcast.month = date.getMonth();
             forcast.day = date.getDate();
             forcast.year = date.getFullYear();
-            forcast.temp = temperature / count;
+            forcast.temperature = temperature / count;
             allForcasts.push(forcast);
             date = tempDate;
             temperature = i.main.temp;
@@ -68,7 +70,7 @@ function weather() {
       var j = 0;
       for(j = 0; j < allForcasts.length; j++) {
         $("#f-date-" + j).html(months[allForcasts[j].month] + " " + allForcasts[j].day);
-        $("#f-temp-" + j).html(allForcasts[j].temp.toFixed(1) + "&#8451;");
+        $("#f-temp-" + j).html(allForcasts[j].temperature.toFixed(1) + "&#8451;");
       }
 
     },
