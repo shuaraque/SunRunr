@@ -42,7 +42,7 @@ function sendReqForDeviceInfo() {
     .fail(deviceInfoError);
 }
   function deviceInfoSuccess(data, textSatus, jqXHR) {
-    console.log(data);
+    //console.log(data);
   for (var device of data.devices) {
     $("#addDeviceForm").before("<li class='collection-item'>ID: " +
       device.deviceID + ", APIKEY: " + device.apikey + 
@@ -100,7 +100,7 @@ function registerDevice() {
 
 function pingDevice(event, deviceId) {
    $.ajax({
-        url: '/devices/ping',
+        url: '/device/ping',
         type: 'POST',
         headers: { 'x-auth': window.localStorage.getItem("authToken") },   
         data: { 'deviceId': deviceId }, 
