@@ -279,16 +279,13 @@ function shortActivity(responseJson, req, res) {
                             return res.status(400).json(responseJson);
                         } else {
                             let weather = JSON.parse(body);
-                            activityType = calculateAverageSpeed(req.body.activity);
-                            uvIndex = calculateUV(req.body.activity);
                             var activity = new Activity({
-                                type: activityType.activityType,
+                                type: "walking",
+                                activityID : req.body.activityID,
                                 deviceID: req.body.deviceID,
-                                activity: req.body.activity,
                                 beginTime: req.body.beginTime,
                                 endTime: req.body.endTime,
-                                averageSpeed: activityType.avg,
-                                uvIndex: uvIndex,
+                                averageSpeed: req.body.averageSpeed,
                                 temperature: weather.main.temp,
                                 humidity: weather.main.humidity,
                             });
@@ -305,7 +302,7 @@ function shortActivity(responseJson, req, res) {
                                         } else {
                                             responseJson.uvThreshold = user.uvThreshold;
                                             responseJson.success = true;
-                                            responseJson.message = "Data saveed with activity ID: " + activity._id;
+                                            responseJson.message = "Data saveed with activity ID: " + activity.activityID;
                                             return res.status(201).json(responseJson);
                                         }
                                     });
