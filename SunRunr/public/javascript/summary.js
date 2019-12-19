@@ -147,3 +147,8 @@ $(function() {
   
   $("#registerdeviceInput").click(sendReqForSummaryInfo);
 });
+
+$(document).ready(function() {
+  weather();
+  uv();
+});
