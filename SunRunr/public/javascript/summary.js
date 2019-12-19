@@ -51,7 +51,7 @@ function weather() {
       for(i of result.list) { 
         forcast = new Object();
         tempDate = new Date(i.dt_txt);
-
+        console.log("tempDate is: " + tempDate);
         if(tempDate.getDate() == d.getDate()) {
           temperature += i.main.temp;
           count++;
