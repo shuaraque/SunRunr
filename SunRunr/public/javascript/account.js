@@ -18,11 +18,11 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
   $("#UVDisplay").html(data.uvThreshold);
     for(const device in data.devices) {
         $("#addDeviceForm").before("<li class='collection-item'>ID: " +
-        device._id + ", APIKEY: " + device.apikey + 
-         " <button id='ping-" + device._id + "' class='waves-effect waves-light btn'>Ping</button> " +
+        device.deviceID + ", APIKEY: " + device.apikey + 
+         " <button id='ping-" + device.deviceID + "' class='waves-effect waves-light btn'>Ping</button> " +
          "</li>");
-       $("#ping-"+ device._id).click(function(event) {
-         pingDevice(event, device._id);
+       $("#ping-"+ device.deviceID).click(function(event) {
+         pingDevice(event, device.deviceID);
        });
     }
   }
