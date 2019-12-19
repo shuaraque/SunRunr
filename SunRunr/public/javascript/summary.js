@@ -46,7 +46,7 @@ function weather() {
       let forcast, tempDate;
       let date = new Date(result.list[0].dt_txt);
       let temperature = 0;
-      let count = 0;
+      let count = 1;
 
       for(i of result.list) { 
         forcast = new Object();
@@ -69,7 +69,7 @@ function weather() {
 
       var j = 0;
       for(j = 0; j < allForcasts.length; j++) {
-        $("#f-date-" + j).html("Bader");
+        $("#f-date-" + j).html("Month: "  + allForcasts[j].month);
         //$("#f-date-" + j).html(months[allForcasts[j].month] + " " + allForcasts[j].day);
         $("#f-temp-" + j).html(allForcasts[j].temperature.toFixed(1) + "&#8451;");
       }
