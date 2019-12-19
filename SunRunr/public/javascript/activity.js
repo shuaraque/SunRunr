@@ -42,9 +42,12 @@ function sendReqForActivitySummaryInfo(){ //Done
 }
 
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
-  $("#deviceInputPage").hide();
+  console.log("GET is succeeding");
   
+  $("#deviceInputPage").hide();
+  console.log(data.activities);
   for (var activity of data.activities) {
+    console.log(activity);
   let time = (activity.endTime - activity.beginTime)/(60000);
   let calories = 0;
     
