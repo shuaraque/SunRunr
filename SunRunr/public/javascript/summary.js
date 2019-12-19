@@ -67,7 +67,7 @@ function weather() {
 
       for(i in allForcasts) {
         $(".f-date-" + i).html(months[allForcasts[i].month] + " " + allForcasts[i].day);
-        $("#f-temp-" + i).html(allForcasts[i].temp.toFixed(1) + "&#8451;");
+        $(".f-temp-" + i).html(allForcasts[i].temp.toFixed(1) + "&#8451;");
       }
 
     },
@@ -85,7 +85,7 @@ function uv() {
     success: function(result) {
       console.log("success in uv");
       for(i in result) {
-        $("#f-uv-" + i).html("Ultraviolet radiation: " + result[i].value);
+        $(".f-uv-" + i).html("Ultraviolet radiation: " + result[i].value);
       }
     },
     error: function(error) { console.log("error: " + error); },
