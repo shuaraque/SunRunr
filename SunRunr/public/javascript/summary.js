@@ -69,7 +69,7 @@ function weather() {
 
       var j = 0;
       for(j = 0; j < allForcasts.length; j++) {
-        $("#f-date-" + j).html(allForcasts[j].month);
+        $("#f-date-" + j).html("Bader");
         //$("#f-date-" + j).html(months[allForcasts[j].month] + " " + allForcasts[j].day);
         $("#f-temp-" + j).html(allForcasts[j].temperature.toFixed(1) + "&#8451;");
       }
