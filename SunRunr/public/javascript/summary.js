@@ -44,7 +44,7 @@ function weather() {
       console.log("success in weather");
       let allForcasts = [];
       let forcast, tempDate;
-      let date = new Date(result.list[0].dt_txt);
+      let d = new Date(result.list[0].dt_txt);
       let temperature = 0;
       let count = 1;
 
@@ -52,16 +52,16 @@ function weather() {
         forcast = new Object();
         tempDate = new Date(i.dt_txt);
 
-        if(tempDate.getDate() == date.getDate()) {
+        if(tempDate.getDate() == d.getDate()) {
           temperature += i.main.temp;
           count++;
         } else {
-            forcast.month = date.getMonth();
-            forcast.day = date.getDate();
-            forcast.year = date.getFullYear();
+            forcast.month = d.getMonth();
+            forcast.day = d.getDate();
+            forcast.year = d.getFullYear();
             forcast.temperature = temperature / count;
             allForcasts.push(forcast);
-            date = tempDate;
+            d = tempDate;
             temperature = i.main.temp;
             count = 1;
         }
