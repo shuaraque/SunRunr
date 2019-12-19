@@ -71,7 +71,7 @@ function weather() {
       }
 
     },
-    error: function(error){ console.log("error in weather " + error)} 
+    error: function(error){ console.log("error in weather " + error);} 
   });
 }
 
