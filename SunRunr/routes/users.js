@@ -69,6 +69,33 @@ router.post('/signin', function(req, res) { // removed next
   //next();
 });
 
+// POST: Sign in
+// pre: email, password
+// post: email and password match database, returns a success and authToken, otherwise a json {false, message}
+router.post('/signinRefresh', function(req, res) { // removed next
+   // response for errors
+  let responseJson = {
+   success: false,
+   message: "",
+   };
+
+   if(!req.body.email) {
+      responseJson.message = "You need a valid email"
+      return res.status(401).json(responseJson);
+   }
+
+  // Try to find an email in the database, if none found return an error, otherwise try to decrypt
+  User.findOne({email: req.body.email}, function(err, user) {
+    if (err) {
+       responseJson.message = "Can't connect to database";
+       res.status(401).json(responseJson);
+    } 
+	  else {
+            res.status(201).json({success:true, authToken: jwt.encode({email: req.body.email}, secret)});
+         }
+  });
+});
+
 // POST: Register a new user 
 // pre: a valid email, a strong password, name (first and last)
 // post: hashes password, creates a new user, and saves it to database. Returns a json message upon completion
