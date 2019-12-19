@@ -83,7 +83,7 @@ function uv() {
     dataType: "json",
     success: function(result) {
       for(i in result) {
-        $("day-" + parseInt(i)).find(".f-uv").html("Ultraviolet radiation: " + result[i].value);
+        $("#day-" + parseInt(i)).find(".f-uv").html("Ultraviolet radiation: " + result[i].value);
       }
     },
     error: function(error) { console.log("error: " + error); },
