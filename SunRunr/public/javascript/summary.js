@@ -57,7 +57,7 @@ function weather() {
         day =  dateString[8] + dateString[9];     
         // console.log("i.dt is " + i.dt);
         // console.log("tempDate is: " + tempDate);
-        if(day == 19) {
+        if(day == x) {
             temperature += i.main.temp;
             count++;
         }
