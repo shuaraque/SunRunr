@@ -17,6 +17,7 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
   $("#main").show();
   $("#UVDisplay").html(data.uvThreshold);
     for(const device in data.devices) {
+        console.log(data.devices);
         $("#addDeviceForm").before("<li class='collection-item'>ID: " +
         device.deviceID + ", APIKEY: " + device.apikey + 
          " <button id='ping-" + device.deviceID + "' class='waves-effect waves-light btn'>Ping</button> " +
