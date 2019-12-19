@@ -4,7 +4,7 @@ function sendReqForDeviceInfo() {
   $("#activityDetailPage").html("");
   
   $("#activitySummaryPage").hide();
-  $("#activitySelectionPage").hide();
+ // $("#activitySelectionPage").hide();
   $("#activityDetailPage").hide();
   
   $.ajax({
@@ -42,9 +42,12 @@ function sendReqForActivitySummaryInfo(){ //Done
 }
 
 function activitiesInfoSuccess(data, textSatus, jqXHR) {
-  $("#deviceInputPage").hide();
+  console.log("GET is succeeding");
   
+  $("#deviceInputPage").hide();
+  console.log(data.activities);
   for (var activity of data.activities) {
+    console.log(activity);
   let time = (activity.endTime - activity.beginTime)/(60000);
   let calories = 0;
     
@@ -59,7 +62,8 @@ function activitiesInfoSuccess(data, textSatus, jqXHR) {
   if(activity.type == "biking"){
     calories = 572 * (time/60);
   }
-  
+  $("#activitySummaryPage").hide();
+
   $("#activitySummaryPage").append("<li class='collection-item' id='ID'><h5>" + activity.activityID + "</h5></li>");
   $("#activitySummaryPage").append("<li class='collection-item' id='duration'>Duration of Activity: " + time + " minutes</li>");
   $("#activitySummaryPage").append("<li class='collection-item' id='UVOutput'>UV Exposure: " + activity.UVSum + "</li>");
@@ -110,6 +114,9 @@ function activitiesDetailSuccess(data, textSatus, jqXHR) {
   if(data.type == "biking"){
     calories = 572 * (time/60);
   } 
+  
+
+  $("#activityDetailPage").hide();
   
   $("#title").html("<h5>Activity Detail</h5>");
   $("#activityDetailPage").append("<ul class='collection with-header'><li class='collection-header'><h5>" + data.activityID + "</h5></li>");
