@@ -103,7 +103,7 @@ function pingDevice(event, deviceId) {
         url: '/device/ping',
         type: 'POST',
         headers: { 'x-auth': window.localStorage.getItem("authToken") },   
-        data: { 'deviceId': deviceId }, 
+        data: { 'deviceID': deviceId }, 
         responseType: 'json',
         success: function (data, textStatus, jqXHR) {
             console.log("Pinged.");
