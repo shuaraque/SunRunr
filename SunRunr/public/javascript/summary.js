@@ -60,14 +60,16 @@ function weather() {
         if(day == x) {
             temperature += i.main.temp;
             count++;
+        } else {
+          forcast.month = month;
+          forcast.day = day;
+          forcast.temperature = temperature / count;
+          allForcasts.push(forcast);
+          temperature = i.main.temp;
+          count = 1;
+          x++;
         }
-        forcast.month = month;
-        forcast.day = day;
-        forcast.temperature = temperature / count;
-        allForcasts.push(forcast);
-        temperature = i.main.temp;
-        count = 1;
-        x++;
+      
       }
 
       var j = 0;
