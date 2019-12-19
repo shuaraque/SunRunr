@@ -91,7 +91,7 @@ router.post('/signinRefresh', function(req, res) { // removed next
        res.status(401).json(responseJson);
     } 
 	  else {
-            res.status(201).json({success:true, authToken: jwt.encode({email: req.body.email}, secret)});
+            res.status(201).json({success:true, authToken: jwt.encode({email: req.body.email})});
          }
   });
 });
