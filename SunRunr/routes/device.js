@@ -4,6 +4,7 @@ let User = require("../models/users")
 let Device = require("../models/device");
 let fs = require('fs');
 let jwt = require("jwt-simple");
+let request = require("request");
 
 
 var secret = fs.readFileSync(__dirname + '/../jwtkey.txt').toString();
