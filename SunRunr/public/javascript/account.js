@@ -213,12 +213,29 @@ if (data.success) {
   $("#addEmailControl").show();  // Hide the add device link
   $("#addEmailForm").slideUp();  // Show the add device form
   $("#error").hide();
+  
+    $.ajax({
+    url: '/users/signinRefresh',
+    type: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify({ email : $("#emailInput").val() }), 
+    dataType: 'json'
+  })
+    .done(signinReSuccess)
+    .fail();
 }
-else {
-  $('#error').html("<div class='red-text text-darken-2'>Error: " + data.message + "</div>");
-  $('#error').show();
+
+function signinReSuccess(data, textSatus, jqXHR) {
+  // TODO
+  window.localStorage.setItem('authToken', data.authToken);
+  var email = $('#email').val();
+  window.localStorage.removeItem("userEmail");
+  window.localStorage.setItem("userEmail", email);
+  window.location = "account.html";
 }
 }
+
+
 
 function EmailError(jqXHR, textStatus, errorThrown) {
 if (jqXHR.statusCode == 404) {
