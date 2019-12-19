@@ -33,118 +33,66 @@ function sendReqForSummaryInfo(){  //done SUMMARY
     .fail(SummaryError);
 }
 
-// // pre: nothing
-// // post: loads weather for the next 5 days in the summary.html page
-// function weather() {
-//   $.ajax({
-//     url: "https://api.openweathermap.org/data/2.5/forecast?lat=32.2216667&lon=-110.9258333&units=metric&appid=1ac5b46230b1f3ae861be919195faa05",
-//     type: "GET",
-//     dataType: "json",
-//     success: function(result) {
-//       console.log("success in weather");
-//       let allForcasts = [];
-//       let forcast, tempDate;
-//       let date = new Date(result.list[0].dt_txt);
-//       let temperature = 0;
-//       let count = 0;
-//       for(i of result.list) { 
-//         forcast = new Object();
-//         tempDate = new Date(i.dt_txt);
-//         if(tempDate.getDate() == date.getDate()) {
-//           temperature += i.main.temp;
-//           count++;
-//         } else {
-//             forcast.month = date.getMonth();
-//             forcast.day = date.getDate();
-//             forcast.year = date.getFullYear();
-//             forcast.temp = temperature / count;
-//             allForcasts.push(forcast);
-//             date = tempDate;
-//             temperature = i.main.temp;
-//             count = 1;
-//         }
-//       }
+// pre: nothing
+// post: loads weather for the next 5 days in the summary.html page
+function weather() {
+  $.ajax({
+    url: "https://api.openweathermap.org/data/2.5/forecast?lat=32.2216667&lon=-110.9258333&units=metric&appid=1ac5b46230b1f3ae861be919195faa05",
+    type: "GET",
+    dataType: "json",
+    success: function(result) {
+      console.log("success in weather");
+      let allForcasts = [];
+      let forcast, tempDate;
+      let date = new Date(result.list[0].dt_txt);
+      let temperature = 0;
+      let count = 0;
+      for(i of result.list) { 
+        forcast = new Object();
+        tempDate = new Date(i.dt_txt);
+        if(tempDate.getDate() == date.getDate()) {
+          temperature += i.main.temp;
+          count++;
+        } else {
+            forcast.month = date.getMonth();
+            forcast.day = date.getDate();
+            forcast.year = date.getFullYear();
+            forcast.temp = temperature / count;
+            allForcasts.push(forcast);
+            date = tempDate;
+            temperature = i.main.temp;
+            count = 1;
+        }
+      }
 
-//       for(i in allForcasts) {
-//         $("#f-date-" + i).html(months[allForcasts[i].month] + " " + allForcasts[i].day);
-//         $("#f-temp-" + i).html(allForcasts[i].temp.toFixed(1) + "&#8451;");
-//       }
+      for(i in allForcasts) {
+        $("#f-date-" + i).html(months[allForcasts[i].month] + " " + allForcasts[i].day);
+        $("#f-temp-" + i).html(allForcasts[i].temp.toFixed(1) + "&#8451;");
+      }
 
-//     },
-//     error: function(error){ console.log("error in weather " + error);} 
-//   });
-// }
+    },
+    error: function(error){ console.log("error in weather " + error);} 
+  });
+}
 
 // pre: nothing
 // post: loads uv for the next 5 days in the summary.html page
-
-
-// function uv() {
-//   $.ajax({
-//     url: "https://api.openweathermap.org/data/2.5/uvi/forecast?appid=1ac5b46230b1f3ae861be919195faa05&lat=32.2216667&lon=-110.9258333&units=metric&cnt=4",
-//     type: "GET",
-//     dataType: "json",
-//     success: function(result) {
-//       console.log("success in uv");
-//       for(i in result) {
-//         $("#f-uv-" + i).html("Ultraviolet radiation: " + result[i].value);
-//       }
-//     },
-//     error: function(error) { console.log("error: " + error); },
-//   });
-// }
-
-function test() {
+function uv() {
   $.ajax({
-		url: "https://api.openweathermap.org/data/2.5/forecast?lat=32.2216667&lon=-110.9258333&units=metric&APPID=1ac5b46230b1f3ae861be919195faa05",
-		//	"http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + long + "&units=imperial&APPID=1ac5b46230b1f3ae861be919195faa05",
-		type: "GET",
-		dataType: "json",
-		success: function(result) {
-      //console.log(result.list.length);
-			var allfc = [];
-			var d = new Date(result.list[0].dt_txt);
-			var temp = 0;
-			var cnt = 0;
-			for (i of result.list) {
-				var fcast = new Object();
-				var iDate = new Date(i.dt_txt);
-        
-				if (iDate.getDate() == d.getDate()) {
-					temp += i.main.temp;
-					cnt++;
-				} 
-
-
-        else {
-					fcast.month = d.getMonth();
-					fcast.day = d.getDate();
-					fcast.year = d.getFullYear();
-					fcast.temp = temp / cnt;
-					allfc.push(fcast);
-					d = iDate;
-					temp = i.main.temp;
-					cnt = 1;
-				}
-			}
-			for (i in allfc) {
-				$("#day-" + i)
-					.find("#f-date-" + i)
-					.html(
-						months[allfc[i].month] +
-							" " +
-							allfc[i].day
-					);
-				$("#f-temp-" + i)
-					.find(".fctemp")
-					.html(allfc[i].temp.toFixed(2) + "&#8457;");
+    url: "https://api.openweathermap.org/data/2.5/uvi/forecast?appid=1ac5b46230b1f3ae861be919195faa05&lat=32.2216667&lon=-110.9258333&units=metric&cnt=4",
+    type: "GET",
+    dataType: "json",
+    success: function(result) {
+      console.log("success in uv");
+      for(i in result) {
+        $("#f-uv-" + i).html("Ultraviolet radiation: " + result[i].value);
       }
-		},
-		error: function(response) {
-			console.log("Failed to get weather information");
-		}
-	});
+    },
+    error: function(error) { console.log("error: " + error); },
+  });
 }
+
+
 
 function SummarySuccess(data, textSatus, jqXHR) {
   $("#deviceInputPage").hide();
