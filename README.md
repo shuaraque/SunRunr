@@ -9,8 +9,7 @@ This is the README for the SunRunr project for ECE 413 2019
 	Password: Str0ngPass!
 	
 ### Videos
-	Pitch: https://youtu.be/Rt8lijWKSaY
-	Technical: 
+	Playlist: https://www.youtube.com/watch?v=Rt8lijWKSaY&list=PL_MVKSZX14Oy0wElp2zZBekq9_RQ3eblS
 
 ## Account Creation and Management:
 - [x] A user must be able to create an account, using an email address as the username 
