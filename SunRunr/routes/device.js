@@ -67,7 +67,7 @@ router.post('/register', function(req, res) {
     let email = "";
 
     // Make sure the request includes deviceID 
-    if (!req.body.hasOwnProperty("deviceID")) {
+    if (!req.body.deviceID) {
         responseJson.message = "Missing deviceID.";
         return res.status(400).json(responseJson);
     }
@@ -81,7 +81,7 @@ router.post('/register', function(req, res) {
             return res.status(400).json(responseJson);
         }
     } else {
-        if (!req.body.hasOwnProperty("email")) {
+        if (!req.body.email) {
             responseJson.message = "Invalid authorization token and missing email address.";
             return res.status(400).json(responseJson);
         }
@@ -165,7 +165,7 @@ router.post('/ping', function(req, res) {
     };
 
     // Ensure the request includes the deviceID parameter
-    if (!req.body.hasOwnProperty("deviceID")) {
+    if (!req.body.deviceID) {
         responseJson.message = "Missing deviceID.";
         return res.status(400).json(responseJson);
     }
