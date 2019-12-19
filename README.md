@@ -3,6 +3,10 @@ This is the README for the SunRunr project for ECE 413 2019
 
 ### IP Address:
 	54.215.159.27:3000
+	
+### Test Account:
+	Email: example@test.edu
+	Password: Str0ngPass!
 
 ## Account Creation and Management:
 - [x] A user must be able to create an account, using an email address as the username 
