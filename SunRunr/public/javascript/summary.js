@@ -48,6 +48,7 @@ function weather() {
       let temperature = 0;
       let count = 1;
       let month, day;
+      let x = 19;
 
       for(i of result.list) { 
         forcast = new Object();
@@ -56,14 +57,17 @@ function weather() {
         day =  dateString[8] + dateString[9];     
         // console.log("i.dt is " + i.dt);
         // console.log("tempDate is: " + tempDate);
+        if(day == 19) {
+            temperature += i.main.temp;
+            count++;
+        }
         forcast.month = month;
         forcast.day = day;
         forcast.temperature = temperature / count;
         allForcasts.push(forcast);
-        d = tempDate;
         temperature = i.main.temp;
         count = 1;
-        
+        x++;
       }
 
       var j = 0;
