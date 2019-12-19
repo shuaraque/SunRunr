@@ -85,7 +85,7 @@ function uv() {
     success: function(result) {
       console.log("success in uv")
       for(i in result) {
-        $("#day-" + parseInt(i)).find(".f-uv").html("Ultraviolet radiation: " + result[i].value);
+        $("#f-uv-" + i).html("Ultraviolet radiation: " + result[i].value);
       }
     },
     error: function(error) { console.log("error: " + error); },
