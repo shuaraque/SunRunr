@@ -43,15 +43,15 @@ function sendReqForDeviceInfo() {
 }
   function deviceInfoSuccess(data, textSatus, jqXHR) {
     //console.log(data);
-  for (var device of data.devices) {
-    $("#addDeviceForm").before("<li class='collection-item'>ID: " +
-      device.deviceID + ", APIKEY: " + device.apikey + 
-      " <button id='ping-" + device.deviceID + "' class='waves-effect waves-light btn'>Ping</button> " +
-      " </li>");
-    $("#ping-"+device.deviceID).click(function(event) {
-      pingDevice(event, device.deviceID);
-    });
-  }
+//  for (var device of data.devices) {
+//    $("#addDeviceForm").before("<li class='collection-item'>ID: " +
+//      device.deviceID + ", APIKEY: " + device.apikey + 
+//      " <button id='ping-" + device.deviceID + "' class='waves-effect waves-light btn'>Ping</button> " +
+//      " </li>");
+//    $("#ping-"+device.deviceID).click(function(event) {
+//      pingDevice(event, device.deviceID);
+//    });
+//  }
   }
 
 function deviceInfoError(jqXHR, textStatus, errorThrown) {
