@@ -36,7 +36,6 @@ function sendReqForSummaryInfo(){  //done SUMMARY
 // pre: nothing
 // post: loads weather for the next 5 days in the summary.html page
 function weather() {
-  $("weather-forcast").show();
   $.ajax({
     url: "https://api.openweathermap.org/data/2.5/forecast?lat=32.2216667&lon=-110.9258333&units=metric&appid=1ac5b46230b1f3ae861be919195faa05",
     type: "GET",
