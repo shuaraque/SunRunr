@@ -67,8 +67,8 @@ function weather() {
 
       var j = 0;
       for(j = 0; j < allForcasts.length; j++) {
-        $("#f-date-" + i).html(months[allForcasts[i].month] + " " + allForcasts[i].day);
-        $("#f-temp-" + i).html(allForcasts[i].temp.toFixed(1) + "&#8451;");
+        $("#f-date-" + j).html(months[allForcasts[j].month] + " " + allForcasts[j].day);
+        $("#f-temp-" + j).html(allForcasts[j].temp.toFixed(1) + "&#8451;");
       }
 
     },
