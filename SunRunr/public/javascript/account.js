@@ -84,7 +84,7 @@ function registerDevice() {
          " <button id='ping-" + $("#deviceId").val() + "' class='waves-effect waves-light btn'>Ping</button> " +
          "</li>");
        $("#ping-"+$("#deviceId").val()).click(function(event) {
-         pingDevice(event, device.deviceId);
+         pingDevice(event, $("#deviceId").val());
        });
     
       
