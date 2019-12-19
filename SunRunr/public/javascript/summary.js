@@ -47,25 +47,23 @@ function weather() {
       let d = new Date(result.list[0].dt);
       let temperature = 0;
       let count = 1;
+      let month, day;
 
       for(i of result.list) { 
         forcast = new Object();
-        tempDate = new Date(i.dt);
-        console.log("i.dt is " + i.dt);
-        console.log("tempDate is: " + tempDate);
-        if(tempDate.getDate() == d.getDate()) {
-          temperature += i.main.temp;
-          count++;
-        } else {
-            forcast.month = d.getMonth();
-            forcast.day = d.getDate();
-            forcast.year = d.getFullYear();
-            forcast.temperature = temperature / count;
-            allForcasts.push(forcast);
-            d = tempDate;
-            temperature = i.main.temp;
-            count = 1;
-        }
+        dateString = i.dt_txt;
+        month = months[ dateString[5] + dateString[6] - 1];  
+        day =  dateString[8] + dateString[9];     
+        // console.log("i.dt is " + i.dt);
+        // console.log("tempDate is: " + tempDate);
+        forcast.month = month;
+        forcast.day = day;
+        forcast.temperature = temperature / count;
+        allForcasts.push(forcast);
+        d = tempDate;
+        temperature = i.main.temp;
+        count = 1;
+        
       }
 
       var j = 0;
