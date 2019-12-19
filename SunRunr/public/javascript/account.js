@@ -109,6 +109,7 @@ function pingDevice(event, deviceId) {
             console.log("Pinged.");
         },
         error: function(jqXHR, textStatus, errorThrown) {
+            console.log("Response text is: " + jqXHR.responseText);
             var response = JSON.parse(jqXHR.responseText);
             $("#error").html("Error: " + response.message);
             $("#error").show();
