@@ -213,6 +213,7 @@ if (data.success) {
   $("#addEmailControl").show();  // Hide the add device link
   $("#addEmailForm").slideUp();  // Show the add device form
   $("#error").hide();
+  window.localStorage.removeItem('authToken');
   window.location.replace("index.html");
 }
 else {
