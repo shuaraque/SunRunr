@@ -44,14 +44,14 @@ function weather() {
       console.log("success in weather");
       let allForcasts = [];
       let forcast, tempDate;
-      let d = new Date(result.list[0].dt_txt);
+      let d = new Date(result.list[0].dt);
       let temperature = 0;
       let count = 1;
 
       for(i of result.list) { 
         forcast = new Object();
         tempDate = new Date(i.dt);
-        console.log("i.dt is " + i.dt_txt);
+        console.log("i.dt is " + i.dt);
         console.log("tempDate is: " + tempDate);
         if(tempDate.getDate() == d.getDate()) {
           temperature += i.main.temp;
