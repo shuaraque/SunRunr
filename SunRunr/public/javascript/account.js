@@ -16,7 +16,8 @@ function accountInfoSuccess(data, textSatus, jqXHR) {
   $("#lastAccess").html(data.lastAccess);
   $("#main").show();
   $("#UVDisplay").html(data.uvThreshold);
-    for(const device in data.devices) {
+    for(var i = 0; i < data.devices.length; i++) {
+        var device = data.devices[i];
         console.log(data.devices);
         $("#addDeviceForm").before("<li class='collection-item'>ID: " +
         device.deviceID + ", APIKEY: " + device.apikey + 
