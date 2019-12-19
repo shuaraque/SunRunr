@@ -7,6 +7,10 @@ This is the README for the SunRunr project for ECE 413 2019
 ### Test Account:
 	Email: example@test.edu
 	Password: Str0ngPass!
+	
+### Videos
+	Pitch: https://youtu.be/Rt8lijWKSaY
+	Technical: 
 
 ## Account Creation and Management:
 - [x] A user must be able to create an account, using an email address as the username 
