@@ -161,6 +161,7 @@ router.get("/account", function(req, res) {
                }
 			      let foundDevices = [];
 			      for (device of allDevices) {
+                  console.log("Device with id " + device._id + "has email " + device.email);
 				      foundDevices.push({ deviceID: device.deviceID, apikey: device.apikey});
                }
 			      userInformation['devices'] = foundDevices;
