@@ -71,7 +71,7 @@ function weather() {
         console.log(allForcasts[j]);
         $("#f-date-" + j).html(allForcasts[j].month + " " + parseInt(parseInt(allForcasts[j].day) + j));
         //$("#f-date-" + j).html(months[allForcasts[j].month] + " " + allForcasts[j].day);
-        $("#f-temp-" + j).html(allForcasts[j].temperature.toFixed(1) + "&#8451;");
+        $("#f-temp-" + j).html(parseInt(allForcasts[j].temperature.toFixed(1) + 4.1) + "&#8451;");
       }
 
     },
