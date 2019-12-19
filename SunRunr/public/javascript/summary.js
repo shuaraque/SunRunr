@@ -42,7 +42,7 @@ function weather() {
     type: "GET",
     dataType: "json",
     success: function(result) {
-      console.log("success in weather")
+      console.log("success in weather");
       var allForcasts = [];
       var forcast, tempDate;
       var date = new Date(result.list[0].dt_txt);
@@ -83,7 +83,7 @@ function uv() {
     type: "GET",
     dataType: "json",
     success: function(result) {
-      console.log("success in uv")
+      console.log("success in uv");
       for(i in result) {
         $("#f-uv-" + i).html("Ultraviolet radiation: " + result[i].value);
       }
